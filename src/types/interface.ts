@@ -28,3 +28,24 @@ export interface IAuth {
   'userId' : string,
   'name' : string
 }
+
+export interface IUserWord {
+  'difficulty': string,
+  'optional' : {
+    testFieldString: string, testFieldBoolean: boolean
+  }
+}
+
+export interface IStatistic {
+  'learnedWords': number,
+  'optional' ?: {
+    [key: string]: string | number | boolean;
+  }
+}
+
+export interface ISetting {
+  'wordsPerDay': number,
+  'optional' ?: {
+    [key: string]: string | number | boolean;
+  }
+}

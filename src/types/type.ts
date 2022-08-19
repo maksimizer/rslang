@@ -4,5 +4,5 @@ export type QueryString = {
 };
 
 export type ObjectString = {
-  [key: string]: string | number;
+  [key: string]: string | number | boolean;
 };
