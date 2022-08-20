@@ -19,7 +19,7 @@ const path = {
   words: '/words',
 };
 
-function generateQueryString(queryParams: QueryString[]) {
+function generateQueryString(queryParams: QueryString[]): string {
   if (queryParams.length) {
     return `?${queryParams.map((param) => `${param.key}=${param.value}`).join('&')}`;
   }
@@ -140,7 +140,7 @@ export const createUserWord = async (
   token: string,
   idWord: string,
   body: IUserWord,
-): Promise<void> => {
+): Promise<number> => {
   const response = await fetch(`${baseUrl}${path.users}/${idUser}/words/${idWord}`, {
     method: 'POST',
     headers: {
@@ -150,8 +150,8 @@ export const createUserWord = async (
     },
     body: JSON.stringify(body),
   });
-  const word = await response.json();
-  return word;
+  const status = await response.status;
+  return status;
 };
 
 export const getUserWord = async (
@@ -176,7 +176,7 @@ export const updateUserWord = async (
   idWord: string,
   token: string,
   body: IUserWord,
-): Promise<void> => {
+): Promise<number> => {
   const response = await fetch(`${baseUrl}${path.users}/${idUser}/words/${idWord}`, {
     method: 'PUT',
     headers: {
@@ -186,8 +186,8 @@ export const updateUserWord = async (
     },
     body: JSON.stringify(body),
   });
-  const word = await response.json();
-  return word;
+  const status = await response.status;
+  return status;
 };
 
 export const deleteUserWord = async (
@@ -258,7 +258,7 @@ export const updateUserStatistic = async (
   idUser: string,
   token: string,
   body: IStatistic,
-): Promise<void> => {
+): Promise<number> => {
   const response = await fetch(`${baseUrl}${path.users}/${idUser}/statistics`, {
     method: 'PUT',
     headers: {
@@ -267,8 +267,8 @@ export const updateUserStatistic = async (
     },
     body: JSON.stringify(body),
   });
-  const statistics = await response.json();
-  return statistics;
+  const status = await response.status;
+  return status;
 };
 
 export const getUsersSetting = async (
@@ -290,7 +290,7 @@ export const updateUserSetting = async (
   idUser: string,
   token: string,
   body: ISetting,
-): Promise<void> => {
+): Promise<number> => {
   const response = await fetch(`${baseUrl}${path.users}/${idUser}/settings`, {
     method: 'PUT',
     headers: {
@@ -299,6 +299,6 @@ export const updateUserSetting = async (
     },
     body: JSON.stringify(body),
   });
-  const settings = await response.json();
-  return settings;
+  const status = await response.status;
+  return status;
 };
