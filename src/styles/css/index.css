@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -345,4 +346,141 @@ li {
 .footer .github-link:hover {
   transform: scale(1.1);
   transition: 0.3s;
+}
+
+.auth-popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(107, 83, 255, 0.4);
+  top: 0;
+  left: 0;
+  z-index: 105;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth-popup .auth-popup-headers {
+  display: flex;
+  text-align: center;
+  box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+  margin-bottom: 30px;
+}
+.auth-popup h3 {
+  margin: 0;
+  padding-bottom: 10px;
+  width: 50%;
+  font-family: "DynaPuff", cursive;
+  font-size: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+.auth-popup h3:focus {
+  transform: scale(1.1);
+  transition: 0.5s;
+}
+.auth-popup .header-active {
+  border-bottom: 3px solid #6B53FF;
+  border-radius: 2px;
+  color: #6B53FF;
+}
+.auth-popup .popup-input {
+  justify-self: center;
+  align-self: center;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  width: 300px;
+  font-size: 18px;
+  font-family: "Varela Round", sans-serif;
+}
+.auth-popup .popup-input.password {
+  margin-bottom: 10px;
+}
+.auth-popup .auth-popup-body {
+  width: 490px;
+  padding: 10px;
+  background: #bdbebd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.auth-popup input[type=checkbox] {
+  display: none;
+}
+.auth-popup .pseudo-checkbox::before {
+  content: " ";
+  display: inline-block;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid #6B53FF;
+  border-radius: 5px;
+  margin-right: 6px;
+  vertical-align: baseline;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  line-height: 16px;
+  color: #6B53FF;
+}
+.auth-popup input[type=checkbox]:checked + .pseudo-checkbox::before {
+  content: "✓";
+}
+.auth-popup input[type=checkbox]:checked + span {
+  font-weight: bold;
+}
+.auth-popup input::-webkit-input-placeholder {
+  color: #6B53FF;
+  font-style: italic;
+}
+.auth-popup span {
+  font-family: "Varela Round", sans-serif;
+}
+.auth-popup label {
+  align-self: center;
+}
+.auth-popup input[type=email]:focus-visible,
+.auth-popup input[type=password]:focus-visible,
+.auth-popup input[type=text]:focus-visible {
+  outline-color: #6B53FF;
+}
+.auth-popup .error {
+  color: red;
+}
+.auth-popup .popup-buttons {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  align-self: center;
+  width: 300px;
+  justify-content: space-between;
+}
+.auth-popup .popup-button {
+  width: 90px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px;
+  font-family: "DynaPuff", cursive;
+  font-size: 18px;
+  color: #3f3f3f;
+  background: rgba(107, 83, 255, 0.4);
+  cursor: pointer;
+}
+.auth-popup .popup-button:active {
+  transform: scale(1.1);
+  transition: 0.5s;
+}
+.auth-popup .popup-button:disabled {
+  cursor: default;
+  transform: none;
+  background: #e9e9e9;
+}
+.auth-popup #name {
+  display: none;
 }/*# sourceMappingURL=index.css.map */

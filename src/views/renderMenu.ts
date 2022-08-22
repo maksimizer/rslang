@@ -1,3 +1,5 @@
+import renderAuthWindow from './renderAuthorization';
+
 function getNamePage(): string {
   const { hash } = document.location;
   const namePageApp = hash.trim().split('#').splice(1).join('');
@@ -184,4 +186,6 @@ export default function renderApp(): void {
                                                                     <footer class="footer">${renderFooter()}
                                                                     </footer>
                                                                   </div>`;
+
+  renderAuthWindow();
 }
