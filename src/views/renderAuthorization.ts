@@ -13,6 +13,7 @@ export default function renderAuthWindow(): void {
                               <input type="checkbox" class="password-checkbox">
                               <span class="pseudo-checkbox">Show password</span>
                             </label>
+                            <div class="message"></div>
                             <div class="popup-buttons">
                               <button class="popup-button button-in" disabled>Sing in</button>
                               <button class="popup-button button-out">Cancel</button>
