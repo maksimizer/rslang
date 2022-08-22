@@ -12,7 +12,7 @@ const htmlAudioGameMainPage = `<section class="audio-game-wrapper">
   <option value="5">Level 5</option>
   <option value="6">Level 6</option>
  </select>
- <button class="fullscreen open-fullscreen">${expand}</button>
+ <button class="fullscreen">${expand}</button>
  </div>
 </div>
 <div class="audio-game-content">
