@@ -1,3 +1,5 @@
+import { expand } from '../../utils/icons';
+
 const htmlAudioGameMainPage = `<section class="audio-game-wrapper">
 <div class="audio-game-header">
  <a href="#" class="audio-game-close"><span class="audio-game-close_span">X</span></a>
@@ -10,7 +12,7 @@ const htmlAudioGameMainPage = `<section class="audio-game-wrapper">
   <option value="5">Level 5</option>
   <option value="6">Level 6</option>
  </select>
- <button class="fullscreen open-fullscreen"></button>
+ <button class="fullscreen open-fullscreen">${expand}</button>
  </div>
 </div>
 <div class="audio-game-content">
