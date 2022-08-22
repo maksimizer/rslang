@@ -7,5 +7,7 @@ import './controllers/authUserController';
 import app from './controllers/appController';
 
 app();
+import drawAudioGame from './views/renderAudioGame';
 
 getListenerBurgerButton();
+drawAudioGame();
