@@ -1,11 +1,11 @@
 .audio-game-wrapper{
-  height: 100vh;
-  width: 100%;
-  background-image: url(../assets/img/england-flag.png);
-  background-position:center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-left: 40px;
+    height: 100vh;
+    width: 100%;
+    background-image: url(../assets/img/england-flag.png);
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 40px;
 }
 .audio-game-header{
     display: flex;
@@ -42,11 +42,11 @@
     text-decoration: none;
     font-weight: 600;
     border-radius: 25px;
-    .audio-game-close_span{
-        font-family: $textFont;
-        color: $colorFont;
-        font-size: 2rem;
-    }
+}
+.audio-game-close_span{
+    font-family: $textFont;
+    color: $colorFont;
+    font-size: 2rem;
 }
 .audio-game-header-right{
     display: flex;
