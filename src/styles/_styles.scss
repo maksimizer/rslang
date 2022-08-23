@@ -6,22 +6,22 @@ $textFont: 'Varela Round', sans-serif;
 $headerFont: 'DynaPuff', cursive;
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    height: 100%;
-    max-width: 1920px;
-    overflow-x: hidden;
+  height: 100%;
+  max-width: 1920px;
+  overflow-x: hidden;
 }
 
 body {
-    position: relative;
-    margin: 0;
-    background: $colorPageMain;
-    opacity: 0.9;
-    width:100%;
-    color: $colorFont;
+  position: relative;
+  margin: 0;
+  background: $colorPageMain;
+  opacity: 0.9;
+  width:100%;
+  color: $colorFont;
 }
 
 h1 {
@@ -48,8 +48,8 @@ li {
 }
 
 .main {
-    max-width: 90vw;
-    flex: 1 1 auto;
+  max-width: 90vw;
+  flex: 1 1 auto;
 }
 
 .wrapper {
@@ -58,7 +58,7 @@ li {
   display: flex;
   justify-content: space-between;
   padding-left: 50px;
- width:100vw;
+  width:100vw;
 }
 
 .wrapper.active {
