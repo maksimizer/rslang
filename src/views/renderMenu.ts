@@ -47,7 +47,7 @@ function renderBurgerMenu(): string {
   return burger;
 }
 
-function renderMainContent(): string {
+export function renderMainContent(): string {
   const main = `<section class="section-about">
                   <div class="about-text">
                     <h1>RS Lang</h1>
