@@ -36,7 +36,7 @@ export default class ServerRequests {
     return '';
   }
 
-  public async getWords(queryParams: QueryString[]): Promise<{ word: IWord[] }> {
+  public async getWords(queryParams: QueryString[]): Promise<IWord[]> {
     const response = await fetch(`${this.baseUrl}${this.path.words}${this.generateQueryString(queryParams)}`);
     const words = await response.json();
     return words;
