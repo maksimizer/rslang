@@ -48,7 +48,7 @@ export default class ServerRequests {
     return word;
   }
 
-  public async userSingIn(body: ObjectString): Promise< IAuth > {
+  public async userSingIn(body: ObjectString): Promise< { code: number, authUser: IAuth } > {
     const response = await fetch(`${this.baseUrl}${this.path.signin}`, {
       method: 'POST',
       headers: {
@@ -56,8 +56,24 @@ export default class ServerRequests {
       },
       body: JSON.stringify(body),
     });
-    const auth = await response.json();
-    return auth;
+    const code = response.status;
+
+    if (code !== 200) {
+      return {
+        code,
+        authUser: {
+          message: '',
+          token: '',
+          refreshToken: '',
+          userId: '',
+          name: '',
+        },
+      };
+    }
+
+    const authUser = await response.json();
+
+    return { code, authUser };
   }
 
   public async createUser(body: ObjectString): Promise<number> {

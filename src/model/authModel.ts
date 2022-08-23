@@ -16,7 +16,7 @@ export default class Auth {
     const authBody = document.querySelector('.auth-popup-body') as HTMLDivElement;
     const passwordInput = document.getElementById('password') as HTMLInputElement;
     const nameInput = document.getElementById('name') as HTMLInputElement;
-    const MIN_LENGTH_PASSWORD = 6;
+    const MIN_LENGTH_PASSWORD = 8;
 
     if (authBody.classList.contains('header-in')) {
       if (value && passwordInput.value.length >= MIN_LENGTH_PASSWORD) {
@@ -48,5 +48,36 @@ export default class Auth {
     const authWrapper = document.querySelector('.auth-popup') as HTMLDivElement;
     authWrapper.style.opacity = valueOpacity;
     authWrapper.style.visibility = valueVisibility;
+  }
+
+  getImageAuth(): string {
+    if (localStorage.getItem('auth') === 'true') {
+      const src = './assets/img/authorization-out.svg';
+
+      return src;
+    }
+
+    const src = './assets/img/authorization-in.svg';
+
+    return src;
+  }
+
+  async changeImageAuth() {
+    const imgAuth = document.querySelector('.authorization') as HTMLImageElement;
+
+    if (localStorage.getItem('auth')) {
+      imgAuth.src = this.getImageAuth();
+    }
+
+    imgAuth.src = this.getImageAuth();
+  }
+
+  getAuthNameUser(): string {
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse((localStorage.getItem('user') as string));
+      return user.name;
+    }
+
+    return '';
   }
 }

@@ -156,3 +156,12 @@
   }
 
 }
+
+.message {
+  display: none;
+  align-self: center;
+  margin-top: 10px;
+  font-size: 18px;
+  font-family: $textFont;
+  color: red;
+}

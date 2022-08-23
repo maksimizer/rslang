@@ -7,6 +7,14 @@
     background-size: cover;
     margin-left: 40px;
 }
+.open-fullscreen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    margin-left: 0;
+    background-color: #ccc;
+}
 .audio-game-header{
     display: flex;
     justify-content: space-between;
@@ -74,19 +82,19 @@
     border-radius: 0.25rem;
     background-color: rgb(63, 63, 63, 0.9);
     H2, p {
-        color: #fff;
+    color: #fff;
     }
     p{
-        font-family: $textFont;
-        font-size: 1.4rem;
+    font-family: $textFont;
+    font-size: 1.4rem;
     }
     .audio-game-start-button{
-        font-family: $headerFont;
-        font-size: 2rem;
-        background-color: $colorPageMain;
-        border-radius: 0.25rem;
-        outline: none;
-        cursor: pointer;
-        border: none;
+    font-family: $headerFont;
+    font-size: 2rem;
+    background-color: $colorPageMain;
+    border-radius: 0.25rem;
+    outline: none;
+    cursor: pointer;
+    border: none;
     }
 }

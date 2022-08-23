@@ -1,16 +1,10 @@
 import renderAuthWindow from './renderAuthorization';
 
-function getNamePage(): string {
-  const { hash } = document.location;
-  const namePageApp = hash.trim().split('#').splice(1).join('');
-
-  return namePageApp.slice(0, 1).toUpperCase() + namePageApp.slice(1, namePageApp.length);
-}
-
-function renderHeader(): string {
-  const header = `<div class="name-page">${getNamePage()}</div>
+function renderHeader(namePage: string, pathImageAuth: string, userName: string): string {
+  const header = `<div class="name-page">${namePage}</div>
                   <div>
-                    <img class="authorization" src="./assets/img/authorization-in.svg" alt="Image for authorization">
+                    <span class="name-user">${userName}</span>
+                    <img class="authorization" src=${pathImageAuth} alt="Image for authorization">
                   </div>`;
 
   return header;
@@ -175,11 +169,11 @@ function renderFooter(): string {
   return footer;
 }
 
-export default function renderApp(): void {
+export default function renderApp(namePage: string, pathImageAuth: string, userName: string): void {
   document.location.hash = 'main';
   (document.querySelector('body') as HTMLBodyElement).innerHTML = `${renderBurgerMenu()}
                                                                   <div class="wrapper">
-                                                                    <header class="header">${renderHeader()}
+                                                                    <header class="header">${renderHeader(namePage, pathImageAuth, userName)}
                                                                     </header>
                                                                     <main class="main"> ${renderMainContent()}
                                                                     </main>
