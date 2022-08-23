@@ -77,6 +77,9 @@ li {
   border-bottom: #3f3f3f solid 4px;
   border-radius: 5px;
 }
+.header .name-user {
+  font-size: 20px;
+}
 
 .menu {
   margin: 0;
@@ -483,4 +486,13 @@ li {
 }
 .auth-popup #name {
   display: none;
+}
+
+.message {
+  display: none;
+  align-self: center;
+  margin-top: 10px;
+  font-size: 18px;
+  font-family: "Varela Round", sans-serif;
+  color: red;
 }/*# sourceMappingURL=index.css.map */
