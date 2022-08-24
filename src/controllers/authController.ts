@@ -55,7 +55,7 @@ document.addEventListener('input', (event:Event): void => {
   }
 
   if ((event.target as HTMLInputElement).classList.contains('password')) {
-    if (passwordInput.value.length >= 6) {
+    if (passwordInput.value.length >= 8) {
       passwordInput.classList.remove('error');
     } else {
       passwordInput.classList.add('error');
