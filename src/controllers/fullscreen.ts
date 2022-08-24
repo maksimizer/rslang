@@ -23,5 +23,6 @@ export default fullScreen;
 export function closeGameWindow(btn: HTMLButtonElement): void {
   btn.addEventListener('click', () => {
     renderPageGames();
+    document.exitFullscreen();
   });
 }
