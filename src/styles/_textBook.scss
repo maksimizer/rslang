@@ -1,0 +1,76 @@
+.textbook-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+} 
+
+.textbook-games {
+  justify-content: space-evenly;
+  width: 100%;
+  display: flex;
+  font-family: $headerFont;
+  font-size: 20px;
+
+  img {
+    display: block;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+  }
+
+}
+
+.textbook-game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  border-radius: 10px;
+  background-color: white;
+  padding: 0 10px;
+  transition: 0.2s;
+}
+
+.pagination-container {
+  display: flex;
+  gap: 20px;
+}
+
+.pagination-btn {
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  font-family: $headerFont;
+  font-size: 20px;
+  text-align: center;
+  line-height: 50px;
+  transition: 0.3s;
+}
+
+.pagination-btn:hover,
+.textbook-game-container:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.pagination-btn-disabled {
+  color: rgb(194, 194, 194);
+  transition: none;
+}
+
+.pagination-btn-disabled:hover {
+  cursor: auto;
+  transform: none;
+}
+
+.pagination-btn-active {
+  box-shadow: rgb(107 83 255 / 100%) 0px 0px 15px;
+}
+

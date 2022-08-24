@@ -9,14 +9,26 @@ export class TextbookView {
     textBook.classList.add('textbook-container');
     textBook.innerHTML = `
       <div class="textbook-games">
-        <div>
+        <div class="textbook-game-container">
             <img src="../assets/img/sprint.jpeg" alt="sprint-game-icon">
-            Sprint
+            <p>Sprint</p>
         </div>
-        <div>
-            <img src="../assets/img/sound.svg" alt="audio-game-icon">
-            Audio game
+        <div class="textbook-game-container">
+            <img src="../assets/img/audio.jpeg" alt="audio-game-icon">
+            <p>Audio game</p>
         </div>
+      </div>
+      <div class="pagination-container">
+            <div class="pagination-btn pagination-btn-disabled"><</div>
+            <div class="pagination-btn pagination-btn-active">1</div>
+            <div class="pagination-btn">2</div>
+            <div class="pagination-btn">3</div>
+            <div class="pagination-btn">4</div>
+            <div class="pagination-btn">5</div>
+            <div class="pagination-btn">6</div>
+            <div class="pagination-btn">...</div>
+            <div class="pagination-btn">30</div>
+            <div class="pagination-btn">></div>
       </div>
     `;
 
