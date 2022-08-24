@@ -1,6 +1,6 @@
-import { wordCardView, WordCardView } from "./wordCardView";
+// import { wordCardView, WordCardView } from "./wordCardView";
 
-class TextbookView {
+export class TextbookView {
   render() {
     const main = document.querySelector('.main');
     if (main) main.innerHTML = '';
@@ -8,10 +8,20 @@ class TextbookView {
     const textBook = document.createElement('div');
     textBook.classList.add('textbook-container');
     textBook.innerHTML = `
-      
+      <div class="textbook-games">
+        <div>
+            <img src="../assets/img/sprint.jpeg" alt="sprint-game-icon">
+            Sprint
+        </div>
+        <div>
+            <img src="../assets/img/sound.svg" alt="audio-game-icon">
+            Audio game
+        </div>
+      </div>
     `;
 
+    if (main) main.appendChild(textBook);
   }
 }
 
-const textBookView = new TextbookView;
+export const textBookView = new TextbookView();
