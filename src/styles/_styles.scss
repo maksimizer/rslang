@@ -12,12 +12,13 @@ $headerFont: 'DynaPuff', cursive;
 html {
   height: 100%;
   max-width: 1920px;
+  margin: 0 auto;
   overflow-x: hidden;
 }
 
 body {
   position: relative;
-  margin: 0;
+  margin: 0 auto;
   background: $colorPageMain;
   opacity: 0.9;
   width:100%;
@@ -48,21 +49,23 @@ li {
 }
 
 .main {
-  max-width: 90vw;
+  width: 100%;
   flex: 1 1 auto;
 }
 
 .wrapper {
+  margin: 0 auto;
+  padding-left: 70px;
   min-height: 100%;
   flex-direction: column;
   display: flex;
   justify-content: space-between;
-  padding-left: 50px;
-  width:100vw;
+  align-items: center;
+  width: 100%;
 }
 
 .wrapper.active {
-  padding-left: 180px;
+  padding-left: 210px;
   transition: transform 0.5s;
 }
 
