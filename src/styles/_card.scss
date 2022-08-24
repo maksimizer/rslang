@@ -1,0 +1,50 @@
+.card {
+  box-sizing: border-box;
+  margin: 40px;
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  max-width: 860px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  border-radius: 10px;
+  color: $colorFont;
+  font-family: $textFont;
+}
+
+.card-word-image {
+  width: 280px;
+  height: 240px;
+  border-radius: 10px;
+}
+
+.card-content {
+  width: 540px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card-word,
+.card-meaning-wrapper,
+.card-exapmle-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.word {
+  font-family: $headerFont;
+  font-size: 24px;
+  margin-right: 20px;
+}
+
+.audio-btn {
+  height: 40px;
+  width: 40px;
+  margin-right: 40px;
+  background-image: url(../assets/img/audio-icon.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
