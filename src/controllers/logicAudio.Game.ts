@@ -1,4 +1,5 @@
 import serverRequests from '../model/appModel';
+import shuffleWordsGame from './shuffleWordsAudioGame';
 
 const logicAudioGame = () => {
   const wordsString = localStorage.getItem('audio-game-words');
@@ -12,6 +13,7 @@ const logicAudioGame = () => {
   const audioLineTopText = document.querySelector('.audio-game-card-line-top-text') as HTMLElement;
   const audioLineMidText = document.querySelector('.audio-game-card-line-mid-text') as HTMLElement;
   const audioTranslate = document.querySelector('.audio-game-card-translate') as HTMLElement;
+  const correctButton = document.querySelector("[data-answer='correct']") as HTMLButtonElement;
   if (wordsString) {
     let count = 0;
     const words = JSON.parse(wordsString);
@@ -27,6 +29,8 @@ const logicAudioGame = () => {
       'style',
       `background-image: url(${serverRequests.baseUrl}/${startWord.image});background-repeat: no-repeat;background-size: cover`,
     );
+    console.log(startWord.wordTranslate);
+    shuffleWordsGame(startWord.wordTranslate);
     btnNext?.addEventListener('click', () => {
       count += 1;
       const word = words[count];
@@ -44,6 +48,9 @@ const logicAudioGame = () => {
       btnKnow.classList.toggle('hidden');
       gameCard.classList.toggle('hidden');
       audio.classList.toggle('hidden');
+      correctButton.setAttribute('style', 'background: #e9e9e9');
+      console.log(startWord.wordTranslate);
+      shuffleWordsGame(word.wordTranslate);
     }, true);
 
     btnKnow.addEventListener('click', () => {
@@ -51,6 +58,7 @@ const logicAudioGame = () => {
       btnKnow.classList.toggle('hidden');
       gameCard.classList.toggle('hidden');
       audio.classList.toggle('hidden');
+      correctButton.setAttribute('style', 'background: green');
     }, true);
   }
 };

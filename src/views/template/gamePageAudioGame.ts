@@ -49,11 +49,11 @@ const htmlGamePageAudioCall = `
     </div>
 </div>
 <div class="audio-game-button-words">
-  <button class="audio-game-button-1">word_1</button>
-  <button class="audio-game-button-2">word_2</button>
-  <button class="audio-game-button-3">word_3</button>
-  <button class="audio-game-button-4">word_4</button>
-  <button class="audio-game-button-5">word_5</button>
+  <button id="game-button" data-answer="correct" class="audio-game-button-1">word_1</button>
+  <button id="game-button" data-answer="wrong" class="audio-game-button-2">word_2</button>
+  <button id="game-button" data-answer="wrong" class="audio-game-button-3">word_3</button>
+  <button id="game-button" data-answer="wrong" class="audio-game-button-4">word_4</button>
+  <button id="game-button" data-answer="wrong" class="audio-game-button-5">word_5</button>
 </div>
 <div class="audio-game-button-control">
   <button class="audio-game-button-know">НЕ ЗНАЮ</button>
