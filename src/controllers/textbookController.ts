@@ -17,12 +17,12 @@ class TextbookController {
     this.serverRequests = serverRequests;
   }
 
-  addEventListeners = () => {
-    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
-  };
-
   renderTextbookPage = () => {
     this.textbookView.render();
+  };
+
+  addEventListeners = () => {
+    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
   };
 
   getGroupAndPage = () => {
@@ -35,6 +35,18 @@ class TextbookController {
 
   setGroupAndPage = (groupAndPage: QueryString[]) => {
     localStorage.setItem('groupAndPage', JSON.stringify(groupAndPage));
+  };
+
+  selectGroup = (event: Event) => {
+    (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('group-btn')) {
+      const groupAndPage = this.getGroupAndPage();
+      groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
+      groupAndPage[1].value = 0;
+      this.setGroupAndPage(groupAndPage);
+    }
+    this.renderWords();
   };
 
   renderWords = async () => {
@@ -90,18 +102,6 @@ class TextbookController {
       const card = this.wordCardView.render(word);
       if (cardsContainer) cardsContainer.appendChild(card);
     });
-  };
-
-  selectGroup = (event: Event) => {
-    (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
-    const target = event.target as HTMLElement;
-    if (target.classList.contains('group-btn')) {
-      const groupAndPage = this.getGroupAndPage();
-      groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
-      groupAndPage[1].value = 0;
-      this.setGroupAndPage(groupAndPage);
-    }
-    this.renderWords();
   };
 }
 
