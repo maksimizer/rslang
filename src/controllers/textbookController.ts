@@ -58,6 +58,17 @@ class TextbookController {
       }
     });
 
+    const currentPage = document.querySelector('.current-page') as HTMLElement;
+    currentPage.textContent = `${queryParams[1].value + 1}/30`;
+    if (queryParams[1].value === 0) {
+      (document.querySelector('.pagination-btn-prev') as HTMLElement).classList.add('pagination-btn-disabled');
+      (document.querySelector('.pagination-btn-first') as HTMLElement).classList.add('pagination-btn-disabled');
+    }
+    if (queryParams[1].value === 29) {
+      (document.querySelector('.pagination-btn-next') as HTMLElement).classList.add('pagination-btn-disabled');
+      (document.querySelector('.pagination-btn-last') as HTMLElement).classList.add('pagination-btn-disabled');
+    }
+
     const cardsContainer = document.querySelector('.cards-container');
     if (cardsContainer) cardsContainer.innerHTML = '';
 
@@ -73,6 +84,7 @@ class TextbookController {
     if (target.classList.contains('group-btn')) {
       const groupAndPage = this.getGroupAndPage();
       groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
+      groupAndPage[1].value = 0;
       this.setGroupAndPage(groupAndPage);
     }
     this.renderWords();

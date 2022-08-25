@@ -28,29 +28,21 @@ export class TextbookView {
       </div>
       <div class="pagination-container">
             <div class="pagination-btns">
-              <div class="pagination-btn pagination-btn-disabled"><</div>
-              <div class="pagination-btn pagination-btn-active">1</div>
-              <div class="pagination-btn">2</div>
-              <div class="pagination-btn">3</div>
-              <div class="pagination-btn">4</div>
-              <div class="pagination-btn">5</div>
-              <div class="pagination-btn">...</div>
-              <div class="pagination-btn">30</div>
-              <div class="pagination-btn">></div>
+              <div class="pagination-btn pagination-btn-first"><<</div>
+              <div class="pagination-btn pagination-btn-prev"><</div>
+              <div class="current-page"></div>
+              <div class="pagination-btn pagination-btn-next">></div>
+              <div class="pagination-btn pagination-btn-last">>></div>
             </div>
       </div>
       <div class="cards-container"></div>
       <div class="pagination-container">
             <div class="pagination-btns">
-              <div class="pagination-btn pagination-btn-disabled"><</div>
-              <div class="pagination-btn pagination-btn-active">1</div>
-              <div class="pagination-btn">2</div>
-              <div class="pagination-btn">3</div>
-              <div class="pagination-btn">4</div>
-              <div class="pagination-btn">5</div>
-              <div class="pagination-btn">...</div>
-              <div class="pagination-btn">30</div>
-              <div class="pagination-btn">></div>
+              <div class="pagination-btn pagination-btn-first"><<</div>
+              <div class="pagination-btn pagination-btn-prev"><</div>
+              <div class="current-page"></div>
+              <div class="pagination-btn pagination-btn-next">></div>
+              <div class="pagination-btn pagination-btn-last">>></div>
             </div>
       </div>
     `;
