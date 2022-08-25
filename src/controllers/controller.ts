@@ -2,6 +2,7 @@ import changeHashPage from '../model/hashPage';
 import getNamePage from '../model/pageModal';
 import { renderMainContent } from '../views/renderMenu';
 import renderPageGames from '../views/renderPageGames';
+import textbookController from './textbookController';
 
 document.addEventListener('click', (event: Event): void => {
   const namePage = document.querySelector('.name-page') as HTMLDivElement;
@@ -16,6 +17,8 @@ document.addEventListener('click', (event: Event): void => {
   if ((event.target as HTMLBodyElement).classList.contains('menu-book')) {
     changeHashPage('book');
     namePage.innerHTML = getNamePage();
+    textbookController.renderTextbookPage();
+    textbookController.renderWords();
   }
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-games')) {
