@@ -9,7 +9,7 @@ export class WordCardView {
     this.serverRequests = serverRequests;
   }
 
-  renderCard = (word:IWord) => {
+  render = (word:IWord) => {
     const card = document.createElement('div');
     card.classList.add('card');
     card.setAttribute('data-word-id', `${word.id}`);
@@ -51,6 +51,14 @@ export class WordCardView {
           </div>
       </div>
     `;
+
+    const currentGroupBtn = document.querySelector(`.group-btn-${word.group + 1}`) as HTMLElement;
+    const color = window.getComputedStyle(currentGroupBtn).backgroundColor;
+
+    card.style.borderRight = '3px solid';
+    card.style.borderBottom = '3px solid';
+    card.style.borderColor = color;
+
     return card;
   };
 }
