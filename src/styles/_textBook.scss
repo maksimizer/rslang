@@ -1,11 +1,9 @@
 .textbook-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 40px;
   justify-content: center;
   align-items: center;
-  gap: 40px;
 } 
 
 .textbook-games {
@@ -14,6 +12,7 @@
   display: flex;
   font-family: $headerFont;
   font-size: 20px;
+  margin-bottom: 20px;
 
   img {
     display: block;
@@ -36,26 +35,76 @@
   transition: 0.2s;
 }
 
-.pagination-container {
+.pagination-container, 
+.groups-container {
+  width: 100%;
   display: flex;
-  gap: 20px;
+  justify-content: center;
 }
 
-.pagination-btn {
+.pagination-container {
+  margin-bottom: 20px;
+}
+
+.pagination-btns,
+.groups-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.pagination-btn, 
+.group-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
   border-radius: 10px;
-  width: 50px;
-  height: 50px;
   background-color: white;
   font-family: $headerFont;
   font-size: 20px;
   text-align: center;
-  line-height: 50px;
   transition: 0.3s;
 }
 
+.pagination-btn {
+  width: 50px;
+  height: 50px;
+}
+
+.group-btn {
+  width: 90px;
+}
+
+.group-btn-1 {
+  background-color: rgb(43, 255, 107);
+}
+
+.group-btn-2 {
+  background-color: rgb(128, 255, 43);
+}
+
+.group-btn-3 {
+  background-color: rgb(223, 255, 43);
+}
+
+.group-btn-4 {
+  background-color: rgb(255, 234, 43);
+}
+
+.group-btn-5 {
+  background-color: rgb(255, 163, 43);
+}
+
+.group-btn-6 {
+  background-color: rgb(255, 128, 43);
+}
+
 .pagination-btn:hover,
-.textbook-game-container:hover {
+.textbook-game-container:hover,
+.group-btn:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
@@ -70,7 +119,15 @@
   transform: none;
 }
 
-.pagination-btn-active {
+.pagination-btn-active,
+.group-btn-active {
   box-shadow: rgb(107 83 255 / 100%) 0px 0px 15px;
 }
 
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
