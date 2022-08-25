@@ -58,15 +58,29 @@ class TextbookController {
       }
     });
 
-    const currentPage = document.querySelector('.current-page') as HTMLElement;
-    currentPage.textContent = `${queryParams[1].value + 1}/30`;
+    document.querySelectorAll('.current-page').forEach((el) => {
+      const counter = el;
+      counter.textContent = `${queryParams[1].value + 1}/30`;
+    });
     if (queryParams[1].value === 0) {
-      (document.querySelector('.pagination-btn-prev') as HTMLElement).classList.add('pagination-btn-disabled');
-      (document.querySelector('.pagination-btn-first') as HTMLElement).classList.add('pagination-btn-disabled');
+      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
     }
     if (queryParams[1].value === 29) {
-      (document.querySelector('.pagination-btn-next') as HTMLElement).classList.add('pagination-btn-disabled');
-      (document.querySelector('.pagination-btn-last') as HTMLElement).classList.add('pagination-btn-disabled');
+      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
     }
 
     const cardsContainer = document.querySelector('.cards-container');
