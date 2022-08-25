@@ -18,7 +18,7 @@ export class TextbookView {
       </div>
         <div class="groups-container">
           <div class="groups-btns">
-            <div class="group-btn group-btn-1 group-btn-active" data-group="1">Level 1</div>
+            <div class="group-btn group-btn-1" data-group="1">Level 1</div>
             <div class="group-btn group-btn-2" data-group="2">Level 2</div>
             <div class="group-btn group-btn-3" data-group="3">Level 3</div>
             <div class="group-btn group-btn-4" data-group="4">Level 4</div>

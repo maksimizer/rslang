@@ -19,6 +19,7 @@ document.addEventListener('click', (event: Event): void => {
     namePage.innerHTML = getNamePage();
     textbookController.renderTextbookPage();
     textbookController.renderWords();
+    textbookController.addEventListeners();
   }
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-games')) {
