@@ -19,10 +19,48 @@ class TextbookController {
 
   renderTextbookPage = () => {
     this.textbookView.render();
+    const groupAndPage = this.getGroupAndPage();
+
+    const groupBtns = document.querySelectorAll('.group-btn');
+    groupBtns.forEach((btn) => {
+      if (Number(btn.getAttribute('data-group')) - 1 === groupAndPage[0].value) {
+        btn.classList.add('group-btn-active');
+      }
+    });
+
+    document.querySelectorAll('.current-page').forEach((el) => {
+      const counter = el;
+      counter.textContent = `${groupAndPage[1].value + 1}/30`;
+    });
+    document.querySelectorAll('.pagination-btn').forEach((el) => {
+      const elem = el;
+      elem.classList.remove('pagination-btn-disabled');
+    });
+    if (groupAndPage[1].value === 0) {
+      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+    }
+    if (groupAndPage[1].value === 29) {
+      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+    }
   };
 
   addEventListeners = () => {
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
+    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
   };
 
   getGroupAndPage = () => {
@@ -38,14 +76,71 @@ class TextbookController {
   };
 
   selectGroup = (event: Event) => {
-    (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
     const target = event.target as HTMLElement;
     if (target.classList.contains('group-btn')) {
       const groupAndPage = this.getGroupAndPage();
+      (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
       groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
       groupAndPage[1].value = 0;
+
+      const groupBtns = document.querySelectorAll('.group-btn');
+      groupBtns.forEach((btn) => {
+        if (Number(btn.getAttribute('data-group')) - 1 === groupAndPage[0].value) {
+          btn.classList.add('group-btn-active');
+        }
+      });
+
       this.setGroupAndPage(groupAndPage);
+      this.renderWords();
     }
+  };
+
+  selectPage = (event: Event) => {
+    const target = event.target as HTMLElement;
+    const groupAndPage = this.getGroupAndPage();
+    if (target.classList.contains('pagination-btn-first') && !target.classList.contains('pagination-btn-disabled')) {
+      groupAndPage[1].value = 0;
+    }
+    if (target.classList.contains('pagination-btn-prev') && !target.classList.contains('pagination-btn-disabled')) {
+      groupAndPage[1].value -= 1;
+    }
+    if (target.classList.contains('pagination-btn-next') && !target.classList.contains('pagination-btn-disabled')) {
+      groupAndPage[1].value += 1;
+    }
+    if (target.classList.contains('pagination-btn-last') && !target.classList.contains('pagination-btn-disabled')) {
+      groupAndPage[1].value = 29;
+    }
+
+    document.querySelectorAll('.current-page').forEach((el) => {
+      const counter = el;
+      counter.textContent = `${groupAndPage[1].value + 1}/30`;
+    });
+    document.querySelectorAll('.pagination-btn').forEach((el) => {
+      const elem = el;
+      elem.classList.remove('pagination-btn-disabled');
+    });
+    if (groupAndPage[1].value === 0) {
+      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+    }
+    if (groupAndPage[1].value === 29) {
+      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
+        const elem = el;
+        elem.classList.add('pagination-btn-disabled');
+      });
+    }
+
+    this.setGroupAndPage(groupAndPage);
     this.renderWords();
   };
 
@@ -62,38 +157,6 @@ class TextbookController {
       }
       return 0;
     });
-
-    const groupBtns = document.querySelectorAll('.group-btn');
-    groupBtns.forEach((btn) => {
-      if (Number(btn.getAttribute('data-group')) - 1 === queryParams[0].value) {
-        btn.classList.add('group-btn-active');
-      }
-    });
-
-    document.querySelectorAll('.current-page').forEach((el) => {
-      const counter = el;
-      counter.textContent = `${queryParams[1].value + 1}/30`;
-    });
-    if (queryParams[1].value === 0) {
-      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
-      });
-    }
-    if (queryParams[1].value === 29) {
-      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
-      });
-    }
 
     const cardsContainer = document.querySelector('.cards-container');
     if (cardsContainer) cardsContainer.innerHTML = '';
