@@ -2,7 +2,7 @@ import { volume } from '../../utils/icons';
 
 const htmlGamePageAudioCall = `
 <div class="audio-game-header">
- <a href="#" class="audio-game-close" id="audio-game-return">
+ <a href="#game-audio" class="audio-game-close" id="audio-game-return">
     <span class="audio-game-close_span"><</span>
  </a>
 </div>
@@ -57,7 +57,28 @@ const htmlGamePageAudioCall = `
 </div>
 <div class="audio-game-button-control">
   <button class="audio-game-button-know">НЕ ЗНАЮ</button>
-  <button class="audio-game-button-next">-></button>
+  <button class="audio-game-button-next">ДАЛЕЕ</button>
+</div>
+<div id="modal-window-audio-game" class="game-audio-modal-window hidden">
+ <div class="game-audio-modal-content">
+  <div class="modal-content-header">
+   <h2>Результат</h2>
+  </div>
+  <div class="modal-content-result">
+    <div class="modal-content-correct">
+    <h3>Правельно:</h3>
+    </div>
+    <div class="modal-content-wrong">
+    <h3>Неправельно:</h3>
+    </div>
+    <div class="modal-content-notknow">
+    <h3>Не занаю:</h3>
+    </div>
+   </div>
+   <div class="modal-content-bottom">
+   <button id="modal-close">Закрыть</button>
+  </div>
+ </div>
 </div>
 `;
 
