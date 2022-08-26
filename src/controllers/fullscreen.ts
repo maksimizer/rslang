@@ -1,3 +1,5 @@
+import changeHashPage from '../model/hashPage';
+import getNamePage from '../model/pageModal';
 import { expand, compress } from '../utils/icons';
 import renderPageGames from '../views/renderPageGames';
 
@@ -8,6 +10,7 @@ const fullScreen = (gameWrapper: HTMLElement): void => {
     if (document.fullscreenEnabled) {
       document.documentElement.requestFullscreen();
       gameWrapper.classList.add('open-fullscreen');
+      btnFullscreen.innerHTML = `${compress}`;
       btnFullscreen.innerHTML = `${compress}`;
       if (document.fullscreenElement !== null) {
         document.exitFullscreen();
@@ -21,8 +24,16 @@ const fullScreen = (gameWrapper: HTMLElement): void => {
 export default fullScreen;
 
 export function closeGameWindow(btn: HTMLButtonElement): void {
+  const namePage = document.querySelector('.name-page') as HTMLDivElement;
+
   btn.addEventListener('click', () => {
+    changeHashPage('games');
+    namePage.innerHTML = getNamePage();
     renderPageGames();
-    document.exitFullscreen();
+    localStorage.removeItem('level');
+
+    if (document.fullscreenElement !== null) {
+      document.exitFullscreen();
+    }
   });
 }

@@ -7,6 +7,7 @@ document.addEventListener('click', (event: Event): void => {
   if ((event.target as HTMLDivElement).classList.contains('sprint')) {
     drawSprintGame();
     changeHashPage('game-sprint');
+    localStorage.setItem('level', '1');
     fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
     closeGameWindow(document.querySelector('.sprint-game-close_span') as HTMLButtonElement);
   }

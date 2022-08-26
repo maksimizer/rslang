@@ -1,6 +1,8 @@
 import { library, icon } from '@fortawesome/fontawesome-svg-core';
 import {
-  faCat, faCoffee, faFutbol, faHistory, faMusic, faSearch, faTimes, faExpand, faCompress,
+  faCat, faCoffee, faFutbol, faHistory, faMusic, faSearch,
+  faTimes, faExpand, faCompress, faCircleChevronLeft, faTrophy,
+  faVolumeLow, faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faBuilding, faFlag, faFrown, faLightbulb, faSmile,
@@ -21,6 +23,10 @@ library.add(
   faSearch,
   faSmile,
   faTimes,
+  faCircleChevronLeft,
+  faTrophy,
+  faVolumeLow,
+  faVolumeXmark,
 );
 
 export const compress = icon({ prefix: 'fas', iconName: 'compress' }).html;
@@ -37,3 +43,7 @@ export const music = icon({ prefix: 'fas', iconName: 'music' }).html;
 export const search = icon({ prefix: 'fas', iconName: 'search' }).html;
 export const smile = icon({ prefix: 'far', iconName: 'smile' }).html;
 export const times = icon({ prefix: 'fas', iconName: 'times' }).html;
+export const circleLeft = icon({ prefix: 'fas', iconName: 'circle-chevron-left' }).html;
+export const trophy = icon({ prefix: 'fas', iconName: 'trophy' }).html;
+export const volumeOn = icon({ prefix: 'fas', iconName: 'volume-low' }).html;
+export const volumeOff = icon({ prefix: 'fas', iconName: 'volume-xmark' }).html;

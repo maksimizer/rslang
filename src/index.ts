@@ -5,6 +5,7 @@ import './controllers/authController';
 import './controllers/renderViewGameController';
 import './controllers/authUserController';
 import app from './controllers/appController';
+import './controllers/gameSprintController';
 
 app();
 
