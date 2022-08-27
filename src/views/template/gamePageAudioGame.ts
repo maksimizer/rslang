@@ -62,17 +62,17 @@ const htmlGamePageAudioCall = `
 <div id="modal-window-audio-game" class="game-audio-modal-window hidden">
  <div class="game-audio-modal-content">
   <div class="modal-content-header">
-   <h2>Результат</h2>
+   <h2>Result</h2>
   </div>
   <div class="modal-content-result">
     <div class="modal-content-correct">
-    <h3>Правельно:</h3>
+    <h3>Correct:</h3>
     </div>
     <div class="modal-content-wrong">
-    <h3>Неправельно:</h3>
+    <h3>Wrong:</h3>
     </div>
     <div class="modal-content-notknow">
-    <h3>Не занаю:</h3>
+    <h3>Don't know:</h3>
     </div>
    </div>
    <div class="modal-content-bottom">
