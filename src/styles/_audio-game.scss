@@ -264,10 +264,6 @@
 }
 .result-answer-line{
     display: flex;
-    h3{
-        margin: 5px;
-        font-family: $headerFont;
-    }
     .result-answer-line-image{
         margin-right: 5px;
         color: rgb(186, 186, 17);
@@ -281,10 +277,6 @@
 }
 .result-answer-line-wrong{
     display: flex;
-    h3{
-        margin: 5px;
-        font-family: $headerFont;
-    }
     .result-answer-line-image{
         margin-right: 5px;
         color: rgb(186, 17, 17);
@@ -298,10 +290,6 @@
 }
 .result-answer-line-correct{
     display: flex;
-    h3{
-        margin: 5px;
-        font-family: $headerFont;
-    }
     .result-answer-line-image{
         margin-right: 5px;
         color: rgb(17, 148, 15);
@@ -311,5 +299,14 @@
         font-family: $textFont;
         margin-right: 5px;
         cursor: pointer;
+    }
+}
+.modal-content-correct,
+.modal-content-wrong,
+.modal-content-notknow
+{
+    h3{
+        margin: 5px;
+        font-family: $headerFont;
     }
 }
