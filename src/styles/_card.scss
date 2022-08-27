@@ -57,3 +57,14 @@
   cursor: pointer;
   transform: scale(1.1);
 }
+
+.playing {
+  height: 40px;
+  width: 40px;
+  margin-right: 40px;
+  background-image: url(../assets/img/stop-playing.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: 0.3s;
+}

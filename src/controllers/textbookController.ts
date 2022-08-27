@@ -56,6 +56,7 @@ class TextbookController {
   addEventListeners = () => {
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
+    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.playAudio(event));
   };
 
   getGroupAndPage = () => {
@@ -154,6 +155,22 @@ class TextbookController {
       const card = this.wordCardView.render(word);
       if (cardsContainer) cardsContainer.appendChild(card);
     });
+  };
+
+  playAudio = (event:Event) => {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('audio-btn')) {
+      const cardAudios = target.children;
+      const wordAudio = new Audio();
+      const wordMeaningAudio = new Audio();
+      const wordExampleAudio = new Audio();
+      wordAudio.src = (cardAudios[0] as HTMLAudioElement).src;
+      wordMeaningAudio.src = (cardAudios[1] as HTMLAudioElement).src;
+      wordExampleAudio.src = (cardAudios[2] as HTMLAudioElement).src;
+      wordAudio.play();
+      wordAudio.onended = () => wordMeaningAudio.play();
+      wordMeaningAudio.onended = () => wordExampleAudio.play();
+    }
   };
 }
 

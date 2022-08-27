@@ -30,7 +30,7 @@ export class WordCardView {
                   <div class="audio-btn">
                     <audio class="word-audio" src="${this.serverRequests.baseUrl}/${word.audio}">
                     </audio>
-                    <audio class="word-translate-audio" src="${this.serverRequests.baseUrl}/${word.audioMeaning}">
+                    <audio class="word-meaning-audio" src="${this.serverRequests.baseUrl}/${word.audioMeaning}">
                     </audio>
                     <audio class="word-example-audio" src="${this.serverRequests.baseUrl}/${word.audioExample}">
                     </audio>
