@@ -76,7 +76,7 @@ const htmlGamePageAudioCall = `
     </div>
    </div>
    <div class="modal-content-bottom">
-   <button id="modal-close">Закрыть</button>
+   <button id="modal-close">Close</button>
   </div>
  </div>
 </div>
