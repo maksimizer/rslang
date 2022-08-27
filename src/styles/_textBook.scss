@@ -56,7 +56,8 @@
 }
 
 .pagination-btn, 
-.group-btn {
+.group-btn,
+.current-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,6 +72,11 @@
 
 .pagination-btn {
   width: 50px;
+  height: 50px;
+}
+
+.current-page {
+  width: 100px;
   height: 50px;
 }
 
@@ -120,7 +126,7 @@
   transform: none;
 }
 
-.pagination-btn-active,
+.current-page,
 .group-btn-active {
   box-shadow: rgb(107 83 255 / 100%) 0px 0px 15px;
 }

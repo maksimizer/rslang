@@ -18,7 +18,7 @@ export class TextbookView {
       </div>
         <div class="groups-container">
           <div class="groups-btns">
-            <div class="group-btn group-btn-1 group-btn-active" data-group="1">Level 1</div>
+            <div class="group-btn group-btn-1" data-group="1">Level 1</div>
             <div class="group-btn group-btn-2" data-group="2">Level 2</div>
             <div class="group-btn group-btn-3" data-group="3">Level 3</div>
             <div class="group-btn group-btn-4" data-group="4">Level 4</div>
@@ -28,29 +28,21 @@ export class TextbookView {
       </div>
       <div class="pagination-container">
             <div class="pagination-btns">
-              <div class="pagination-btn pagination-btn-disabled"><</div>
-              <div class="pagination-btn pagination-btn-active">1</div>
-              <div class="pagination-btn">2</div>
-              <div class="pagination-btn">3</div>
-              <div class="pagination-btn">4</div>
-              <div class="pagination-btn">5</div>
-              <div class="pagination-btn">...</div>
-              <div class="pagination-btn">30</div>
-              <div class="pagination-btn">></div>
+              <div class="pagination-btn pagination-btn-first"><<</div>
+              <div class="pagination-btn pagination-btn-prev"><</div>
+              <div class="current-page"></div>
+              <div class="pagination-btn pagination-btn-next">></div>
+              <div class="pagination-btn pagination-btn-last">>></div>
             </div>
       </div>
       <div class="cards-container"></div>
       <div class="pagination-container">
             <div class="pagination-btns">
-              <div class="pagination-btn pagination-btn-disabled"><</div>
-              <div class="pagination-btn pagination-btn-active">1</div>
-              <div class="pagination-btn">2</div>
-              <div class="pagination-btn">3</div>
-              <div class="pagination-btn">4</div>
-              <div class="pagination-btn">5</div>
-              <div class="pagination-btn">...</div>
-              <div class="pagination-btn">30</div>
-              <div class="pagination-btn">></div>
+              <div class="pagination-btn pagination-btn-first"><<</div>
+              <div class="pagination-btn pagination-btn-prev"><</div>
+              <div class="current-page"></div>
+              <div class="pagination-btn pagination-btn-next">></div>
+              <div class="pagination-btn pagination-btn-last">>></div>
             </div>
       </div>
     `;

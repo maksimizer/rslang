@@ -55,8 +55,8 @@ export class WordCardView {
     const currentGroupBtn = document.querySelector(`.group-btn-${word.group + 1}`) as HTMLElement;
     const color = window.getComputedStyle(currentGroupBtn).backgroundColor;
 
-    card.style.borderRight = '3px solid';
-    card.style.borderBottom = '3px solid';
+    card.style.borderRight = '5px solid';
+    card.style.borderBottom = '5px solid';
     card.style.borderColor = color;
 
     return card;
