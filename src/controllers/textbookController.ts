@@ -29,31 +29,25 @@ class TextbookController {
     });
 
     document.querySelectorAll('.current-page').forEach((el) => {
-      const counter = el;
-      counter.textContent = `${groupAndPage[1].value + 1}/30`;
+      el.textContent = `${groupAndPage[1].value + 1}/30`;
     });
     document.querySelectorAll('.pagination-btn').forEach((el) => {
-      const elem = el;
-      elem.classList.remove('pagination-btn-disabled');
+      el.classList.remove('pagination-btn-disabled');
     });
     if (groupAndPage[1].value === 0) {
       document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
       document.querySelectorAll('.pagination-btn-first').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
     }
     if (groupAndPage[1].value === 29) {
       document.querySelectorAll('.pagination-btn-next').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
       document.querySelectorAll('.pagination-btn-last').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
     }
   };
@@ -112,31 +106,25 @@ class TextbookController {
     }
 
     document.querySelectorAll('.current-page').forEach((el) => {
-      const counter = el;
-      counter.textContent = `${groupAndPage[1].value + 1}/30`;
+      el.textContent = `${groupAndPage[1].value + 1}/30`;
     });
     document.querySelectorAll('.pagination-btn').forEach((el) => {
-      const elem = el;
-      elem.classList.remove('pagination-btn-disabled');
+      el.classList.remove('pagination-btn-disabled');
     });
     if (groupAndPage[1].value === 0) {
       document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
       document.querySelectorAll('.pagination-btn-first').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
     }
     if (groupAndPage[1].value === 29) {
       document.querySelectorAll('.pagination-btn-next').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
       document.querySelectorAll('.pagination-btn-last').forEach((el) => {
-        const elem = el;
-        elem.classList.add('pagination-btn-disabled');
+        el.classList.add('pagination-btn-disabled');
       });
     }
 
