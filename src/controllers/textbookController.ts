@@ -1,5 +1,6 @@
 import { wordCardView, WordCardView } from '../views/wordCardView';
 import { textbookView, TextbookView } from '../views/textbookView';
+import * as constants from '../constants/constants';
 import { QueryString } from '../types/type';
 import serverRequests from '../model/appModel';
 import ServerRequests from '../model/requestServer';
@@ -34,7 +35,7 @@ class TextbookController {
     document.querySelectorAll('.pagination-btn').forEach((el) => {
       el.classList.remove('pagination-btn-disabled');
     });
-    if (groupAndPage[1].value === 0) {
+    if (groupAndPage[1].value === constants.firstPage) {
       document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
         el.classList.add('pagination-btn-disabled');
       });
@@ -42,7 +43,7 @@ class TextbookController {
         el.classList.add('pagination-btn-disabled');
       });
     }
-    if (groupAndPage[1].value === 29) {
+    if (groupAndPage[1].value === constants.lastPage) {
       document.querySelectorAll('.pagination-btn-next').forEach((el) => {
         el.classList.add('pagination-btn-disabled');
       });
@@ -93,7 +94,7 @@ class TextbookController {
     const target = event.target as HTMLElement;
     const groupAndPage = this.getGroupAndPage();
     if (target.classList.contains('pagination-btn-first') && !target.classList.contains('pagination-btn-disabled')) {
-      groupAndPage[1].value = 0;
+      groupAndPage[1].value = constants.firstPage;
     }
     if (target.classList.contains('pagination-btn-prev') && !target.classList.contains('pagination-btn-disabled')) {
       groupAndPage[1].value -= 1;
@@ -102,7 +103,7 @@ class TextbookController {
       groupAndPage[1].value += 1;
     }
     if (target.classList.contains('pagination-btn-last') && !target.classList.contains('pagination-btn-disabled')) {
-      groupAndPage[1].value = 29;
+      groupAndPage[1].value = constants.lastPage;
     }
 
     document.querySelectorAll('.current-page').forEach((el) => {
