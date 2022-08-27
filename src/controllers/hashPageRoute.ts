@@ -1,5 +1,7 @@
 import drawAudioGame from '../views/renderAudioGame';
 import startAudioGame from './startAudioGame';
+import renderPageGames from '../views/renderPageGames';
+import fullScreen from './fullscreen';
 
 const hashPageRoute = () => {
   window.addEventListener('hashchange', () => {
@@ -7,6 +9,9 @@ const hashPageRoute = () => {
     if (hash === 'game-audio') {
       drawAudioGame();
       startAudioGame();
+      fullScreen(document.querySelector('.audio-game-wrapper') as HTMLElement);
+    } else if (hash === 'games') {
+      renderPageGames();
     }
   });
 };

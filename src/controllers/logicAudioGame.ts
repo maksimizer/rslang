@@ -1,4 +1,5 @@
 import serverRequests from '../model/appModel';
+import changeHashPage from '../model/hashPage';
 import { volume } from '../utils/icons';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
@@ -124,8 +125,10 @@ const logicAudioGame = () => {
       const element = event.target as HTMLElement;
       if (element.id === 'modal-close') {
         modalResultWindow.classList.toggle('hidden');
+        changeHashPage('game-audio');
       } else if (element.id === 'modal-window-audio-game') {
         modalResultWindow.classList.toggle('hidden');
+        changeHashPage('game-audio');
       }
     }, true);
   }
