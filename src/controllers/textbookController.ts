@@ -12,10 +12,19 @@ class TextbookController {
 
   serverRequests: ServerRequests;
 
+  wordAudio: HTMLAudioElement;
+
+  wordExampleAudio: HTMLAudioElement;
+
+  wordMeaningAudio: HTMLAudioElement;
+
   constructor() {
     this.wordCardView = wordCardView;
     this.textbookView = textbookView;
     this.serverRequests = serverRequests;
+    this.wordAudio = new Audio();
+    this.wordMeaningAudio = new Audio();
+    this.wordExampleAudio = new Audio();
   }
 
   renderTextbookPage = () => {
@@ -161,15 +170,15 @@ class TextbookController {
     const target = event.target as HTMLElement;
     if (target.classList.contains('audio-btn')) {
       const cardAudios = target.children;
-      const wordAudio = new Audio();
-      const wordMeaningAudio = new Audio();
-      const wordExampleAudio = new Audio();
-      wordAudio.src = (cardAudios[0] as HTMLAudioElement).src;
-      wordMeaningAudio.src = (cardAudios[1] as HTMLAudioElement).src;
-      wordExampleAudio.src = (cardAudios[2] as HTMLAudioElement).src;
-      wordAudio.play();
-      wordAudio.onended = () => wordMeaningAudio.play();
-      wordMeaningAudio.onended = () => wordExampleAudio.play();
+      this.wordAudio.src = (cardAudios[0] as HTMLAudioElement).src;
+      this.wordMeaningAudio.src = (cardAudios[1] as HTMLAudioElement).src;
+      this.wordExampleAudio.src = (cardAudios[2] as HTMLAudioElement).src;
+      this.wordAudio.currentTime = 0;
+      this.wordMeaningAudio.currentTime = 0;
+      this.wordExampleAudio.currentTime = 0;
+      this.wordAudio.play();
+      this.wordAudio.onended = () => this.wordMeaningAudio.play();
+      this.wordMeaningAudio.onended = () => this.wordExampleAudio.play();
     }
   };
 }
