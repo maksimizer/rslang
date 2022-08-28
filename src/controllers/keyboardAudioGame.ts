@@ -91,6 +91,13 @@ export const eventKeyboard = (event: KeyboardEvent) => {
         removeKeyEvent(eventKeyboard);
       }
       break;
+    case ' ':
+      {
+        const audioButton = document.querySelector('.audio-game-sound__image') as HTMLElement;
+        const audioLink = audioButton.dataset.sound;
+        new Audio(`${serverRequests.baseUrl}/${audioLink}`).play();
+      }
+      break;
     default:
       break;
   }
