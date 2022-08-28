@@ -140,7 +140,7 @@ $colorLevelSix: rgb(255, 128, 43);
 }
 
 .score-game {
-  width: 200px;
+  width: 250px;
   margin: 0 auto;
   margin-top: 20px;
   color: $colorLevelOne;
@@ -162,7 +162,14 @@ $colorLevelSix: rgb(255, 128, 43);
   width: 200px;
 }
 
+.win {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .win:first-child {
+  visibility: visible;
+  opacity: 1;
 
   .fa-trophy {
     height: 1.5rem;
@@ -265,7 +272,7 @@ $colorLevelSix: rgb(255, 128, 43);
   font-size: 30px;
 }
 
-.word-transcription {
+.word-translate {
   font-family: $textFont;
   font-size: 25px;
 }
@@ -338,3 +345,4 @@ $colorLevelSix: rgb(255, 128, 43);
   border-radius: 0.40rem;
   transition: 0.3s;
 }
+

@@ -1,15 +1,28 @@
-export default function timer(): void {
+import { IWord } from '../types/interface';
+
+export const gameParameters = {
+  count: 0,
+  trueAnswers: 0,
+  sum: 0,
+  volume: 1,
+};
+
+export const rightAnswers: string [] = [];
+export const wrongAnswers: string [] = [];
+
+export function timer(): void {
   const countDownElement = document.querySelector('.timer-game') as HTMLDivElement;
-  let seconds = 60;
-  const second = 0;
+  let secondsForGame = 59;
+  const SECOND_STOP_TIMER = 0;
 
   const interval = setInterval(() => {
-    if (second >= seconds) {
+    countDownElement.innerHTML = secondsForGame.toString();
+
+    if (SECOND_STOP_TIMER === secondsForGame) {
       clearInterval(interval);
     }
-    countDownElement.innerHTML = seconds.toString();
 
-    seconds -= 1;
+    secondsForGame -= 1;
   }, 1000);
 }
 
@@ -22,15 +35,15 @@ function addColorStyle(color: string): void {
 }
 
 export function changeColorStylesByLevels(): void {
-  const level = localStorage.getItem('level');
+  const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
 
-  switch (level) {
+  switch ((groupAndPage[0].group).toString()) {
     case '1':
       addColorStyle('rgb(43, 255, 107)');
       break;
 
     case '2':
-      addColorStyle(' rgb(128, 255, 43)');
+      addColorStyle('rgb(128, 255, 43)');
       break;
 
     case '3':
@@ -50,5 +63,261 @@ export function changeColorStylesByLevels(): void {
       break;
 
     default:
+  }
+}
+
+export function getRandomNumber(maxNumber: number, minNumber: number): number {
+  return Math.floor(Math.random() * ((maxNumber) - minNumber + 1)) + minNumber;
+}
+
+export function getGroupAndPAge(): Record< string, string > {
+  const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
+  const group: string = groupAndPage[0].group || '0';
+  const page: string = groupAndPage[1].page !== 'null' ? groupAndPage[1].page : getRandomNumber(29, 0).toString();
+
+  return { group, page };
+}
+
+export const arrForSelectedWords: Array<string> = [];
+let countForSelect = 58;
+
+export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
+  const wrongTranslateWords = arr.filter((element) => element.wordTranslate !== el
+  && !arrForSelectedWords.includes(element.wordTranslate));
+  const number = getRandomNumber(countForSelect, 0);
+  const wrongTranslateWord = wrongTranslateWords[number].wordTranslate;
+  arrForSelectedWords.push(wrongTranslateWord);
+  countForSelect -= 1;
+
+  return wrongTranslateWord;
+}
+
+export function resetCount(): number {
+  countForSelect = 58;
+
+  return countForSelect;
+}
+
+export function playSound(link: string, volumeSize: number): void {
+  const player = new Audio();
+  player.src = link;
+  player.volume = volumeSize;
+  player.play();
+}
+
+export function findPage(page: string): number[] {
+  const pages = [];
+  let nextPage;
+  let prevPage;
+  switch (page) {
+    case '29': {
+      nextPage = 0;
+      prevPage = +page - 1;
+      break;
+    }
+    case '0': {
+      nextPage = +page + 1;
+      prevPage = 29;
+      break;
+    }
+    default: {
+      nextPage = +page + 1;
+      prevPage = +page - 1;
+      break;
+    }
+  }
+  pages.push(prevPage, nextPage);
+
+  return pages;
+}
+
+function resetStylesDotted(): void {
+  const firstDotted = document.querySelector('.dotted-1') as HTMLDivElement;
+  const secondDotted = document.querySelector('.dotted-2') as HTMLDivElement;
+  const thirdDotted = document.querySelector('.dotted-3') as HTMLDivElement;
+  firstDotted.style.background = '#e9e9e9';
+  secondDotted.style.background = '#e9e9e9';
+  thirdDotted.style.background = '#e9e9e9';
+}
+
+function addVisibleAwards(className: string): void {
+  const awardContent = document.querySelector(className) as HTMLDivElement;
+  awardContent.style.opacity = '1';
+  awardContent.style.visibility = 'visible';
+}
+
+function changeProgressGameBlock(color: string, score: number): void {
+  const progressWrapper = document.querySelector('.progress-game') as HTMLDivElement;
+  const scoreForWord = document.querySelector('.progress-game-text') as HTMLParagraphElement;
+  progressWrapper.style.background = color;
+  scoreForWord.innerHTML = `+${score} points for right answer`;
+}
+
+function resetStylesAwardsAndProgressBlock(): void {
+  const secondAward = document.querySelector('.win-2') as HTMLDivElement;
+  const thirdAward = document.querySelector('.win-3') as HTMLDivElement;
+  const fourthAward = document.querySelector('.win-4') as HTMLDivElement;
+  changeProgressGameBlock('antiquewhite', 10);
+
+  secondAward.style.opacity = '0';
+  secondAward.style.visibility = 'hidden';
+  thirdAward.style.opacity = '0';
+  thirdAward.style.visibility = 'hidden';
+  fourthAward.style.opacity = '0';
+  fourthAward.style.visibility = 'hidden';
+}
+
+export function changeStylesForRightAnswers(length: number): void {
+  const firstDotted = document.querySelector('.dotted-1') as HTMLDivElement;
+  const secondDotted = document.querySelector('.dotted-2') as HTMLDivElement;
+  const thirdDotted = document.querySelector('.dotted-3') as HTMLDivElement;
+
+  switch (length) {
+    case 1:
+    case 5:
+    case 9:
+    case 13:
+      firstDotted.style.background = 'green';
+      break;
+
+    case 2:
+    case 6:
+    case 10:
+    case 14:
+      secondDotted.style.background = 'green';
+      break;
+
+    case 3:
+    case 7:
+    case 11:
+    case 15:
+      thirdDotted.style.background = 'green';
+      break;
+
+    case 4:
+      changeProgressGameBlock('#f58442', 20);
+      resetStylesDotted();
+      addVisibleAwards('.win-2');
+      break;
+
+    case 8:
+      changeProgressGameBlock('#f58142', 40);
+      resetStylesDotted();
+      addVisibleAwards('.win-3');
+      break;
+
+    case 12:
+      changeProgressGameBlock('#f56642', 60);
+      resetStylesDotted();
+      addVisibleAwards('.win-4');
+      break;
+
+    case 0:
+      resetStylesAwardsAndProgressBlock();
+      resetStylesDotted();
+      break;
+
+    default:
+  }
+}
+
+export function changeScore(length: number): number {
+  let score = 10;
+
+  if (length >= 4 && length <= 7) {
+    score = 20;
+  }
+
+  if (length >= 8 && length <= 12) {
+    score = 40;
+  }
+
+  if (length >= 13) {
+    score = 60;
+  }
+
+  return score;
+}
+
+export function checkRightOrWrongAnswers(answer: boolean, arr: [string, string, string] []) {
+  const scoreContainer = document.querySelector('.score') as HTMLSpanElement;
+  if (answer === true) {
+    rightAnswers.push(arr[gameParameters.count - 1][0]);
+    playSound('./assets/sounds/right-volume.mp3', gameParameters.volume);
+    gameParameters.trueAnswers += 1;
+    gameParameters.sum += changeScore(gameParameters.trueAnswers);
+    scoreContainer.innerHTML = gameParameters.sum.toString();
+  } else {
+    wrongAnswers.push(arr[gameParameters.count - 1][0]);
+    playSound('./assets/sounds/wrong-volume.mp3', gameParameters.volume);
+    gameParameters.trueAnswers = 0;
+  }
+}
+
+export function gameSprintKeyboard(event: KeyboardEvent) {
+  if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
+    const answer = JSON.parse(localStorage.getItem('answer') as string);
+    const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
+    const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
+    const words:[string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    gameParameters.count += 1;
+
+    if (gameParameters.count === 39) {
+      gameParameters.count = 0;
+    }
+
+    wordContainer.innerHTML = words[gameParameters.count][0] as string;
+    translateWord.innerHTML = words[gameParameters.count][getRandomNumber(2, 1)];
+
+    localStorage.setItem('answer', JSON.stringify(
+      { right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` },
+    ));
+
+    if (answer.right === answer.answer && event.code === 'ArrowRight') {
+      checkRightOrWrongAnswers(true, words);
+    } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
+      checkRightOrWrongAnswers(false, words);
+    }
+
+    if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
+      checkRightOrWrongAnswers(true, words);
+    } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
+      checkRightOrWrongAnswers(false, words);
+    }
+
+    changeStylesForRightAnswers(gameParameters.trueAnswers);
+  }
+}
+
+export function gameSprintMouse(event: MouseEvent) {
+  if ((event.target as HTMLButtonElement).classList.contains('answer')) {
+    const answer = JSON.parse(localStorage.getItem('answer') as string);
+    const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
+    const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
+    const words:[string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    gameParameters.count += 1;
+
+    if (gameParameters.count === 39) {
+      gameParameters.count = 0;
+    }
+
+    wordContainer.innerHTML = words[gameParameters.count][0] as string;
+    translateWord.innerHTML = words[gameParameters.count][getRandomNumber(2, 1)];
+
+    localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` }));
+
+    if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+      checkRightOrWrongAnswers(true, words);
+    } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+      checkRightOrWrongAnswers(false, words);
+    }
+
+    if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+      checkRightOrWrongAnswers(true, words);
+    } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+      checkRightOrWrongAnswers(false, words);
+    }
+
+    changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }

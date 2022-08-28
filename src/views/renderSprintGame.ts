@@ -23,28 +23,28 @@ export function renderGame() {
                     <div class="game-content">
                       <div class="progress-game">
                         <div class="wrapper-dotted">
-                          <div class="dotted"></div>
-                          <div class="dotted"></div>
-                          <div class="dotted"></div>
+                          <div class="dotted dotted-1"></div>
+                          <div class="dotted dotted-2"></div>
+                          <div class="dotted dotted-3"></div>
                         </div>
                         <p class="progress-game-text">+10 points for right answer</p>
                       </div>
                       <div class="wrapper-img-win">
-                        <div class="win">${trophy}</div>
-                        <div class="win">${trophy}</div>
-                        <div class="win">${trophy}</div>
-                        <div class="win">${trophy}</div>
+                        <div class="win win-1">${trophy}</div>
+                        <div class="win win-2">${trophy}</div>
+                        <div class="win win-3">${trophy}</div>
+                        <div class="win win-4">${trophy}</div>
                       </div>
                       <div class ="game-word-wrapper">
-                        <div class="word-game">Word</div>
-                        <div class="word-transcription">Answer</div>
+                        <div class="word-game"> </div>
+                        <div class="word-translate"></div>
                       </div>
                       <div "class="wrapper-answer-btn">
                         <button class="answer wrong-answer">Wrong</button>
                         <button class="answer right-answer">Right</button>
                       </div>
                     </div>
-                    <div class="timer-game"></div>
+                    <div class="timer-game">60</div>
                   </div>`;
 
   gameHeader.innerHTML = `${header}`;

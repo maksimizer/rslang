@@ -30,8 +30,6 @@ export function closeGameWindow(btn: HTMLButtonElement): void {
     changeHashPage('games');
     namePage.innerHTML = getNamePage();
     renderPageGames();
-    localStorage.removeItem('level');
-
     if (document.fullscreenElement !== null) {
       document.exitFullscreen();
     }
