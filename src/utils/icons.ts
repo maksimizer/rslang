@@ -1,14 +1,16 @@
 import { library, icon } from '@fortawesome/fontawesome-svg-core';
 import {
-  faCat, faCoffee, faFutbol, faHistory, faMusic, faSearch,
-  faTimes, faExpand, faCompress, faCircleChevronLeft, faTrophy,
+  faCat, faCoffee,
+  faFutbol, faHistory, faMusic, faSearch, faTimes, faExpand, faCompress, faVolumeUp,
+  faCircleChevronLeft, faTrophy,
   faVolumeLow, faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faBuilding, faFlag, faFrown, faLightbulb, faSmile,
 } from '@fortawesome/free-regular-svg-icons';
-
+// <i class="fas fa-volume-up"></i>
 library.add(
+  faVolumeUp,
   faBuilding,
   faCompress,
   faExpand,
@@ -29,6 +31,7 @@ library.add(
   faVolumeXmark,
 );
 
+export const volume = icon({ prefix: 'fas', iconName: 'volume-up' }).html;
 export const compress = icon({ prefix: 'fas', iconName: 'compress' }).html;
 export const expand = icon({ prefix: 'fas', iconName: 'expand' }).html;
 export const building = icon({ prefix: 'far', iconName: 'building' }).html;

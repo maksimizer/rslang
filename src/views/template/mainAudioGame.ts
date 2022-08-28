@@ -2,15 +2,15 @@ import { expand } from '../../utils/icons';
 
 const htmlAudioGameMainPage = `<section class="audio-game-wrapper">
 <div class="audio-game-header">
- <a href="#" class="audio-game-close"><span class="audio-game-close_span">X</span></a>
+ <a href="#games" class="audio-game-close"><span class="audio-game-close_span">X</span></a>
  <div class="audio-game-header-right">
  <select name="audio-game-select" class="audio-game-select">
-  <option value="1" selected>Level 1</option>
-  <option value="2">Level 2</option>
-  <option value="3">Level 3</option>
-  <option value="4">Level 4</option>
-  <option value="5">Level 5</option>
-  <option value="6">Level 6</option>
+  <option value="0" selected>Level 1</option>
+  <option value="1">Level 2</option>
+  <option value="2">Level 3</option>
+  <option value="3">Level 4</option>
+  <option value="4">Level 5</option>
+  <option value="5">Level 6</option>
  </select>
  <button class="fullscreen">${expand}</button>
  </div>
