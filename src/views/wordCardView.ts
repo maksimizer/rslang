@@ -49,6 +49,10 @@ export class WordCardView {
                   <div class="word-example-translate">${word.textExampleTranslate}</div>
               </div>
           </div>
+          <div class="auth-users-btns auth-needed">
+            <button class="difficult-btn">difficult</button>
+            <button class="learned-btn">learned</button>
+          </div>
       </div>
     `;
 
