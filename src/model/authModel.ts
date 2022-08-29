@@ -34,7 +34,7 @@ export default class Auth {
     }
   }
 
-  addAndRemoveClassEl(el: HTMLDivElement, classNameDel: string, classNameAdd: string): void {
+  addAndRemoveClassEl(el: HTMLElement, classNameDel: string, classNameAdd: string): void {
     el.classList.remove(classNameDel);
     el.classList.add(classNameAdd);
   }
