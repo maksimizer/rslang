@@ -12,10 +12,19 @@ class TextbookController {
 
   serverRequests: ServerRequests;
 
+  wordAudio: HTMLAudioElement;
+
+  wordExampleAudio: HTMLAudioElement;
+
+  wordMeaningAudio: HTMLAudioElement;
+
   constructor() {
     this.wordCardView = wordCardView;
     this.textbookView = textbookView;
     this.serverRequests = serverRequests;
+    this.wordAudio = new Audio();
+    this.wordMeaningAudio = new Audio();
+    this.wordExampleAudio = new Audio();
   }
 
   renderTextbookPage = () => {
@@ -56,6 +65,7 @@ class TextbookController {
   addEventListeners = () => {
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
+    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.playAudio(event));
   };
 
   getGroupAndPage = () => {
@@ -154,6 +164,22 @@ class TextbookController {
       const card = this.wordCardView.render(word);
       if (cardsContainer) cardsContainer.appendChild(card);
     });
+  };
+
+  playAudio = (event:Event) => {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('audio-btn')) {
+      const cardAudios = target.children;
+      this.wordAudio.src = (cardAudios[0] as HTMLAudioElement).src;
+      this.wordMeaningAudio.src = (cardAudios[1] as HTMLAudioElement).src;
+      this.wordExampleAudio.src = (cardAudios[2] as HTMLAudioElement).src;
+      this.wordAudio.currentTime = 0;
+      this.wordMeaningAudio.currentTime = 0;
+      this.wordExampleAudio.currentTime = 0;
+      this.wordAudio.play();
+      this.wordAudio.onended = () => this.wordMeaningAudio.play();
+      this.wordMeaningAudio.onended = () => this.wordExampleAudio.play();
+    }
   };
 }
 
