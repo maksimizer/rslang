@@ -1,17 +1,12 @@
+import { gameParameters, rightAnswers, wrongAnswers } from '../constants/constants';
 import { IWord } from '../types/interface';
-
-export const gameParameters = {
-  count: 0,
-  trueAnswers: 0,
-  sum: 0,
-  volume: 1,
-};
-
-export const rightAnswers: string [] = [];
-export const wrongAnswers: string [] = [];
+import { volume } from '../utils/icons';
 
 export function timer(): void {
   const countDownElement = document.querySelector('.timer-game') as HTMLDivElement;
+  const modalResultWindow = document.querySelector('.game-sprint-modal-window') as HTMLDivElement;
+  const html = document.querySelector('html') as HTMLHtmlElement;
+
   let secondsForGame = 59;
   const SECOND_STOP_TIMER = 0;
 
@@ -20,6 +15,8 @@ export function timer(): void {
 
     if (SECOND_STOP_TIMER === secondsForGame) {
       clearInterval(interval);
+      modalResultWindow.classList.toggle('hidden');
+      html.style.overflowY = 'hidden';
     }
 
     secondsForGame -= 1;
@@ -37,7 +34,7 @@ function addColorStyle(color: string): void {
 export function changeColorStylesByLevels(): void {
   const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
 
-  switch ((groupAndPage[0].group).toString()) {
+  switch ((groupAndPage[0].value).toString()) {
     case '1':
       addColorStyle('rgb(43, 255, 107)');
       break;
@@ -72,8 +69,8 @@ export function getRandomNumber(maxNumber: number, minNumber: number): number {
 
 export function getGroupAndPAge(): Record< string, string > {
   const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
-  const group: string = groupAndPage[0].group || '0';
-  const page: string = groupAndPage[1].page !== 'null' ? groupAndPage[1].page : getRandomNumber(29, 0).toString();
+  const group: string = groupAndPage[0].value || '0';
+  const page: string = groupAndPage[1].value !== 'null' ? groupAndPage[1].value : getRandomNumber(29, 0).toString();
 
   return { group, page };
 }
@@ -84,7 +81,9 @@ let countForSelect = 58;
 export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
   const wrongTranslateWords = arr.filter((element) => element.wordTranslate !== el
   && !arrForSelectedWords.includes(element.wordTranslate));
+
   const number = getRandomNumber(countForSelect, 0);
+
   const wrongTranslateWord = wrongTranslateWords[number].wordTranslate;
   arrForSelectedWords.push(wrongTranslateWord);
   countForSelect -= 1;
@@ -98,7 +97,7 @@ export function resetCount(): number {
   return countForSelect;
 }
 
-export function playSound(link: string, volumeSize: number): void {
+export function playSoundAnswers(link: string, volumeSize: number): void {
   const player = new Audio();
   player.src = link;
   player.volume = volumeSize;
@@ -239,18 +238,34 @@ export function changeScore(length: number): number {
   return score;
 }
 
-export function checkRightOrWrongAnswers(answer: boolean, arr: [string, string, string] []) {
+export function checkRightOrWrongAnswer(answer: boolean, arr: [string, string, string, string] []) {
   const scoreContainer = document.querySelector('.score') as HTMLSpanElement;
+  const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
+  const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
   if (answer === true) {
     rightAnswers.push(arr[gameParameters.count - 1][0]);
-    playSound('./assets/sounds/right-volume.mp3', gameParameters.volume);
+    playSoundAnswers('./assets/sounds/right-volume.mp3', gameParameters.volume);
     gameParameters.trueAnswers += 1;
     gameParameters.sum += changeScore(gameParameters.trueAnswers);
+    gameParameters.bestResult = gameParameters.bestResult > gameParameters.trueAnswers
+      ? gameParameters.bestResult : gameParameters.trueAnswers;
     scoreContainer.innerHTML = gameParameters.sum.toString();
+    modelContentCorrect.innerHTML += `<div class="result-answer-line-correct">
+    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][3]}">${volume}</div>
+     <span>${arr[gameParameters.count - 1][0]}</span>
+     <span>-</span>
+     <span>${arr[gameParameters.count - 1][1]}</span>
+    </div>`;
   } else {
     wrongAnswers.push(arr[gameParameters.count - 1][0]);
-    playSound('./assets/sounds/wrong-volume.mp3', gameParameters.volume);
+    playSoundAnswers('./assets/sounds/wrong-volume.mp3', gameParameters.volume);
     gameParameters.trueAnswers = 0;
+    modelContentWrong.innerHTML += `<div class="result-answer-line-wrong">
+    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][3]}">${volume}</div>
+     <span>${arr[gameParameters.count - 1][0]}</span>
+     <span>-</span>
+     <span>${arr[gameParameters.count - 1][1]}</span>
+    </div>`;
   }
 }
 
@@ -259,7 +274,8 @@ export function gameSprintKeyboard(event: KeyboardEvent) {
     const answer = JSON.parse(localStorage.getItem('answer') as string);
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
-    const words:[string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    const words:[string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+
     gameParameters.count += 1;
 
     if (gameParameters.count === 39) {
@@ -274,15 +290,15 @@ export function gameSprintKeyboard(event: KeyboardEvent) {
     ));
 
     if (answer.right === answer.answer && event.code === 'ArrowRight') {
-      checkRightOrWrongAnswers(true, words);
+      checkRightOrWrongAnswer(true, words);
     } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
-      checkRightOrWrongAnswers(false, words);
+      checkRightOrWrongAnswer(false, words);
     }
 
     if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
-      checkRightOrWrongAnswers(true, words);
+      checkRightOrWrongAnswer(true, words);
     } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
-      checkRightOrWrongAnswers(false, words);
+      checkRightOrWrongAnswer(false, words);
     }
 
     changeStylesForRightAnswers(gameParameters.trueAnswers);
@@ -294,7 +310,8 @@ export function gameSprintMouse(event: MouseEvent) {
     const answer = JSON.parse(localStorage.getItem('answer') as string);
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
-    const words:[string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    const words:[string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+
     gameParameters.count += 1;
 
     if (gameParameters.count === 39) {
@@ -307,15 +324,15 @@ export function gameSprintMouse(event: MouseEvent) {
     localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` }));
 
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      checkRightOrWrongAnswers(true, words);
+      checkRightOrWrongAnswer(true, words);
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      checkRightOrWrongAnswers(false, words);
+      checkRightOrWrongAnswer(false, words);
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      checkRightOrWrongAnswers(true, words);
+      checkRightOrWrongAnswer(true, words);
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      checkRightOrWrongAnswers(false, words);
+      checkRightOrWrongAnswer(false, words);
     }
 
     changeStylesForRightAnswers(gameParameters.trueAnswers);

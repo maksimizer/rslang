@@ -1,4 +1,6 @@
 import {
+  arrowLeft,
+  arrowRight,
   circleLeft, expand, trophy, volumeOn,
 } from '../utils/icons';
 import htmlSprintGameMainPage from './template/mainSprintGame';
@@ -16,7 +18,7 @@ export function renderGame() {
 
   const header = `<button class="game-out">${circleLeft}</button>
                   <button class="music-img music-on">${volumeOn}</button>
-                  <button class="fullscreen-game">${expand}</button>`;
+                  <button class="fullscreen-game fullscreen">${expand}</button>`;
 
   const content = `<h2 class="score-game">Score: <span class="score">0</span></h2>
                   <div class="wrapper-game">
@@ -39,12 +41,34 @@ export function renderGame() {
                         <div class="word-game"> </div>
                         <div class="word-translate"></div>
                       </div>
-                      <div "class="wrapper-answer-btn">
+                      <div class="wrapper-answer-btn">
                         <button class="answer wrong-answer">Wrong</button>
                         <button class="answer right-answer">Right</button>
                       </div>
+                      <div class="wrapper-arrows">
+                        <div class="arrows"> ${arrowLeft} </div>
+                        <div class="arrows"> ${arrowRight} </div>
+                      </div>
                     </div>
                     <div class="timer-game">60</div>
+                  </div>
+                  <div id="modal-window-sprint-game" class="game-sprint-modal-window hidden">
+                    <div class="game-sprint-modal-content">
+                      <div class="modal-content-header">
+                        <h2>Result</h2>
+                      </div>
+                      <div class="modal-content-result">
+                        <div class="modal-content-correct">
+                          <h3>Correct:</h3>
+                        </div>
+                        <div class="modal-content-wrong">
+                          <h3>Wrong:</h3>
+                        </div>
+                      </div>
+                      <div class="modal-content-bottom">
+                        <button class="modal-close modal-close-sprint">Close</button>
+                      </div>
+                    </div>
                   </div>`;
 
   gameHeader.innerHTML = `${header}`;
