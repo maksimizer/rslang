@@ -62,6 +62,14 @@ class TextbookController {
     }
   };
 
+  checkForAuth = () => {
+    if (localStorage.getItem('auth') === 'true') {
+      document.querySelectorAll('.auth-needed').forEach((el) => el.classList.remove('hidden'));
+    } else {
+      document.querySelectorAll('.auth-needed').forEach((el) => el.classList.add('hidden'));
+    }
+  };
+
   addEventListeners = () => {
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
     (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
@@ -164,6 +172,7 @@ class TextbookController {
       const card = this.wordCardView.render(word);
       if (cardsContainer) cardsContainer.appendChild(card);
     });
+    this.checkForAuth();
   };
 
   playAudio = (event:Event) => {
