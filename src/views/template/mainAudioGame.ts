@@ -21,6 +21,12 @@ const htmlAudioGameMainPage = `<section class="audio-game-wrapper">
    <p>
    Choose from the suggested answers the correct translation of the word you hear
    </p>
+   <p>
+   To play with the keyboard,<br> 
+   use the keys 1, 2, 3, 4, 5 - to answer,<br>
+   space - to play sound,<br>
+   enter - to skip the question,
+   </p>
    <button class="audio-game-start-button">Start</button>
   </div>
 </div>

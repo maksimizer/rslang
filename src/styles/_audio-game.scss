@@ -55,6 +55,11 @@
     font-family: $textFont;
     color: $colorFont;
     font-size: 2rem;
+    transition: 0.3ms;
+    &:hover{
+        transition: 0.3ms;
+        color: $menuNav;
+    }
 }
 .audio-game-header-right{
     display: flex;
@@ -76,8 +81,8 @@
     text-align: center;
     margin: 0 auto;
     margin-top: 60px;
-    width: 350px;
-    height: 300px;
+    width: 535px;
+    height: 360px;
     padding-top: 20px;
     border-radius: 0.25rem;
     background-color: rgb(63, 63, 63, 0.9);
@@ -125,7 +130,7 @@
     background-color: #ccc;
     border: solid black 2px;
     border-radius: 50%;
-    font-size: 32px;
+    font-size: 50px;
     transition: 0.3s;
     &:hover {
         cursor: pointer;

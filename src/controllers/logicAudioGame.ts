@@ -1,6 +1,7 @@
 import serverRequests from '../model/appModel';
 import changeHashPage from '../model/hashPage';
 import { volume } from '../utils/icons';
+import { eventKeyboard, eventEnterKeyboard } from './keyboardAudioGame';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
 const logicAudioGame = () => {
@@ -18,7 +19,7 @@ const logicAudioGame = () => {
   const audioTranslate = document.querySelector('.audio-game-card-translate') as HTMLElement;
   const correctButton = document.querySelector("[data-answer='correct']") as HTMLButtonElement;
   const answerSection = document.querySelector('.audio-game-button-words') as HTMLElement;
-  const answerSectionButton = document.querySelectorAll('#game-button');
+  const answerSectionButton = document.querySelectorAll('#game-button') as NodeListOf<Element>;
   const modalResultWindow = document.querySelector('.game-audio-modal-window') as HTMLElement;
   const modelContentNotKnow = document.querySelector('.modal-content-notknow') as HTMLElement;
   const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
@@ -26,6 +27,7 @@ const logicAudioGame = () => {
 
   if (wordsString) {
     let count = 0;
+    localStorage.setItem('count-word-audio-game', `${count}`);
     const words = JSON.parse(wordsString);
     const startWord = words[count];
     new Audio(`${serverRequests.baseUrl}/${startWord.audio}`).play();
@@ -43,10 +45,13 @@ const logicAudioGame = () => {
     shuffleWordsGame(startWord.wordTranslate);
 
     btnNext?.addEventListener('click', () => {
+      count = Number(localStorage.getItem('count-word-audio-game'));
       count += 1;
+      localStorage.setItem('count-word-audio-game', `${count}`);
       const countWord = 20;
       if (count === countWord) {
         modalResultWindow.classList.toggle('hidden');
+        window.removeEventListener('keydown', eventEnterKeyboard);
       } else {
         const word = words[count];
         new Audio(`${serverRequests.baseUrl}/${word.audio}`).play();
@@ -61,6 +66,7 @@ const logicAudioGame = () => {
           `background-image: url(${serverRequests.baseUrl}/${word.image});background-repeat: no-repeat;background-size: cover`,
         );
         btnKnow.classList.toggle('hidden');
+        btnNext.classList.toggle('hidden');
         gameCard.classList.toggle('hidden');
         audioBlock.classList.toggle('hidden');
         correctButton.setAttribute('style', 'background: #e9e9e9');
@@ -69,12 +75,15 @@ const logicAudioGame = () => {
         shuffleWordsGame(word.wordTranslate);
         answerSectionButton.forEach((btn) => btn.removeAttribute('disabled'));
       }
+      window.addEventListener('keydown', eventKeyboard);
     }, true);
 
     btnKnow.addEventListener('click', () => {
+      count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
       btnKnow.classList.toggle('hidden');
+      btnNext.classList.toggle('hidden');
       gameCard.classList.toggle('hidden');
       audioBlock.classList.toggle('hidden');
       correctButton.setAttribute('style', 'background: green');
@@ -85,14 +94,17 @@ const logicAudioGame = () => {
        <span>-</span>
        <span>${word.wordTranslate}</span>
       </div>`;
+      window.removeEventListener('keydown', eventKeyboard);
     }, true);
 
     answerSection.addEventListener('click', (event: Event) => {
       const button = event.target as HTMLElement;
+      count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (button.dataset.answer === 'wrong') {
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
         btnKnow.classList.toggle('hidden');
+        btnNext.classList.toggle('hidden');
         gameCard.classList.toggle('hidden');
         audioBlock.classList.toggle('hidden');
         correctButton.setAttribute('style', 'background: green');
@@ -104,10 +116,12 @@ const logicAudioGame = () => {
        <span>-</span>
        <span>${word.wordTranslate}</span>
       </div>`;
+        window.removeEventListener('keydown', eventKeyboard);
       }
       if (button.dataset.answer === 'correct') {
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
         btnKnow.classList.toggle('hidden');
+        btnNext.classList.toggle('hidden');
         gameCard.classList.toggle('hidden');
         audioBlock.classList.toggle('hidden');
         correctButton.setAttribute('style', 'background: green');
@@ -118,6 +132,7 @@ const logicAudioGame = () => {
          <span>-</span>
          <span>${word.wordTranslate}</span>
         </div>`;
+        window.removeEventListener('keydown', eventKeyboard);
       }
     });
 
@@ -125,12 +140,18 @@ const logicAudioGame = () => {
       const element = event.target as HTMLElement;
       if (element.id === 'modal-close') {
         modalResultWindow.classList.toggle('hidden');
+        window.removeEventListener('keydown', eventKeyboard);
         changeHashPage('game-audio');
+        window.removeEventListener('keydown', eventEnterKeyboard);
       } else if (element.id === 'modal-window-audio-game') {
         modalResultWindow.classList.toggle('hidden');
+        window.removeEventListener('keydown', eventKeyboard);
         changeHashPage('game-audio');
+        window.removeEventListener('keydown', eventEnterKeyboard);
       }
     }, true);
+    window.addEventListener('keydown', eventKeyboard);
+    window.addEventListener('keydown', eventEnterKeyboard);
   }
 };
 

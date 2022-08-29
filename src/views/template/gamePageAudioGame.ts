@@ -57,7 +57,7 @@ const htmlGamePageAudioCall = `
 </div>
 <div class="audio-game-button-control">
   <button class="audio-game-button-know">НЕ ЗНАЮ</button>
-  <button class="audio-game-button-next">ДАЛЕЕ</button>
+  <button class="audio-game-button-next hidden">ДАЛЕЕ</button>
 </div>
 <div id="modal-window-audio-game" class="game-audio-modal-window hidden">
  <div class="game-audio-modal-content">
