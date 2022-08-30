@@ -26,6 +26,7 @@ document.addEventListener('click', async (event: Event) => {
       emailInput.value = '';
       passwordInput.value = '';
       nameInput.value = '';
+      window.location.reload();
     }
   }
 
@@ -76,5 +77,6 @@ document.addEventListener('click', async (event: Event) => {
         html.style.overflowY = '';
       }
     }
+    window.location.reload();
   }
 });
