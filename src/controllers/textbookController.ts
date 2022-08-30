@@ -63,9 +63,9 @@ class TextbookController {
   };
 
   addEventListeners = () => {
-    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
-    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
-    (document.querySelector('main') as HTMLElement).addEventListener('click', (event) => this.playAudio(event));
+    (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.selectGroup(event));
+    (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
+    (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.playAudio(event));
   };
 
   getGroupAndPage = () => {
