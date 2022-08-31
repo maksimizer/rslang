@@ -32,14 +32,33 @@ export interface IAuth {
 export interface IUserWord {
   'difficulty': string,
   'optional' : {
-    testFieldString: string, testFieldBoolean: boolean
+    count: number,
+    wrong: number,
+    correct: number
+  }
+}
+export interface IStatisticGame {
+  'audioGame':{
+    newWord: number,
+    wrong: number,
+    correct: number,
+    winLength: number
+  },
+  'sprintGame': {
+    newWord: number,
+    wrong: number,
+    correct: number,
+    winLength: number
+  },
+  'learnedWordsDay': {
+    learned: number
   }
 }
 
 export interface IStatistic {
   'learnedWords': number,
   'optional' ?: {
-    [key: string]: string | number | boolean;
+    [key: string]: IStatisticGame;
   }
 }
 

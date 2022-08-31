@@ -180,7 +180,7 @@ export default class ServerRequests {
     idUser: string,
     idWord: string,
     token: string,
-  ): Promise<{ words: ObjectString }> {
+  ): Promise<IUserWord> {
     const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/words/${idWord}`, {
       method: 'GET',
       headers: {
@@ -264,7 +264,7 @@ export default class ServerRequests {
   public async getUsersStatistic(
     idUser: string,
     token: string,
-  ): Promise<{ statistics: IStatistic }> {
+  ): Promise<IStatistic> {
     const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/statistics`, {
       method: 'GET',
       headers: {
@@ -296,7 +296,7 @@ export default class ServerRequests {
   public async getUsersSetting(
     idUser: string,
     token: string,
-  ): Promise<{ settings: ISetting }> {
+  ): Promise<ISetting> {
     const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/settings`, {
       method: 'GET',
       headers: {

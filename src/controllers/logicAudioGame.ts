@@ -2,6 +2,7 @@ import serverRequests from '../model/appModel';
 import changeHashPage from '../model/hashPage';
 import { volume } from '../utils/icons';
 import { eventKeyboard, eventEnterKeyboard } from './keyboardAudioGame';
+import saveUserWord from './saveUserWord';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
 const logicAudioGame = () => {
@@ -24,6 +25,7 @@ const logicAudioGame = () => {
   const modelContentNotKnow = document.querySelector('.modal-content-notknow') as HTMLElement;
   const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
   const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
+  const userString = localStorage.getItem('user');
 
   if (wordsString) {
     let count = 0;
@@ -44,7 +46,7 @@ const logicAudioGame = () => {
 
     shuffleWordsGame(startWord.wordTranslate);
 
-    btnNext?.addEventListener('click', () => {
+    btnNext?.addEventListener('click', async () => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       count += 1;
       localStorage.setItem('count-word-audio-game', `${count}`);
@@ -81,6 +83,9 @@ const logicAudioGame = () => {
     btnKnow.addEventListener('click', () => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
+      if (userString) {
+        saveUserWord(userString, word, true);
+      }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
       btnKnow.classList.toggle('hidden');
       btnNext.classList.toggle('hidden');
@@ -97,11 +102,14 @@ const logicAudioGame = () => {
       window.removeEventListener('keydown', eventKeyboard);
     }, true);
 
-    answerSection.addEventListener('click', (event: Event) => {
+    answerSection.addEventListener('click', async (event: Event) => {
       const button = event.target as HTMLElement;
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (button.dataset.answer === 'wrong') {
+        if (userString) {
+          saveUserWord(userString, word, true);
+        }
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
         btnKnow.classList.toggle('hidden');
         btnNext.classList.toggle('hidden');
@@ -119,6 +127,9 @@ const logicAudioGame = () => {
         window.removeEventListener('keydown', eventKeyboard);
       }
       if (button.dataset.answer === 'correct') {
+        if (userString) {
+          saveUserWord(userString, word, false);
+        }
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
         btnKnow.classList.toggle('hidden');
         btnNext.classList.toggle('hidden');
