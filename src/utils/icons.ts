@@ -3,7 +3,7 @@ import {
   faCat, faCoffee,
   faFutbol, faHistory, faMusic, faSearch, faTimes, faExpand, faCompress, faVolumeUp,
   faCircleChevronLeft, faTrophy,
-  faVolumeLow, faVolumeXmark, faArrowRightLong, faArrowLeftLong,
+  faVolumeLow, faVolumeXmark, faArrowRightLong, faArrowLeftLong, faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faBuilding, faFlag, faFrown, faLightbulb, faSmile,
@@ -32,6 +32,7 @@ library.add(
   faVolumeXmark,
   faArrowRightLong,
   faArrowLeftLong,
+  faCheck,
 );
 
 export const volume = icon({ prefix: 'fas', iconName: 'volume-up' }).html;
@@ -55,3 +56,4 @@ export const volumeOn = icon({ prefix: 'fas', iconName: 'volume-low' }).html;
 export const volumeOff = icon({ prefix: 'fas', iconName: 'volume-xmark' }).html;
 export const arrowLeft = icon({ prefix: 'fas', iconName: 'arrow-left-long' }).html;
 export const arrowRight = icon({ prefix: 'fas', iconName: 'arrow-right-long' }).html;
+export const check = icon({ prefix: 'fas', iconName: 'check' }).html;

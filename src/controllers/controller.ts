@@ -2,6 +2,7 @@ import changeHashPage from '../model/hashPage';
 import getNamePage from '../model/pageModal';
 import { renderMainContent } from '../views/renderMenu';
 import renderPageGames from '../views/renderPageGames';
+import renderPageStatistics from '../views/renderStatistics';
 import textbookController from './textbookController';
 
 document.addEventListener('click', (event: Event): void => {
@@ -31,5 +32,6 @@ document.addEventListener('click', (event: Event): void => {
   if ((event.target as HTMLBodyElement).classList.contains('menu-statistics')) {
     changeHashPage('statistics');
     namePage.innerHTML = getNamePage();
+    renderPageStatistics();
   }
 });
