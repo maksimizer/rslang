@@ -238,13 +238,18 @@ export function changeScore(length: number): number {
   return score;
 }
 
-export function checkRightOrWrongAnswer(answer: boolean, arr: [string, string, string, string] []) {
+export async function checkRightOrWrongAnswer(
+  answer: boolean,
+  arr: [string, string, string, string, string] [],
+) {
   const scoreContainer = document.querySelector('.score') as HTMLSpanElement;
   const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
   const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
+
   if (answer === true) {
     rightAnswers.push(arr[gameParameters.count - 1][0]);
     playSoundAnswers('./assets/sounds/right-volume.mp3', gameParameters.volume);
+
     gameParameters.trueAnswers += 1;
     gameParameters.sum += changeScore(gameParameters.trueAnswers);
     gameParameters.bestResult = gameParameters.bestResult > gameParameters.trueAnswers
@@ -269,12 +274,13 @@ export function checkRightOrWrongAnswer(answer: boolean, arr: [string, string, s
   }
 }
 
-export function gameSprintKeyboard(event: KeyboardEvent) {
+export async function gameSprintKeyboard(event: KeyboardEvent) {
   if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
+    event.preventDefault();
     const answer = JSON.parse(localStorage.getItem('answer') as string);
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
-    const words:[string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
 
     gameParameters.count += 1;
 
@@ -290,27 +296,26 @@ export function gameSprintKeyboard(event: KeyboardEvent) {
     ));
 
     if (answer.right === answer.answer && event.code === 'ArrowRight') {
-      checkRightOrWrongAnswer(true, words);
+      await checkRightOrWrongAnswer(true, words);
     } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
-      checkRightOrWrongAnswer(false, words);
+      await checkRightOrWrongAnswer(false, words);
     }
 
     if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
-      checkRightOrWrongAnswer(true, words);
+      await checkRightOrWrongAnswer(true, words);
     } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
-      checkRightOrWrongAnswer(false, words);
+      await checkRightOrWrongAnswer(false, words);
     }
-
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }
 
-export function gameSprintMouse(event: MouseEvent) {
+export async function gameSprintMouse(event: MouseEvent) {
   if ((event.target as HTMLButtonElement).classList.contains('answer')) {
     const answer = JSON.parse(localStorage.getItem('answer') as string);
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
-    const words:[string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
 
     gameParameters.count += 1;
 
@@ -324,17 +329,16 @@ export function gameSprintMouse(event: MouseEvent) {
     localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` }));
 
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      checkRightOrWrongAnswer(true, words);
+      await checkRightOrWrongAnswer(true, words);
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      checkRightOrWrongAnswer(false, words);
+      await checkRightOrWrongAnswer(false, words);
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      checkRightOrWrongAnswer(true, words);
+      await checkRightOrWrongAnswer(true, words);
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      checkRightOrWrongAnswer(false, words);
+      await checkRightOrWrongAnswer(false, words);
     }
-
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }

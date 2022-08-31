@@ -1,35 +1,24 @@
 import changeHashPage from '../model/hashPage';
-import getNamePage from '../model/pageModal';
-import { renderMainContent } from '../views/renderMenu';
-import renderPageGames from '../views/renderPageGames';
-import textbookController from './textbookController';
+import hashPageRoute from './hashPageRoute';
 
-document.addEventListener('click', (event: Event): void => {
-  const namePage = document.querySelector('.name-page') as HTMLDivElement;
-
+document.addEventListener('click', async (event: Event): Promise<void> => {
   if ((event.target as HTMLBodyElement).classList.contains('menu-home')) {
     changeHashPage('main');
-    namePage.innerHTML = getNamePage();
-    const mainContainer = document.querySelector('.main') as HTMLElement;
-    mainContainer.innerHTML = renderMainContent();
+    hashPageRoute();
   }
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-book')) {
     changeHashPage('book');
-    namePage.innerHTML = getNamePage();
-    textbookController.renderTextbookPage();
-    textbookController.renderWords();
-    textbookController.addEventListeners();
+    hashPageRoute();
   }
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-games')) {
     changeHashPage('games');
-    namePage.innerHTML = getNamePage();
-    renderPageGames();
+    hashPageRoute();
   }
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-statistics')) {
     changeHashPage('statistics');
-    namePage.innerHTML = getNamePage();
+    hashPageRoute();
   }
 });
