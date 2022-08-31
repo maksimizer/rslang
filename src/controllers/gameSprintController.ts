@@ -31,19 +31,19 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     const nextWords = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[1].toString()}` }]);
     const words = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${page}` }]);
     const wrongArr = [...words, ...nextWords, ...prevWords];
-    const wordsForGame: [string, string, string, string][] = [];
+    const wordsForGame: [string, string, string, string, string][] = [];
 
     words.forEach((el) => {
       wordsForGame.push(
         [el.word, el.wordTranslate,
-          getRandomWrongWordTranslate(wrongArr, el.wordTranslate), el.audio],
+          getRandomWrongWordTranslate(wrongArr, el.wordTranslate), el.audio, el.id],
       );
     });
 
     nextWords.forEach((el) => {
       wordsForGame.push(
         [el.word, el.wordTranslate,
-          getRandomWrongWordTranslate(wrongArr, el.wordTranslate), el.audio],
+          getRandomWrongWordTranslate(wrongArr, el.wordTranslate), el.audio, el.id],
       );
     });
 
