@@ -46,8 +46,8 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
         difficulty: 'normal',
         optional: {
           count: 1,
-          wrong: 1,
-          correct: 0,
+          wrong: 0,
+          correct: 1,
         },
       });
     }

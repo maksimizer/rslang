@@ -13,6 +13,9 @@ document.addEventListener('click', async (event: Event) => {
   const messageError = document.querySelector('.message') as HTMLDivElement;
   const userAuthName = document.querySelector('.name-user') as HTMLSpanElement;
 
+  const date = new Date();
+  const day = date.getDate();
+
   if ((event.target as HTMLButtonElement).classList.contains('authorization')) {
     if (localStorage.getItem('auth') === 'true') {
       localStorage.removeItem('auth');
@@ -47,6 +50,11 @@ document.addEventListener('click', async (event: Event) => {
         userAuthName.innerHTML = auth.getAuthNameUser();
         auth.changeStylesAuthWindow('0', 'hidden');
         html.style.overflowY = '';
+
+        const id = authUser.userId;
+        const { token } = authUser;
+        const userStatistics = await serverRequests.getUsersStatistic(id, token);
+        await localStorage.setItem('statistic', JSON.stringify(userStatistics));
       }
     }
 
@@ -75,6 +83,37 @@ document.addEventListener('click', async (event: Event) => {
         await auth.changeImageAuth();
         auth.changeStylesAuthWindow('0', 'hidden');
         html.style.overflowY = '';
+
+        const id = dataUser.authUser.userId;
+        const { token } = dataUser.authUser;
+        await serverRequests.updateUserStatistic(
+          dataUser.authUser.userId,
+          dataUser.authUser.token,
+          {
+            learnedWords: 0,
+            optional: {
+              [day]: {
+                audioGame: {
+                  newWord: 0,
+                  wrong: 0,
+                  correct: 0,
+                  winLength: 0,
+                },
+                sprintGame: {
+                  newWord: 0,
+                  wrong: 0,
+                  correct: 0,
+                  winLength: 0,
+                },
+                learnedWordsDay: {
+                  learned: 0,
+                },
+              },
+            },
+          },
+        );
+        const userStatistics = await serverRequests.getUsersStatistic(id, token);
+        await localStorage.setItem('statistic', JSON.stringify(userStatistics));
       }
     }
     window.location.reload();
