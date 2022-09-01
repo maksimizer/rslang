@@ -131,6 +131,8 @@ $colorLevelSix: rgb(255, 128, 43);
   padding: 0;
   border: none;
   cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
 
   .svg-inline--fa {
     height: 2rem;

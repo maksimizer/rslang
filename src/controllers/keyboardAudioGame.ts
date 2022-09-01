@@ -24,7 +24,7 @@ async function wrongOrCorrectAnswer(
     const word = words[count];
     if (buttonOne.dataset.answer === 'wrong') {
       if (userString) {
-        saveUserWord(userString, word, true);
+        saveUserWord(userString, word, true, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
       btnKnow.classList.toggle('hidden');
@@ -43,7 +43,7 @@ async function wrongOrCorrectAnswer(
     }
     if (buttonOne.dataset.answer === 'correct') {
       if (userString) {
-        saveUserWord(userString, word, false);
+        saveUserWord(userString, word, false, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
       btnKnow.classList.toggle('hidden');
@@ -172,7 +172,7 @@ function checkNextButton() {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (userString) {
-        saveUserWord(userString, word, true);
+        saveUserWord(userString, word, true, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
       btnKnow.classList.toggle('hidden');

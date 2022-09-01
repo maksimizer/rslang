@@ -84,7 +84,7 @@ const logicAudioGame = () => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (userString) {
-        saveUserWord(userString, word, true);
+        saveUserWord(userString, word, true, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
       btnKnow.classList.toggle('hidden');
@@ -108,7 +108,7 @@ const logicAudioGame = () => {
       const word = words[count];
       if (button.dataset.answer === 'wrong') {
         if (userString) {
-          saveUserWord(userString, word, true);
+          saveUserWord(userString, word, true, 'audio');
         }
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
         btnKnow.classList.toggle('hidden');
@@ -128,7 +128,7 @@ const logicAudioGame = () => {
       }
       if (button.dataset.answer === 'correct') {
         if (userString) {
-          saveUserWord(userString, word, false);
+          saveUserWord(userString, word, false, 'audio');
         }
         document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
         btnKnow.classList.toggle('hidden');

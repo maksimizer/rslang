@@ -33,7 +33,7 @@ function addColorStyle(color: string): void {
 }
 
 export function changeColorStylesByLevels(): void {
-  const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
+  const groupAndPage = JSON.parse(localStorage.getItem('sprintGroupAndPage') as string);
 
   switch ((groupAndPage[0].value).toString()) {
     case '1':
@@ -69,7 +69,7 @@ export function getRandomNumber(maxNumber: number, minNumber: number): number {
 }
 
 export function getGroupAndPAge(): Record< string, string > {
-  const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
+  const groupAndPage = JSON.parse(localStorage.getItem('sprintGroupAndPage') as string);
   const group: string = groupAndPage[0].value || '0';
   const page: string = groupAndPage[1].value !== 'null' ? groupAndPage[1].value : getRandomNumber(29, 0).toString();
 
@@ -77,7 +77,7 @@ export function getGroupAndPAge(): Record< string, string > {
 }
 
 export const arrForSelectedWords: Array<string> = [];
-let countForSelect = 58;
+let countForSelect = 57;
 
 export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
   const wrongTranslateWords = arr.filter((element) => element.wordTranslate !== el
@@ -93,7 +93,7 @@ export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
 }
 
 export function resetCount(): number {
-  countForSelect = 58;
+  countForSelect = 57;
 
   return countForSelect;
 }
@@ -250,7 +250,6 @@ export async function checkRightOrWrongAnswer(
   if (answer === true) {
     rightAnswers.push(arr[gameParameters.count - 1][0]);
     playSoundAnswers('./assets/sounds/right-volume.mp3', gameParameters.volume);
-
     gameParameters.trueAnswers += 1;
     gameParameters.sum += changeScore(gameParameters.trueAnswers);
     gameParameters.bestResult = gameParameters.bestResult > gameParameters.trueAnswers
@@ -287,8 +286,8 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
 
     gameParameters.count += 1;
 
-    if (gameParameters.count === 39) {
-      gameParameters.count = 0;
+    if (gameParameters.count === 38) {
+      gameParameters.count = 1;
     }
 
     wordContainer.innerHTML = words[gameParameters.count][0] as string;
@@ -300,18 +299,18 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
 
     if (answer.right === answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
 
     if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
@@ -327,8 +326,8 @@ export async function gameSprintMouse(event: MouseEvent) {
     const user = localStorage.getItem('user') as string;
     gameParameters.count += 1;
 
-    if (gameParameters.count === 39) {
-      gameParameters.count = 0;
+    if (gameParameters.count === 38) {
+      gameParameters.count = 1;
     }
 
     wordContainer.innerHTML = words[gameParameters.count][0] as string;
@@ -338,18 +337,18 @@ export async function gameSprintMouse(event: MouseEvent) {
 
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
