@@ -6,7 +6,9 @@ import drawSprintGame from '../views/renderSprintGame';
 import { renderMainContent } from '../views/renderMenu';
 import getNamePage from '../model/pageModal';
 import textbookController from './textbookController';
-import renderPageStatistics, { getStatisticsForRender, renderUserPageStatistics, userPageStatisticsView } from '../views/renderStatistics';
+import {
+  renderPageStatistics, getStatisticsForRender, renderUserPageStatistics, userPageStatisticsView,
+} from '../views/renderStatistics';
 
 const hashPageRoute = () => {
   window.addEventListener('hashchange', () => {

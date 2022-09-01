@@ -1,5 +1,6 @@
-import { IStatistic } from '../types/interface';
+import { IGameStat, IStatistic } from '../types/interface';
 import { check } from '../utils/icons';
+import getPercent from './statistics';
 
 function pageStatisticsView() {
   const statistics = `<h1 class="header-statistics">Statistics for today</h1>
@@ -34,26 +35,9 @@ function pageStatisticsView() {
   return statistics;
 }
 
-export default function renderPageStatistics(): void {
+export function renderPageStatistics(): void {
   const content = document.querySelector('.main') as HTMLElement;
   content.innerHTML = pageStatisticsView();
-}
-interface IGameStat {
-  newWord: number,
-  wrong: number,
-  correct: number,
-  winLength: number
-}
-
-function getPercent(sumWrongAnswers: number, sumCorrectAnswers: number) {
-  if (sumWrongAnswers === 0 && sumCorrectAnswers === 0) {
-    return 0;
-  }
-  if (sumWrongAnswers === 0 && sumCorrectAnswers > 0) {
-    return 100;
-  }
-
-  return 1;
 }
 
 export function getStatisticsForRender(): [number, number, IGameStat, IGameStat] {
@@ -77,23 +61,9 @@ export function getStatisticsForRender(): [number, number, IGameStat, IGameStat]
     statistics.optional?.[day].sprintGame as IGameStat,
     statistics.optional?.[day].audioGame as IGameStat,
   ];
-  // dataStatistics.push(
-  //   statistics.learnedWords as number,
-  //   commonPercent as number,
-  //   statistics.optional?.[day].sprintGame as IGameStat,
-  //   statistics.optional?.[day].audioGame as IGameStat,
-  // );
-  console.log(getPercent(sumWrongAnswers, sumCorrectAnswers) !== 0);
-  console.log(getPercent(sumWrongAnswers, sumCorrectAnswers) !== 100);
+
   return dataStatistics;
 }
-
-// interface IGameStat {
-//   newWord: number,
-//   wrong: number,
-//   correct: number,
-//   winLength: number
-// }
 
 export function userPageStatisticsView(
   arr: [number, number, IGameStat, IGameStat],
