@@ -1,4 +1,5 @@
 import { gameParameters, rightAnswers, wrongAnswers } from '../constants/constants';
+import saveUserWord from '../controllers/saveUserWord';
 import { IWord } from '../types/interface';
 import { volume } from '../utils/icons';
 
@@ -281,6 +282,8 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
     const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
+    const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
+    const user = localStorage.getItem('user') as string;
 
     gameParameters.count += 1;
 
@@ -297,14 +300,18 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
 
     if (answer.right === answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(true, words);
+      saveUserWord(user, allWords[gameParameters.count], false);
     } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(false, words);
+      saveUserWord(user, allWords[gameParameters.count], true);
     }
 
     if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(true, words);
+      saveUserWord(user, allWords[gameParameters.count], false);
     } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(false, words);
+      saveUserWord(user, allWords[gameParameters.count], true);
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
@@ -316,7 +323,8 @@ export async function gameSprintMouse(event: MouseEvent) {
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
     const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
-
+    const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
+    const user = localStorage.getItem('user') as string;
     gameParameters.count += 1;
 
     if (gameParameters.count === 39) {
@@ -330,14 +338,18 @@ export async function gameSprintMouse(event: MouseEvent) {
 
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(true, words);
+      saveUserWord(user, allWords[gameParameters.count], false);
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(false, words);
+      saveUserWord(user, allWords[gameParameters.count], true);
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(true, words);
+      saveUserWord(user, allWords[gameParameters.count], false);
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(false, words);
+      saveUserWord(user, allWords[gameParameters.count], true);
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
