@@ -3,6 +3,7 @@ import {
   ObjectString,
 } from '../types/type';
 import {
+  IAggregatedWord,
   IAuth,
   ISetting,
   IStatistic,
@@ -233,15 +234,16 @@ export default class ServerRequests {
     idUser: string,
     token: string,
     queryParams: QueryString[],
-  ): Promise<{ words: IUserWord[] }> {
-    const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/aggregatedWords/${this.generateQueryString(queryParams)}`, {
+  ): Promise< IAggregatedWord[] > {
+    const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/aggregatedWords/${this.generateQueryString(queryParams)}&wordsPerPage=20`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       },
     });
-    const words = await response.json();
+    const responceObj = await response.json();
+    const words = responceObj[0].paginatedResults;
     return words;
   }
 

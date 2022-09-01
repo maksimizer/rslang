@@ -37,6 +37,12 @@ export interface IUserWord {
     correct: number
   }
 }
+
+export interface IAggregatedWord extends IWord {
+  'userWord'?: IUserWord;
+  '_id'?: string;
+}
+
 export interface IStatisticGame {
   'audioGame':{
     newWord: number,
