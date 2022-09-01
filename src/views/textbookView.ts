@@ -24,7 +24,7 @@ export class TextbookView {
             <div class="group-btn group-btn-4" data-group="4">Level 4</div>
             <div class="group-btn group-btn-5" data-group="5">Level 5</div>
             <div class="group-btn group-btn-6" data-group="6">Level 6</div>
-            <div class="group-btn difficult-group-btn" data-group="7">Difficult</div>
+            <div class="group-btn difficult-group-btn auth-needed" data-group="7">Difficult</div>
           </div>
       </div>
       <div class="pagination-container">

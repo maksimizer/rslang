@@ -90,7 +90,7 @@ class TextbookController {
 
   selectGroup = (event: Event) => {
     const target = event.target as HTMLElement;
-    if (target.classList.contains('group-btn')) {
+    if (target.classList.contains('group-btn') && !target.classList.contains('difficult-group-btn')) {
       const groupAndPage = this.getGroupAndPage();
       (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
       groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
