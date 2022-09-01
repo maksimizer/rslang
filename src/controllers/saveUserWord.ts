@@ -30,9 +30,9 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
             correct: wordCorrect,
           },
         });
-      } else if (resultWord.difficulty === 'difficult') {
+      } else if (resultWord.difficulty === 'hard') {
         await serverRequests.updateUserWord(user.userId, word.id, user.token, {
-          difficulty: 'difficult',
+          difficulty: 'hard',
           optional: {
             count: wordCount,
             wrong: wordWrong,
@@ -55,8 +55,20 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
       wordCorrect = resultWord.optional.correct + 1;
 
       if (percentBetweenCorrectAndWrong > 80
-      && (resultWord.optional.correct + 1) >= 3 && (resultWord.difficulty === 'normal'
+      && (resultWord.optional.correct + 1) >= 3
+      && (resultWord.difficulty === 'normal'
       || resultWord.difficulty === 'easy')) {
+        await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          difficulty: 'easy',
+          optional: {
+            count: wordCount,
+            wrong: wordWrong,
+            correct: wordCorrect,
+          },
+        });
+      } else if (percentBetweenCorrectAndWrong > 80
+      && (resultWord.optional.correct + 1) >= 5
+      && (resultWord.difficulty === 'hard')) {
         await serverRequests.updateUserWord(user.userId, word.id, user.token, {
           difficulty: 'easy',
           optional: {

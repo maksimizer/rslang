@@ -1,6 +1,6 @@
 import { IGameStat, IStatistic } from '../types/interface';
 import { check } from '../utils/icons';
-import getPercent from './statistics';
+import getPercent from '../model/statistics';
 
 function pageStatisticsView() {
   const statistics = `<h1 class="header-statistics">Statistics for today</h1>
