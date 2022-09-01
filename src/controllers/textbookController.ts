@@ -93,6 +93,7 @@ class TextbookController {
     if (target.classList.contains('group-btn') && !target.classList.contains('difficult-group-btn')) {
       const groupAndPage = this.getGroupAndPage();
       (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
+      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.remove('hidden'));
       groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
       groupAndPage[1].value = 0;
 
@@ -105,6 +106,12 @@ class TextbookController {
 
       this.setGroupAndPage(groupAndPage);
       this.renderWords();
+    }
+
+    if (target.classList.contains('difficult-group-btn')) {
+      (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
+      target.classList.add('group-btn-active');
+      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.add('hidden'));
     }
   };
 
