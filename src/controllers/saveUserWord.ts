@@ -12,9 +12,10 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
   await console.log('Update', userWord);
   const resultWord = userWord as IUserWord;
   if (userWord !== 'error') {
-    const percentBetweenCorrectAndWrong = Math.round(
-      ((resultWord.optional.correct + 1) / resultWord.optional.wrong) * 10,
-    );
+    const percentBetweenCorrectAndWrong = resultWord.optional.wrong !== 0
+      ? Math.round(
+        100 - ((resultWord.optional.wrong / (resultWord.optional.correct + 1)) * 100),
+      ) : 100;
     if (wrong) {
       wordCount = resultWord.optional.count + 1;
       wordWrong = resultWord.optional.wrong + 1;
@@ -53,10 +54,9 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
       wordWrong = resultWord.optional.wrong;
       wordCorrect = resultWord.optional.correct + 1;
 
-      if ((percentBetweenCorrectAndWrong > 80 || resultWord.optional.wrong === 0)
+      if (percentBetweenCorrectAndWrong > 80
       && (resultWord.optional.correct + 1) >= 3 && (resultWord.difficulty === 'normal'
       || resultWord.difficulty === 'easy')) {
-        console.log('hi', percentBetweenCorrectAndWrong > 80, resultWord.optional.wrong === 0);
         await serverRequests.updateUserWord(user.userId, word.id, user.token, {
           difficulty: 'easy',
           optional: {
