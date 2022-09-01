@@ -1,7 +1,8 @@
 import serverRequests from '../model/appModel';
-import { IWord, IUserWord } from '../types/interface';
+import { IWord, IUserWord, IStatistic } from '../types/interface';
 
-const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Promise<void> => {
+const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typeGame: string)
+:Promise<void> => {
   let wordCorrect: number;
   let wordWrong: number;
   let wordCount: number;
@@ -94,6 +95,19 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Pr
       const consolWordUpdate = await serverRequests.getUserWord(user.userId, word.id, user.token);
       await console.log('Update', consolWordUpdate);
     } else {
+      const userStatistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
+      const date = new Date();
+      const day = date.getDate();
+      userStatistics.learnedWords += 1;
+      // let statWordsSprint = userStatistics.optional[day].sprintGame.newWord as number;
+      // let statWordsAudio = userStatistics.optional[day].sprintGame.newWord as number;
+      if (typeGame === 'sprint') {
+        userStatistics.optional[day].sprintGame.newWord += 1;
+      }
+      if (typeGame === 'audio') {
+        userStatistics.optional[day].audioGame.newWord += 1;
+      }
+      localStorage.setItem('statistic', JSON.stringify(userStatistics));
       if (wrong) {
         await serverRequests.createUserWord(user.userId, user.token, word.id, {
           difficulty: 'normal',

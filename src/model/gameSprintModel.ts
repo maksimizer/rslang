@@ -299,18 +299,18 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
 
     if (answer.right === answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
 
     if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
@@ -337,18 +337,18 @@ export async function gameSprintMouse(event: MouseEvent) {
 
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false);
+      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true);
+      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
     }
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
