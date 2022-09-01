@@ -15,7 +15,7 @@ import fullScreen, { closeGameWindow } from './fullscreen';
 document.addEventListener('change', (event: Event): void => {
   if ((event.target as HTMLSelectElement).classList.contains('sprint-game-select')) {
     const groupAndPage = [{ key: 'group', value: (+(event.target as HTMLSelectElement).value - 1) }, { key: 'page', value: 'null' }];
-    localStorage.setItem('groupAndPage', JSON.stringify(groupAndPage));
+    localStorage.setItem('sprintGroupAndPage', JSON.stringify(groupAndPage));
   }
 });
 
@@ -23,8 +23,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
   if ((event.target as HTMLButtonElement).classList.contains('sprint-game-start-button')) {
     renderGame();
     changeColorStylesByLevels();
-    resetCount();
-    fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
+    const btnGameOut = document.querySelector('.game-out') as HTMLButtonElement;
     const { group, page } = getGroupAndPAge();
     const pages = findPage(page);
     const prevWords = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[0].toString()}` }]);
@@ -34,8 +33,8 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     const wordsForGame: [string, string, string, string, string][] = [];
     const allWords = [...words, ...nextWords];
 
-    localStorage.setItem('allWords', JSON.stringify(allWords));
-
+    resetCount();
+    fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
     words.forEach((el) => {
       wordsForGame.push(
         [el.word, el.wordTranslate,
@@ -50,6 +49,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
       );
     });
 
+    localStorage.setItem('allWords', JSON.stringify(allWords));
     localStorage.setItem('wordsForGame', JSON.stringify(wordsForGame));
 
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
@@ -58,6 +58,8 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     wordContainer.innerHTML = wordsForGame[gameParameters.count][0] as string;
     translateWord.innerHTML = wordsForGame[gameParameters.count][getRandomNumber(2, 1)];
     localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count].wordTranslate}`, answer: `${translateWord.innerHTML}` }));
+    btnGameOut.style.visibility = 'visible';
+    btnGameOut.style.opacity = '1';
 
     timer();
   }
@@ -68,7 +70,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     drawSprintGame();
     closeGameWindow(document.querySelector('.sprint-game-close_span') as HTMLButtonElement);
 
-    localStorage.setItem('groupAndPage', JSON.stringify([{ key: 'group', value: '0' }, { key: 'page', value: '0' }]));
+    localStorage.setItem('sprintGroupAndPage', JSON.stringify([{ key: 'group', value: '0' }, { key: 'page', value: 'null' }]));
     gameParameters.count = 0;
     gameParameters.sum = 0;
     gameParameters.trueAnswers = 0;
@@ -105,7 +107,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     changeHashPage('game-sprint');
     drawSprintGame();
     closeGameWindow(document.querySelector('.sprint-game-close_span') as HTMLButtonElement);
-    localStorage.setItem('groupAndPage', JSON.stringify([{ key: 'group', value: '0' }, { key: 'page', value: 'null' }]));
+    localStorage.setItem('sprintGroupAndPage', JSON.stringify([{ key: 'group', value: '0' }, { key: 'page', value: 'null' }]));
     gameParameters.count = 0;
     gameParameters.sum = 0;
     gameParameters.trueAnswers = 0;
