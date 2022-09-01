@@ -99,8 +99,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       const date = new Date();
       const day = date.getDate();
       userStatistics.learnedWords += 1;
-      // let statWordsSprint = userStatistics.optional[day].sprintGame.newWord as number;
-      // let statWordsAudio = userStatistics.optional[day].sprintGame.newWord as number;
+      userStatistics.optional[day].learnedWordsDay.learned += 1;
       if (typeGame === 'sprint') {
         userStatistics.optional[day].sprintGame.newWord += 1;
       }
