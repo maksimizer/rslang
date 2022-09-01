@@ -7,11 +7,11 @@ export class TextbookView {
     textBook.classList.add('textbook-container');
     textBook.innerHTML = `
       <div class="textbook-games">
-        <div class="textbook-game-container">
+        <div class="textbook-game-container" id="textbook-game-sprint">
             <img src="../assets/img/sprint.jpeg" alt="sprint-game-icon">
             <p>Sprint</p>
         </div>
-        <div class="textbook-game-container">
+        <div class="textbook-game-container" id="textbook-game-audio">
             <img src="../assets/img/audio.jpeg" alt="audio-game-icon">
             <p>Audio game</p>
         </div>
