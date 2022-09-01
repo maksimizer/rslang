@@ -32,6 +32,9 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     const words = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${page}` }]);
     const wrongArr = [...words, ...nextWords, ...prevWords];
     const wordsForGame: [string, string, string, string, string][] = [];
+    const allWords = [...words, ...nextWords];
+
+    localStorage.setItem('allWords', JSON.stringify(allWords));
 
     words.forEach((el) => {
       wordsForGame.push(

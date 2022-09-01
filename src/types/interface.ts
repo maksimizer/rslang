@@ -68,3 +68,10 @@ export interface ISetting {
     [key: string]: string | number | boolean;
   }
 }
+
+export interface IGameStat {
+  newWord: number,
+  wrong: number,
+  correct: number,
+  winLength: number
+}

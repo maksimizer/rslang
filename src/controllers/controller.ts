@@ -1,5 +1,4 @@
 import changeHashPage from '../model/hashPage';
-import renderPageStatistics from '../views/renderStatistics';
 import hashPageRoute from './hashPageRoute';
 
 document.addEventListener('click', async (event: Event): Promise<void> => {
@@ -20,7 +19,6 @@ document.addEventListener('click', async (event: Event): Promise<void> => {
 
   if ((event.target as HTMLBodyElement).classList.contains('menu-statistics')) {
     changeHashPage('statistics');
-    renderPageStatistics();
     hashPageRoute();
   }
 });
