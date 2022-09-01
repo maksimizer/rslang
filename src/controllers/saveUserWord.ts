@@ -1,0 +1,58 @@
+import serverRequests from '../model/appModel';
+import { IWord, IUserWord } from '../types/interface';
+
+const saveUserWord = async (userString: string, word: IWord, wrong: boolean): Promise<void> => {
+  let wordCorrect: number;
+  let wordWrong: number;
+  let wordCount: number;
+  const user = await JSON.parse(userString);
+  const userWord = await serverRequests.getUserWord(user.userId, word.id, user.token)
+    .catch(() => 'error');
+  console.log('WORDS', await serverRequests.getUserWords(user.userId, user.token));
+  await console.log('Update', userWord);
+  const resultWord = userWord as IUserWord;
+  if (userWord !== 'error') {
+    if (wrong) {
+      wordCount = resultWord.optional.count + 1;
+      wordWrong = resultWord.optional.wrong + 1;
+      wordCorrect = resultWord.optional.correct;
+    } else {
+      wordCount = resultWord.optional.count + 1;
+      wordWrong = resultWord.optional.wrong;
+      wordCorrect = resultWord.optional.correct + 1;
+    }
+    await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+      difficulty: 'normal',
+      optional: {
+        count: wordCount,
+        wrong: wordWrong,
+        correct: wordCorrect,
+      },
+    });
+    const consolWordUpdate = await serverRequests.getUserWord(user.userId, word.id, user.token);
+    await console.log('Update', consolWordUpdate);
+  } else {
+    if (wrong) {
+      await serverRequests.createUserWord(user.userId, user.token, word.id, {
+        difficulty: 'normal',
+        optional: {
+          count: 1,
+          wrong: 1,
+          correct: 0,
+        },
+      });
+    } else {
+      await serverRequests.createUserWord(user.userId, user.token, word.id, {
+        difficulty: 'normal',
+        optional: {
+          count: 1,
+          wrong: 1,
+          correct: 0,
+        },
+      });
+    }
+    await console.log('Create', userWord);
+  }
+};
+
+export default saveUserWord;

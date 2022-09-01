@@ -1,9 +1,14 @@
 import serverRequests from '../model/appModel';
 import { volume } from '../utils/icons';
+import saveUserWord from './saveUserWord';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
-function wrongOrCorrectAnswer(event: KeyboardEvent, buttonOne: HTMLElement, volumeSVG: string[]) {
-  const wordsString = localStorage.getItem('audio-game-words');
+async function wrongOrCorrectAnswer(
+  event: KeyboardEvent,
+  buttonOne: HTMLElement,
+  volumeSVG: string[],
+): Promise<void> {
+  const wordsString = await localStorage.getItem('audio-game-words');
   const count = Number(localStorage.getItem('count-word-audio-game'));
   const btnKnow = document.querySelector('.audio-game-button-know') as HTMLElement;
   const btnNext = document.querySelector('.audio-game-button-next') as HTMLElement;
@@ -13,10 +18,14 @@ function wrongOrCorrectAnswer(event: KeyboardEvent, buttonOne: HTMLElement, volu
   const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
   const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
   const correctButton = document.querySelector("[data-answer='correct']") as HTMLButtonElement;
+  const userString = localStorage.getItem('user');
   if (wordsString) {
-    const words = JSON.parse(wordsString);
+    const words = await JSON.parse(wordsString);
     const word = words[count];
     if (buttonOne.dataset.answer === 'wrong') {
+      if (userString) {
+        saveUserWord(userString, word, true);
+      }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
       btnKnow.classList.toggle('hidden');
       btnNext.classList.toggle('hidden');
@@ -33,6 +42,9 @@ function wrongOrCorrectAnswer(event: KeyboardEvent, buttonOne: HTMLElement, volu
   </div>`;
     }
     if (buttonOne.dataset.answer === 'correct') {
+      if (userString) {
+        saveUserWord(userString, word, false);
+      }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
       btnKnow.classList.toggle('hidden');
       btnNext.classList.toggle('hidden');
@@ -121,6 +133,7 @@ function checkNextButton() {
   const audioLineTopText = document.querySelector('.audio-game-card-line-top-text') as HTMLElement;
   const audioLineMidText = document.querySelector('.audio-game-card-line-mid-text') as HTMLElement;
   const audioTranslate = document.querySelector('.audio-game-card-translate') as HTMLElement;
+  const userString = localStorage.getItem('user');
   if (wordsString) {
     const words = JSON.parse(wordsString);
     if (btnKnow.classList.contains('hidden')) {
@@ -158,6 +171,9 @@ function checkNextButton() {
     } else {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
+      if (userString) {
+        saveUserWord(userString, word, true);
+      }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
       btnKnow.classList.toggle('hidden');
       btnNext.classList.toggle('hidden');
