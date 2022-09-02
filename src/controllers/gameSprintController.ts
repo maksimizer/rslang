@@ -8,6 +8,7 @@ import {
   getRandomNumber,
 } from '../model/gameSprintModel';
 import changeHashPage from '../model/hashPage';
+import { IAuth, IStatistic } from '../types/interface';
 import { volumeOff, volumeOn } from '../utils/icons';
 import drawSprintGame, { renderGame } from '../views/renderSprintGame';
 import fullScreen, { closeGameWindow } from './fullscreen';
@@ -79,6 +80,11 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     arrForSelectedWords.length = 0;
     resetCount();
     fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
+
+    const statistic: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
+    const user: IAuth = JSON.parse(localStorage.getItem('user') as string);
+
+    serverRequests.updateUserStatistic(user.userId, user.token, statistic);
   }
 
   if ((event.target as HTMLButtonElement).classList.contains('music-img')
@@ -102,6 +108,15 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
 
   if ((event.target as HTMLButtonElement).classList.contains('modal-close')) {
     const html = document.querySelector('html') as HTMLHtmlElement;
+    const statistic: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
+    const date = new Date();
+    const day = date.getDate();
+
+    if (statistic.optional[day].sprintGame.winLength < gameParameters.bestResult) {
+      statistic.optional[day].sprintGame.winLength = gameParameters.bestResult;
+    }
+
+    localStorage.setItem('statistic', JSON.stringify(statistic));
     html.style.overflowY = '';
     modalResultWindow.classList.toggle('hidden');
     changeHashPage('game-sprint');
@@ -116,6 +131,13 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     arrForSelectedWords.length = 0;
     gameParameters.bestResult = 0;
     resetCount();
+
+    const user: IAuth = JSON.parse(localStorage.getItem('user') as string);
+    serverRequests.updateUserStatistic(
+      user.userId,
+      user.token,
+      statistic,
+    );
   }
 
   if ((event.target as HTMLButtonElement).closest('[data-sound]')) {

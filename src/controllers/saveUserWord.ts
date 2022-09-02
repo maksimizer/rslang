@@ -114,8 +114,15 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       const consolWordUpdate = await serverRequests.getUserWord(user.userId, word.id, user.token);
       await console.log('Update', consolWordUpdate);
     } else {
+
+      const userStatistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
+      const date = new Date();
+      const day = date.getDate();
+
+
       userStatistics.learnedWords += 1;
       userStatistics.optional[day].learnedWordsDay.learned += 1;
+
       if (typeGame === 'sprint') {
         userStatistics.optional[day].sprintGame.newWord += 1;
       }

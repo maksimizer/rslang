@@ -54,7 +54,37 @@ document.addEventListener('click', async (event: Event) => {
         const id = authUser.userId;
         const { token } = authUser;
         const userStatistics = await serverRequests.getUsersStatistic(id, token);
-        await localStorage.setItem('statistic', JSON.stringify(userStatistics));
+        delete userStatistics.id;
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
+
+        const checkDay = Object.keys(userStatistics.optional)[0];
+        if (!(+checkDay === day)) {
+          userStatistics.optional[day] = {
+            audioGame: {
+              newWord: 0,
+              wrong: 0,
+              correct: 0,
+              winLength: 0,
+            },
+            sprintGame: {
+              newWord: 0,
+              wrong: 0,
+              correct: 0,
+              winLength: 0,
+            },
+            learnedWordsDay: {
+              learned: 0,
+            },
+          };
+
+          await serverRequests.updateUserStatistic(
+            authUser.userId,
+            authUser.token,
+            userStatistics,
+          );
+        }
+
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
       }
     }
 
