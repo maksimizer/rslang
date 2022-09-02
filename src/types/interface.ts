@@ -56,6 +56,7 @@ export interface IStatisticGame {
 }
 
 export interface IStatistic {
+  'id'?: string,
   'learnedWords': number,
   'optional': {
     [key: string]: IStatisticGame;

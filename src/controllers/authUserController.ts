@@ -53,8 +53,40 @@ document.addEventListener('click', async (event: Event) => {
 
         const id = authUser.userId;
         const { token } = authUser;
-        const userStatistics = await serverRequests.getUsersStatistic(id, token);
-        await localStorage.setItem('statistic', JSON.stringify(userStatistics));
+        let userStatistics = await serverRequests.getUsersStatistic(id, token);
+
+        if (!Object.keys(userStatistics.optional).includes(day.toString())) {
+          await serverRequests.updateUserStatistic(
+            authUser.userId,
+            authUser.token,
+            {
+              learnedWords: userStatistics.learnedWords,
+              optional: {
+                [day]: {
+                  audioGame: {
+                    newWord: 0,
+                    wrong: 0,
+                    correct: 0,
+                    winLength: 0,
+                  },
+                  sprintGame: {
+                    newWord: 0,
+                    wrong: 0,
+                    correct: 0,
+                    winLength: 0,
+                  },
+                  learnedWordsDay: {
+                    learned: 0,
+                  },
+                },
+              },
+            },
+          );
+          userStatistics = await serverRequests.getUsersStatistic(authUser.userId, authUser.token);
+        }
+
+        delete userStatistics.id;
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
       }
     }
 

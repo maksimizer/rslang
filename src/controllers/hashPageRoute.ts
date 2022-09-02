@@ -9,9 +9,11 @@ import textbookController from './textbookController';
 import {
   renderPageStatistics, getStatisticsForRender, renderUserPageStatistics, userPageStatisticsView,
 } from '../views/renderStatistics';
+import serverRequests from '../model/appModel';
+import { IAuth } from '../types/interface';
 
 const hashPageRoute = () => {
-  window.addEventListener('hashchange', () => {
+  window.addEventListener('hashchange', async () => {
     const hash = window.location.hash.slice(1);
     const namePage = document.querySelector('.name-page') as HTMLDivElement;
 
@@ -51,6 +53,11 @@ const hashPageRoute = () => {
       namePage.innerHTML = getNamePage();
 
       if (localStorage.getItem('auth') === 'true') {
+        const user: IAuth = await JSON.parse(localStorage.getItem('user') as string);
+        const statistic = await serverRequests.getUsersStatistic(user.userId, user.token);
+        delete statistic.id;
+
+        localStorage.setItem('statistic', JSON.stringify(statistic));
         const data = getStatisticsForRender();
         renderUserPageStatistics(userPageStatisticsView(data));
       } else {

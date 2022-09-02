@@ -1,6 +1,6 @@
 import { gameParameters, rightAnswers, wrongAnswers } from '../constants/constants';
 import saveUserWord from '../controllers/saveUserWord';
-import { IWord } from '../types/interface';
+import { IStatistic, IWord } from '../types/interface';
 import { volume } from '../utils/icons';
 
 export function timer(): void {
@@ -324,6 +324,9 @@ export async function gameSprintMouse(event: MouseEvent) {
     const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
     const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
     const user = localStorage.getItem('user') as string;
+    const userStatistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
+    const date = new Date();
+    const day = date.getDate();
     gameParameters.count += 1;
 
     if (gameParameters.count === 38) {
@@ -338,18 +341,24 @@ export async function gameSprintMouse(event: MouseEvent) {
     if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(true, words);
       saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
+      userStatistics.optional[day].sprintGame.correct += 1;
     } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
       await checkRightOrWrongAnswer(false, words);
       saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
+      userStatistics.optional[day].sprintGame.wrong += 1;
     }
 
     if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(true, words);
       saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
+      userStatistics.optional[day].sprintGame.correct += 1;
     } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
       await checkRightOrWrongAnswer(false, words);
       saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
+      userStatistics.optional[day].sprintGame.wrong += 1;
     }
+
+    localStorage.setItem('statistic', JSON.stringify(userStatistics));
     changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }
