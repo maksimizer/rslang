@@ -11,6 +11,7 @@ import {
 } from '../views/renderStatistics';
 import serverRequests from '../model/appModel';
 import { IAuth } from '../types/interface';
+import startAudioGameBook from './startAudioGameBook';
 
 const hashPageRoute = () => {
   window.addEventListener('hashchange', async () => {
@@ -47,6 +48,7 @@ const hashPageRoute = () => {
       textbookController.renderTextbookPage();
       textbookController.renderWords();
       textbookController.addEventListeners();
+      startAudioGameBook();
     }
 
     if (hash === 'statistics') {
