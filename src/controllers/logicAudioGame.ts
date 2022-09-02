@@ -6,7 +6,6 @@ import saveUserWord from './saveUserWord';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
 const logicAudioGame = () => {
-  const wordsString = localStorage.getItem('audio-game-words');
   const audio = document.querySelector('.audio-game-sound__image') as HTMLElement;
   const audioLineTop = document.querySelector('.audio-game-card-line-top-image') as HTMLElement;
   const audioLineMid = document.querySelector('.audio-game-card-line-mid-image') as HTMLElement;
@@ -26,6 +25,7 @@ const logicAudioGame = () => {
   const modelContentWrong = document.querySelector('.modal-content-wrong') as HTMLElement;
   const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
   const userString = localStorage.getItem('user');
+  const wordsString = localStorage.getItem('audio-game-words');
 
   if (wordsString) {
     let count = 0;
