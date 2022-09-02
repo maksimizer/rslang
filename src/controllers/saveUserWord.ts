@@ -6,7 +6,12 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
   let wordCorrect: number;
   let wordWrong: number;
   let wordCount: number;
+
+  const userStatistics: IStatistic = await JSON.parse(localStorage.getItem('statistic') as string);
+  const date = await new Date();
+  const day = await date.getDate();
   const user = await JSON.parse(userString);
+
   if (user) {
     const userWord = await serverRequests.getUserWord(user.userId, word.id, user.token)
       .catch(() => 'error');
@@ -20,6 +25,13 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
           100 - ((resultWord.optional.wrong / (resultWord.optional.correct + 1)) * 100),
         ) : 100;
       if (wrong) {
+        if (typeGame === 'sprint') {
+          userStatistics.optional[day].sprintGame.wrong += 1;
+        }
+        if (typeGame === 'audio') {
+          userStatistics.optional[day].audioGame.wrong += 1;
+        }
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
         wordCount = resultWord.optional.count + 1;
         wordWrong = resultWord.optional.wrong + 1;
         wordCorrect = resultWord.optional.correct;
@@ -53,6 +65,13 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
           });
         }
       } else {
+        if (typeGame === 'sprint') {
+          userStatistics.optional[day].sprintGame.correct += 1;
+        }
+        if (typeGame === 'audio') {
+          userStatistics.optional[day].audioGame.correct += 1;
+        }
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
         wordCount = resultWord.optional.count + 1;
         wordWrong = resultWord.optional.wrong;
         wordCorrect = resultWord.optional.correct + 1;
@@ -95,9 +114,6 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       const consolWordUpdate = await serverRequests.getUserWord(user.userId, word.id, user.token);
       await console.log('Update', consolWordUpdate);
     } else {
-      const userStatistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
-      const date = new Date();
-      const day = date.getDate();
       userStatistics.learnedWords += 1;
       userStatistics.optional[day].learnedWordsDay.learned += 1;
       if (typeGame === 'sprint') {
@@ -108,6 +124,13 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       }
       localStorage.setItem('statistic', JSON.stringify(userStatistics));
       if (wrong) {
+        if (typeGame === 'sprint') {
+          userStatistics.optional[day].sprintGame.wrong += 1;
+        }
+        if (typeGame === 'audio') {
+          userStatistics.optional[day].audioGame.wrong += 1;
+        }
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
         await serverRequests.createUserWord(user.userId, user.token, word.id, {
           difficulty: 'normal',
           optional: {
@@ -117,6 +140,13 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
           },
         });
       } else {
+        if (typeGame === 'sprint') {
+          userStatistics.optional[day].sprintGame.correct += 1;
+        }
+        if (typeGame === 'audio') {
+          userStatistics.optional[day].audioGame.correct += 1;
+        }
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
         await serverRequests.createUserWord(user.userId, user.token, word.id, {
           difficulty: 'normal',
           optional: {
