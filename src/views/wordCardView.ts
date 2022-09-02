@@ -51,7 +51,7 @@ export class WordCardView {
           </div>
           <div class="auth-users-btns auth-needed">
             <button class="difficult-btn" data-word-id=${word.id || word._id}>difficult</button>
-            <button class="learned-btn">learned</button>
+            <button class="learned-btn" data-word-id=${word.id || word._id}>learned</button>
           </div>
       </div>
     `;

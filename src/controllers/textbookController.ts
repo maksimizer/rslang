@@ -79,6 +79,7 @@ class TextbookController {
     (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.selectPage(event));
     (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.playAudio(event));
     (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.addWordToDifficult(event));
+    (document.querySelector('.textbook-container') as HTMLElement).addEventListener('click', (event) => this.addWordToLearned(event));
   };
 
   getGroupAndPage = () => {
@@ -223,6 +224,11 @@ class TextbookController {
           if (difficultBtn) {
             difficultBtn.classList.add('difficult-btn-active');
           }
+        } else if (word.userWord && word.userWord.difficulty === 'easy') {
+          const learnedBtn = card.querySelector('.learned-btn');
+          if (learnedBtn) {
+            learnedBtn.classList.add('learned-btn-active');
+          }
         }
       });
       this.checkForAuth();
@@ -260,16 +266,25 @@ class TextbookController {
     const target = event.target as HTMLElement;
     if (target.classList.contains('difficult-btn')) {
       const wordId = String(target.getAttribute('data-word-id'));
-      await this.saveDifficultWord(wordId);
+      await this.saveUsertWord(wordId, 'hard');
       this.renderWords();
     }
   };
 
-  saveDifficultWord = async (wordId: string) => {
+  addWordToLearned = async (event:Event) => {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('learned-btn')) {
+      const wordId = String(target.getAttribute('data-word-id'));
+      await this.saveUsertWord(wordId, 'easy');
+      this.renderWords();
+    }
+  };
+
+  saveUsertWord = async (wordId: string, wordDifficulty: string) => {
     const user = this.getUser();
     try {
       const userWord = await serverRequests.getUserWord(user.userId, wordId, user.token);
-      if (userWord.difficulty === 'hard') {
+      if (userWord.difficulty === wordDifficulty) {
         const body = {
           difficulty: 'normal',
           optional: {
@@ -281,7 +296,17 @@ class TextbookController {
         await this.serverRequests.updateUserWord(user.userId, wordId, user.token, body);
       } else if (userWord.difficulty === 'normal') {
         const body = {
-          difficulty: 'hard',
+          difficulty: wordDifficulty,
+          optional: {
+            count: userWord.optional.count,
+            wrong: userWord.optional.wrong,
+            correct: userWord.optional.correct,
+          },
+        };
+        await this.serverRequests.updateUserWord(user.userId, wordId, user.token, body);
+      } else {
+        const body = {
+          difficulty: wordDifficulty,
           optional: {
             count: userWord.optional.count,
             wrong: userWord.optional.wrong,
@@ -292,7 +317,7 @@ class TextbookController {
       }
     } catch (error) {
       await serverRequests.createUserWord(user.userId, user.token, wordId, {
-        difficulty: 'hard',
+        difficulty: wordDifficulty,
         optional: {
           count: 0,
           wrong: 0,
