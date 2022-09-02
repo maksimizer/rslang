@@ -235,7 +235,24 @@ export default class ServerRequests {
     token: string,
     queryParams: QueryString[],
   ): Promise< IAggregatedWord[] > {
-    const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/aggregatedWords/${this.generateQueryString(queryParams)}&wordsPerPage=20`, {
+    const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/aggregatedWords/?wordsPerPage=20&filter={"$and":[{"group":${queryParams[0].value}, "page":${queryParams[1].value}}]}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+    const responceObj = await response.json();
+    const words = responceObj[0].paginatedResults;
+    return words;
+  }
+
+  public async getUsersAggregatedWordsByDifficulty(
+    idUser: string,
+    token: string,
+    difficulty: string,
+  ): Promise< IAggregatedWord[] > {
+    const response = await fetch(`${this.baseUrl}${this.path.users}/${idUser}/aggregatedWords/?wordsPerPage=600&filter={"userWord.difficulty":"${difficulty}"}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

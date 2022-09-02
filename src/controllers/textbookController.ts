@@ -37,28 +37,32 @@ class TextbookController {
         btn.classList.add('group-btn-active');
       }
     });
-
-    document.querySelectorAll('.current-page').forEach((el) => {
-      el.textContent = `${groupAndPage[1].value + 1}/30`;
-    });
-    document.querySelectorAll('.pagination-btn').forEach((el) => {
-      el.classList.remove('pagination-btn-disabled');
-    });
-    if (groupAndPage[1].value === constants.firstPage) {
-      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
+    if (groupAndPage[0].value !== 6) {
+      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.remove('hidden'));
+      document.querySelectorAll('.current-page').forEach((el) => {
+        el.textContent = `${groupAndPage[1].value + 1}/30`;
       });
-      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
+      document.querySelectorAll('.pagination-btn').forEach((el) => {
+        el.classList.remove('pagination-btn-disabled');
       });
-    }
-    if (groupAndPage[1].value === constants.lastPage) {
-      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
-      });
+      if (groupAndPage[1].value === constants.firstPage) {
+        document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+        document.querySelectorAll('.pagination-btn-first').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+      }
+      if (groupAndPage[1].value === constants.lastPage) {
+        document.querySelectorAll('.pagination-btn-next').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+        document.querySelectorAll('.pagination-btn-last').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+      }
+    } else {
+      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.add('hidden'));
     }
   };
 
@@ -100,27 +104,36 @@ class TextbookController {
 
   selectGroup = (event: Event) => {
     const target = event.target as HTMLElement;
-    if (target.classList.contains('group-btn') && !target.classList.contains('difficult-group-btn')) {
+    if (target.classList.contains('group-btn')) {
       const groupAndPage = this.getGroupAndPage();
+
       (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
-      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.remove('hidden'));
+      if (!target.classList.contains('difficult-group-btn')) {
+        document.querySelectorAll('.pagination-container').forEach((el) => el.classList.remove('hidden'));
+      } else {
+        document.querySelectorAll('.pagination-container').forEach((el) => el.classList.add('hidden'));
+      }
+
       groupAndPage[0].value = Number(target.getAttribute('data-group')) - 1;
       groupAndPage[1].value = 0;
-      document.querySelectorAll('.current-page').forEach((el) => {
-        el.textContent = `${groupAndPage[1].value + 1}/30`;
-      });
-      document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-first').forEach((el) => {
-        el.classList.add('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-next').forEach((el) => {
-        el.classList.remove('pagination-btn-disabled');
-      });
-      document.querySelectorAll('.pagination-btn-last').forEach((el) => {
-        el.classList.remove('pagination-btn-disabled');
-      });
+
+      if (!target.classList.contains('difficult-group-btn')) {
+        document.querySelectorAll('.current-page').forEach((el) => {
+          el.textContent = `${groupAndPage[1].value + 1}/30`;
+        });
+        document.querySelectorAll('.pagination-btn-prev').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+        document.querySelectorAll('.pagination-btn-first').forEach((el) => {
+          el.classList.add('pagination-btn-disabled');
+        });
+        document.querySelectorAll('.pagination-btn-next').forEach((el) => {
+          el.classList.remove('pagination-btn-disabled');
+        });
+        document.querySelectorAll('.pagination-btn-last').forEach((el) => {
+          el.classList.remove('pagination-btn-disabled');
+        });
+      }
 
       const groupBtns = document.querySelectorAll('.group-btn');
       groupBtns.forEach((btn) => {
@@ -131,12 +144,6 @@ class TextbookController {
 
       this.setGroupAndPage(groupAndPage);
       this.renderWords();
-    }
-
-    if (target.classList.contains('difficult-group-btn')) {
-      (document.querySelector('.group-btn-active') as HTMLElement).classList.remove('group-btn-active');
-      target.classList.add('group-btn-active');
-      document.querySelectorAll('.pagination-container').forEach((el) => el.classList.add('hidden'));
     }
   };
 
@@ -187,15 +194,23 @@ class TextbookController {
 
   renderWords = async () => {
     const queryParams = this.getGroupAndPage();
-    console.log(queryParams);
 
     if (localStorage.getItem('auth') === 'true') {
       const user = this.getUser();
-      const words = await this.serverRequests.getUsersAggregatedWords(
-        user.userId,
-        user.token,
-        queryParams,
-      );
+      let words;
+      if (queryParams[0].value !== 6) {
+        words = await this.serverRequests.getUsersAggregatedWords(
+          user.userId,
+          user.token,
+          queryParams,
+        );
+      } else {
+        words = await this.serverRequests.getUsersAggregatedWordsByDifficulty(
+          user.userId,
+          user.token,
+          'hard',
+        );
+      }
 
       const cardsContainer = document.querySelector('.cards-container');
       if (cardsContainer) cardsContainer.innerHTML = '';
