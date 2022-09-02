@@ -54,10 +54,11 @@ const hashPageRoute = () => {
 
       if (localStorage.getItem('auth') === 'true') {
         const user: IAuth = await JSON.parse(localStorage.getItem('user') as string);
+        const userStat = await JSON.parse(localStorage.getItem('statistic') as string);
+        delete userStat.id;
+        await serverRequests.updateUserStatistic(user.userId, user.token, userStat);
         const statistic = await serverRequests.getUsersStatistic(user.userId, user.token);
         delete statistic.id;
-
-        localStorage.setItem('statistic', JSON.stringify(statistic));
         const data = getStatisticsForRender();
         renderUserPageStatistics(userPageStatisticsView(data));
       } else {
