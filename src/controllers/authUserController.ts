@@ -53,39 +53,37 @@ document.addEventListener('click', async (event: Event) => {
 
         const id = authUser.userId;
         const { token } = authUser;
-        let userStatistics = await serverRequests.getUsersStatistic(id, token);
+        const userStatistics = await serverRequests.getUsersStatistic(id, token);
+        delete userStatistics.id;
+        localStorage.setItem('statistic', JSON.stringify(userStatistics));
 
-        if (!Object.keys(userStatistics.optional).includes(day.toString())) {
+        const checkDay = Object.keys(userStatistics.optional)[0];
+        if (!(+checkDay === day)) {
+          userStatistics.optional[day] = {
+            audioGame: {
+              newWord: 0,
+              wrong: 0,
+              correct: 0,
+              winLength: 0,
+            },
+            sprintGame: {
+              newWord: 0,
+              wrong: 0,
+              correct: 0,
+              winLength: 0,
+            },
+            learnedWordsDay: {
+              learned: 0,
+            },
+          };
+
           await serverRequests.updateUserStatistic(
             authUser.userId,
             authUser.token,
-            {
-              learnedWords: userStatistics.learnedWords,
-              optional: {
-                [day]: {
-                  audioGame: {
-                    newWord: 0,
-                    wrong: 0,
-                    correct: 0,
-                    winLength: 0,
-                  },
-                  sprintGame: {
-                    newWord: 0,
-                    wrong: 0,
-                    correct: 0,
-                    winLength: 0,
-                  },
-                  learnedWordsDay: {
-                    learned: 0,
-                  },
-                },
-              },
-            },
+            userStatistics,
           );
-          userStatistics = await serverRequests.getUsersStatistic(authUser.userId, authUser.token);
         }
 
-        delete userStatistics.id;
         localStorage.setItem('statistic', JSON.stringify(userStatistics));
       }
     }
