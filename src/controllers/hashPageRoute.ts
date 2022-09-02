@@ -17,55 +17,63 @@ const hashPageRoute = () => {
   window.addEventListener('hashchange', async () => {
     const hash = window.location.hash.slice(1);
     const namePage = document.querySelector('.name-page') as HTMLDivElement;
+    switch (hash) {
+      case 'game-audio':
+        drawAudioGame();
+        startAudioGame();
+        fullScreen(document.querySelector('.audio-game-wrapper') as HTMLElement);
+        document.querySelector('.footer')?.classList.add('hidden');
+        break;
+      case 'games':
+        namePage.innerHTML = getNamePage();
+        renderPageGames();
+        document.querySelector('.footer')?.classList.remove('hidden');
+        break;
+      case 'game-sprint':
+        {
+          drawSprintGame();
+          const groupAndPage = [{ key: 'group', value: '0' }, { key: 'page', value: 'null' }];
+          localStorage.setItem('sprintGroupAndPage', JSON.stringify(groupAndPage));
+          fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
+          closeGameWindow(document.querySelector('.sprint-game-close_span') as HTMLButtonElement);
+          document.querySelector('.footer')?.classList.add('hidden');
+        }
+        break;
+      case 'main':
+        {
+          namePage.innerHTML = getNamePage();
+          const mainContainer = document.querySelector('.main') as HTMLElement;
+          mainContainer.innerHTML = renderMainContent();
+          document.querySelector('.footer')?.classList.remove('hidden');
+        }
+        break;
+      case 'book':
+        namePage.innerHTML = getNamePage();
+        textbookController.renderTextbookPage();
+        textbookController.renderWords();
+        textbookController.addEventListeners();
+        startAudioGameBook();
+        document.querySelector('.footer')?.classList.remove('hidden');
+        break;
+      case 'statistics':
+        namePage.innerHTML = getNamePage();
 
-    if (hash === 'game-audio') {
-      drawAudioGame();
-      startAudioGame();
-      fullScreen(document.querySelector('.audio-game-wrapper') as HTMLElement);
-    }
-
-    if (hash === 'games') {
-      namePage.innerHTML = getNamePage();
-      renderPageGames();
-    }
-
-    if (hash === 'game-sprint') {
-      drawSprintGame();
-      const groupAndPage = [{ key: 'group', value: '0' }, { key: 'page', value: 'null' }];
-      localStorage.setItem('sprintGroupAndPage', JSON.stringify(groupAndPage));
-      fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
-      closeGameWindow(document.querySelector('.sprint-game-close_span') as HTMLButtonElement);
-    }
-
-    if (hash === 'main') {
-      namePage.innerHTML = getNamePage();
-      const mainContainer = document.querySelector('.main') as HTMLElement;
-      mainContainer.innerHTML = renderMainContent();
-    }
-
-    if (hash === 'book') {
-      namePage.innerHTML = getNamePage();
-      textbookController.renderTextbookPage();
-      textbookController.renderWords();
-      textbookController.addEventListeners();
-      startAudioGameBook();
-    }
-
-    if (hash === 'statistics') {
-      namePage.innerHTML = getNamePage();
-
-      if (localStorage.getItem('auth') === 'true') {
-        const user: IAuth = await JSON.parse(localStorage.getItem('user') as string);
-        const userStat = await JSON.parse(localStorage.getItem('statistic') as string);
-        delete userStat.id;
-        await serverRequests.updateUserStatistic(user.userId, user.token, userStat);
-        const statistic = await serverRequests.getUsersStatistic(user.userId, user.token);
-        delete statistic.id;
-        const data = getStatisticsForRender();
-        renderUserPageStatistics(userPageStatisticsView(data));
-      } else {
-        renderPageStatistics();
-      }
+        if (localStorage.getItem('auth') === 'true') {
+          const user: IAuth = await JSON.parse(localStorage.getItem('user') as string);
+          const userStat = await JSON.parse(localStorage.getItem('statistic') as string);
+          delete userStat.id;
+          await serverRequests.updateUserStatistic(user.userId, user.token, userStat);
+          const statistic = await serverRequests.getUsersStatistic(user.userId, user.token);
+          delete statistic.id;
+          const data = getStatisticsForRender();
+          renderUserPageStatistics(userPageStatisticsView(data));
+        } else {
+          renderPageStatistics();
+        }
+        document.querySelector('.footer')?.classList.remove('hidden');
+        break;
+      default:
+        break;
     }
   });
 };

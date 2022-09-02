@@ -80,7 +80,7 @@ const logicAudioGame = () => {
       window.addEventListener('keydown', eventKeyboard);
     }, true);
 
-    btnKnow.addEventListener('click', () => {
+    btnKnow?.addEventListener('click', () => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (userString) {
