@@ -138,6 +138,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
       user.token,
       statistic,
     );
+    console.log(statistic);
   }
 
   if ((event.target as HTMLButtonElement).closest('[data-sound]')) {
