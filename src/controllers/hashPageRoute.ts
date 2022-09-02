@@ -12,6 +12,7 @@ import {
 import serverRequests from '../model/appModel';
 import { IAuth } from '../types/interface';
 import startAudioGameBook from './startAudioGameBook';
+import renderPage404 from '../views/render404Page';
 
 const hashPageRoute = () => {
   window.addEventListener('hashchange', async () => {
@@ -23,6 +24,8 @@ const hashPageRoute = () => {
         startAudioGame();
         fullScreen(document.querySelector('.audio-game-wrapper') as HTMLElement);
         document.querySelector('.footer')?.classList.add('hidden');
+        break;
+      case 'game-audio/start':
         break;
       case 'games':
         namePage.innerHTML = getNamePage();
@@ -73,6 +76,7 @@ const hashPageRoute = () => {
         document.querySelector('.footer')?.classList.remove('hidden');
         break;
       default:
+        renderPage404();
         break;
     }
   });

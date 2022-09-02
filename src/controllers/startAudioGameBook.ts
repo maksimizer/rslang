@@ -8,7 +8,6 @@ const startAudioGameBook = () => {
   const startButton = document.querySelector('#textbook-game-audio') as HTMLElement;
   startButton.addEventListener('click', async () => {
     await saveWordLocal();
-    console.log('start audio game book');
     changeHashPage('game-audio/start');
     drawAudioGame();
     const gameWrapper = document.querySelector('.audio-game-wrapper') as HTMLElement;
