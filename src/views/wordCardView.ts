@@ -1,4 +1,4 @@
-import { IWord } from '../types/interface';
+import { IAggregatedWord } from '../types/interface';
 import serverRequests from '../model/appModel';
 import ServerRequests from '../model/requestServer';
 
@@ -9,10 +9,10 @@ export class WordCardView {
     this.serverRequests = serverRequests;
   }
 
-  render = (word:IWord) => {
+  render = (word:IAggregatedWord) => {
     const card = document.createElement('div');
     card.classList.add('card');
-    card.setAttribute('data-word-id', `${word.id}`);
+    card.setAttribute('data-word-id', `${word.id || word._id}`);
     card.innerHTML = `
       <img class="card-word-image" src="${this.serverRequests.baseUrl}/${word.image}" alt="${word.word.toLowerCase()}">
       <div class="card-content">
@@ -50,18 +50,27 @@ export class WordCardView {
               </div>
           </div>
           <div class="auth-users-btns auth-needed">
-            <button class="difficult-btn">difficult</button>
+            <button class="difficult-btn" data-word-id=${word.id || word._id}>difficult</button>
             <button class="learned-btn">learned</button>
           </div>
       </div>
     `;
 
     const currentGroupBtn = document.querySelector(`.group-btn-${word.group + 1}`) as HTMLElement;
-    const color = window.getComputedStyle(currentGroupBtn).backgroundColor;
+    const groupColor = window.getComputedStyle(currentGroupBtn).backgroundColor;
 
-    card.style.borderRight = '5px solid';
-    card.style.borderBottom = '5px solid';
-    card.style.borderColor = color;
+    card.style.borderRight = `5px solid ${groupColor}`;
+    card.style.borderBottom = `5px solid ${groupColor}`;
+
+    if (word.userWord && word.userWord.difficulty === 'hard') {
+      card.style.borderTop = '5px solid rgb(255, 68, 43)';
+      card.style.borderLeft = '5px solid rgb(255, 68, 43)';
+    }
+
+    if (word.userWord && word.userWord.difficulty === 'easy') {
+      card.style.borderTop = '5px solid rgb(0, 204, 255)';
+      card.style.borderLeft = '5px solid rgb(0, 204, 255)';
+    }
 
     return card;
   };

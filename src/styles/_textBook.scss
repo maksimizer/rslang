@@ -43,7 +43,7 @@
 }
 
 .pagination-container {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .pagination-btns,
@@ -109,6 +109,10 @@
   background-color: rgb(255, 128, 43);
 }
 
+.difficult-group-btn {
+  background-color: rgb(255, 68, 43);
+}
+
 .pagination-btn:hover,
 .textbook-game-container:hover,
 .group-btn:hover {
@@ -137,4 +141,10 @@
   align-items: center;
   gap: 20px;
   width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.hidden {
+  display: none;
 }
