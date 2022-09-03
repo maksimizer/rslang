@@ -40,16 +40,16 @@ export function renderPageStatistics(): void {
   content.innerHTML = pageStatisticsView();
 }
 
-export function getStatisticsForRender(): [number, number, IGameStat, IGameStat] {
+export function getStatisticsForRender(): [ number, number, IGameStat, IGameStat] {
   const date = new Date();
   const day = date.getDate();
   const statistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
 
-  const sumWrongAnswers = (statistics.optional?.[day].sprintGame.wrong as number)
+  const sumWrongAnswers = (statistics.optional[day].sprintGame.wrong as number)
   + (statistics.optional?.[day].audioGame.wrong as number);
 
-  const sumCorrectAnswers = (statistics.optional?.[day].sprintGame.correct as number)
-  + (statistics.optional?.[day].audioGame.correct as number);
+  const sumCorrectAnswers = (statistics.optional[day].sprintGame.correct as number)
+  + (statistics.optional[day].audioGame.correct as number);
 
   const commonPercent = getPercent(sumWrongAnswers, sumCorrectAnswers) === 0
   || getPercent(sumWrongAnswers, sumCorrectAnswers) === 100
@@ -57,9 +57,9 @@ export function getStatisticsForRender(): [number, number, IGameStat, IGameStat]
     : Math.round(100 - ((sumWrongAnswers / sumCorrectAnswers) * 100));
 
   const dataStatistics: [number, number, IGameStat, IGameStat] = [
-    statistics.learnedWords, commonPercent,
-    statistics.optional?.[day].sprintGame as IGameStat,
-    statistics.optional?.[day].audioGame as IGameStat,
+    statistics.optional[day].learnedWordsDay.learned, commonPercent,
+    statistics.optional[day].sprintGame as IGameStat,
+    statistics.optional[day].audioGame as IGameStat,
   ];
 
   return dataStatistics;
