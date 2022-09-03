@@ -26,6 +26,7 @@ const hashPageRoute = () => {
         document.querySelector('.footer')?.classList.add('hidden');
         break;
       case 'game-audio/start':
+        document.querySelector('.footer')?.classList.add('hidden');
         break;
       case 'games':
         namePage.innerHTML = getNamePage();

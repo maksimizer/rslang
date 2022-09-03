@@ -5,7 +5,7 @@ import { eventKeyboard, eventEnterKeyboard } from './keyboardAudioGame';
 import saveUserWord from './saveUserWord';
 import shuffleWordsGame from './shuffleWordsAudioGame';
 
-const logicAudioGame = () => {
+const logicAudioGame = async (): Promise<void> => {
   const audio = document.querySelector('.audio-game-sound__image') as HTMLElement;
   const audioLineTop = document.querySelector('.audio-game-card-line-top-image') as HTMLElement;
   const audioLineMid = document.querySelector('.audio-game-card-line-mid-image') as HTMLElement;
@@ -30,7 +30,7 @@ const logicAudioGame = () => {
   if (wordsString) {
     let count = 0;
     localStorage.setItem('count-word-audio-game', `${count}`);
-    const words = JSON.parse(wordsString);
+    const words = await JSON.parse(wordsString);
     const startWord = words[count];
     new Audio(`${serverRequests.baseUrl}/${startWord.audio}`).play();
     audio.dataset.sound = `${startWord.audio}`;
@@ -83,6 +83,7 @@ const logicAudioGame = () => {
     btnKnow?.addEventListener('click', () => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
+      console.log(word);
       if (userString) {
         saveUserWord(userString, word, true, 'audio');
       }
