@@ -6,6 +6,7 @@ export const gameParameters = {
   sum: 0,
   volume: 1,
   bestResult: 0,
+  countForSelect: 57,
 };
 
 export const rightAnswers: string [] = [];

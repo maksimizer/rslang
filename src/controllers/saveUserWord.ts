@@ -18,6 +18,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
     console.log('WORDS', await serverRequests.getUserWords(user.userId, user.token));
     await console.log('Update', userWord);
     const resultWord = userWord as IUserWord;
+    console.log(userWord);
 
     if (userWord !== 'error') {
       const percentBetweenCorrectAndWrong = resultWord.optional.wrong !== 0

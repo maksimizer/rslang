@@ -25,7 +25,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     renderGame();
     changeColorStylesByLevels();
     const btnGameOut = document.querySelector('.game-out') as HTMLButtonElement;
-    const { group, page } = getGroupAndPAge();
+    const { group, page } = getGroupAndPAge('sprintGroupAndPage');
     const pages = findPage(page);
     const prevWords = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[0].toString()}` }]);
     const nextWords = await serverRequests.getWords([{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[1].toString()}` }]);
@@ -34,7 +34,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     const wordsForGame: [string, string, string, string, string][] = [];
     const allWords = [...words, ...nextWords];
 
-    resetCount();
+    resetCount(57);
     fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
     words.forEach((el) => {
       wordsForGame.push(
@@ -78,7 +78,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     rightAnswers.length = 0;
     wrongAnswers.length = 0;
     arrForSelectedWords.length = 0;
-    resetCount();
+    resetCount(57);
     fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
 
     const statistic: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
@@ -130,7 +130,7 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
     wrongAnswers.length = 0;
     arrForSelectedWords.length = 0;
     gameParameters.bestResult = 0;
-    resetCount();
+    resetCount(57);
 
     const user: IAuth = JSON.parse(localStorage.getItem('user') as string);
     serverRequests.updateUserStatistic(
@@ -138,7 +138,6 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
       user.token,
       statistic,
     );
-    console.log(statistic);
   }
 
   if ((event.target as HTMLButtonElement).closest('[data-sound]')) {
@@ -151,3 +150,66 @@ document.addEventListener('click', async (event: MouseEvent): Promise<void> => {
 
 document.addEventListener('click', gameSprintMouse);
 document.addEventListener('keydown', gameSprintKeyboard);
+
+document.addEventListener('click', async (event: MouseEvent) => {
+  if ((event.target as HTMLButtonElement).closest('#textbook-game-sprint')) {
+    const authUser = localStorage.getItem('auth');
+    const userString = localStorage.getItem('user');
+
+    drawSprintGame();
+    renderGame();
+    changeColorStylesByLevels();
+    const groupAndPage = JSON.parse(localStorage.getItem('groupAndPage') as string);
+    const { group, page } = await getGroupAndPAge('groupAndPage');
+
+    if (authUser && userString) {
+      const pages = await findPage(page.toString());
+      const nextPageInGroup = [{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[0].toString()}` }];
+      const prevPageInGroup = [{ key: 'group', value: `${group}` }, { key: 'page', value: `${pages[1].toString()}` }];
+      const user = JSON.parse(userString);
+      const newWords = await serverRequests.getUsersAggregatedWords(
+        user.userId,
+        user.token,
+        groupAndPage,
+      );
+      const nextWords = await serverRequests.getUsersAggregatedWords(
+        user.userId,
+        user.token,
+        nextPageInGroup,
+      );
+      const prevWords = await serverRequests.getUsersAggregatedWords(
+        user.userId,
+        user.token,
+        prevPageInGroup,
+      );
+      const wordsForGame = [...newWords, ...nextWords].filter((word) => word.userWord?.difficulty !== 'easy');
+      const wrongAnswersArr = [...newWords, ...nextWords, ...prevWords];
+      const btnGameOut = document.querySelector('.game-out') as HTMLButtonElement;
+      resetCount(wordsForGame.length - 1);
+      fullScreen(document.querySelector('.sprint-game-wrapper') as HTMLElement);
+      const words: [string, string, string, string, string][] = [];
+
+      wordsForGame.forEach((el) => {
+        words.push(
+          [el.word, el.wordTranslate,
+            getRandomWrongWordTranslate(wrongAnswersArr, el.wordTranslate), el.audio,
+            el.id as string],
+        );
+      });
+
+      localStorage.setItem('wordsForGame', JSON.stringify(words));
+      localStorage.setItem('allWords', JSON.stringify(wordsForGame));
+      console.log(wordsForGame);
+      const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
+      const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
+
+      wordContainer.innerHTML = words[gameParameters.count][0] as string;
+      translateWord.innerHTML = words[gameParameters.count][getRandomNumber(2, 1)];
+      localStorage.setItem('answer', JSON.stringify({ right: `${wordsForGame[gameParameters.count].wordTranslate}`, answer: `${translateWord.innerHTML}` }));
+      btnGameOut.style.visibility = 'visible';
+      btnGameOut.style.opacity = '1';
+
+      timer();
+    }
+  }
+});

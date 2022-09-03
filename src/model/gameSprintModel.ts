@@ -68,8 +68,8 @@ export function getRandomNumber(maxNumber: number, minNumber: number): number {
   return Math.floor(Math.random() * ((maxNumber) - minNumber + 1)) + minNumber;
 }
 
-export function getGroupAndPAge(): Record< string, string > {
-  const groupAndPage = JSON.parse(localStorage.getItem('sprintGroupAndPage') as string);
+export function getGroupAndPAge(name:string): Record< string, string > {
+  const groupAndPage = JSON.parse(localStorage.getItem(name) as string);
   const group: string = groupAndPage[0].value || '0';
   const page: string = groupAndPage[1].value !== 'null' ? groupAndPage[1].value : getRandomNumber(29, 0).toString();
 
@@ -77,25 +77,25 @@ export function getGroupAndPAge(): Record< string, string > {
 }
 
 export const arrForSelectedWords: Array<string> = [];
-let countForSelect = 57;
+// let countForSelect = 57;
 
 export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
   const wrongTranslateWords = arr.filter((element) => element.wordTranslate !== el
   && !arrForSelectedWords.includes(element.wordTranslate));
-
-  const number = getRandomNumber(countForSelect, 0);
-
+  console.log(gameParameters.countForSelect);
+  const number = getRandomNumber(gameParameters.countForSelect, 0);
+  console.log(number);
   const wrongTranslateWord = wrongTranslateWords[number].wordTranslate;
   arrForSelectedWords.push(wrongTranslateWord);
-  countForSelect -= 1;
-
+  gameParameters.countForSelect -= 1;
+  console.log(gameParameters.countForSelect);
   return wrongTranslateWord;
 }
 
-export function resetCount(): number {
-  countForSelect = 57;
+export function resetCount(numberWords: number): number {
+  gameParameters.countForSelect = numberWords;
 
-  return countForSelect;
+  return gameParameters.countForSelect;
 }
 
 export function playSoundAnswers(link: string, volumeSize: number): void {
