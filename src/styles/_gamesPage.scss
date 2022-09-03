@@ -60,3 +60,18 @@
   height: 300px;
   border-radius: 20px;
 }
+
+.page-404-content{
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2{
+    font-size: 80px;
+  }
+  h5{
+    font-size: 34px;
+    font-family: $headerFont;
+  }
+}

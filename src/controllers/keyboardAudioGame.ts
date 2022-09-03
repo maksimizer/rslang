@@ -27,13 +27,13 @@ async function wrongOrCorrectAnswer(
         saveUserWord(userString, word, true, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: red');
-      btnKnow.classList.toggle('hidden');
-      btnNext.classList.toggle('hidden');
-      gameCard.classList.toggle('hidden');
-      audioBlock.classList.toggle('hidden');
-      correctButton.setAttribute('style', 'background: green');
-      buttonOne.setAttribute('style', 'background: red');
-      answerSectionButton.forEach((btn) => btn.setAttribute('disabled', ''));
+      btnKnow?.classList.toggle('hidden');
+      btnNext?.classList.toggle('hidden');
+      gameCard?.classList.toggle('hidden');
+      audioBlock?.classList.toggle('hidden');
+      correctButton?.setAttribute('style', 'background: green');
+      buttonOne?.setAttribute('style', 'background: red');
+      answerSectionButton?.forEach((btn) => btn.setAttribute('disabled', ''));
       modelContentWrong.innerHTML += `<div class="result-answer-line-wrong">
   <div class="result-answer-line-image" data-sound="${word.audio}">${volumeSVG}</div>
    <span>${word.word}</span>
@@ -46,12 +46,12 @@ async function wrongOrCorrectAnswer(
         saveUserWord(userString, word, false, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: green');
-      btnKnow.classList.toggle('hidden');
-      btnNext.classList.toggle('hidden');
-      gameCard.classList.toggle('hidden');
-      audioBlock.classList.toggle('hidden');
-      buttonOne.setAttribute('style', 'background: green');
-      answerSectionButton.forEach((btn) => btn.setAttribute('disabled', ''));
+      btnKnow?.classList.toggle('hidden');
+      btnNext?.classList.toggle('hidden');
+      gameCard?.classList.toggle('hidden');
+      audioBlock?.classList.toggle('hidden');
+      buttonOne?.setAttribute('style', 'background: green');
+      answerSectionButton?.forEach((btn) => btn.setAttribute('disabled', ''));
       modelContentCorrect.innerHTML += `<div class="result-answer-line-correct">
     <div class="result-answer-line-image" data-sound="${word.audio}">${volumeSVG}</div>
      <span>${word.word}</span>
@@ -136,12 +136,12 @@ function checkNextButton() {
   const userString = localStorage.getItem('user');
   if (wordsString) {
     const words = JSON.parse(wordsString);
-    if (btnKnow.classList.contains('hidden')) {
+    if (btnKnow?.classList.contains('hidden')) {
       count += 1;
       localStorage.setItem('count-word-audio-game', `${count}`);
       const countWord = 20;
       if (count === countWord) {
-        modalResultWindow.classList.toggle('hidden');
+        modalResultWindow?.classList.toggle('hidden');
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         window.removeEventListener('keydown', eventEnterKeyboard);
       } else {
@@ -157,15 +157,15 @@ function checkNextButton() {
           'style',
           `background-image: url(${serverRequests.baseUrl}/${word.image});background-repeat: no-repeat;background-size: cover`,
         );
-        btnKnow.classList.toggle('hidden');
-        btnNext.classList.toggle('hidden');
-        gameCard.classList.toggle('hidden');
-        audioBlock.classList.toggle('hidden');
-        correctButton.setAttribute('style', 'background: #e9e9e9');
+        btnKnow?.classList.toggle('hidden');
+        btnNext?.classList.toggle('hidden');
+        gameCard?.classList.toggle('hidden');
+        audioBlock?.classList.toggle('hidden');
+        correctButton?.setAttribute('style', 'background: #e9e9e9');
         const wrongButton = document.querySelectorAll("[data-answer='wrong']");
-        wrongButton.forEach((button) => button.setAttribute('style', 'background: #e9e9e9'));
+        wrongButton?.forEach((button) => button.setAttribute('style', 'background: #e9e9e9'));
         shuffleWordsGame(word.wordTranslate);
-        answerSectionButton.forEach((btn) => btn.removeAttribute('disabled'));
+        answerSectionButton?.forEach((btn) => btn.removeAttribute('disabled'));
         window.addEventListener('keydown', eventKeyboard);
       }
     } else {
@@ -175,18 +175,20 @@ function checkNextButton() {
         saveUserWord(userString, word, true, 'audio');
       }
       document.querySelector(`.dot-${count}`)?.setAttribute('style', 'background: yellow');
-      btnKnow.classList.toggle('hidden');
-      btnNext.classList.toggle('hidden');
-      gameCard.classList.toggle('hidden');
-      audioBlock.classList.toggle('hidden');
-      correctButton.setAttribute('style', 'background: green');
-      answerSectionButton.forEach((btn) => btn.setAttribute('disabled', ''));
-      modelContentNotKnow.innerHTML += `<div class="result-answer-line">
-      <div class="result-answer-line-image" data-sound="${word.audio}">${volume}</div>
-       <span>${word.word}</span>
-       <span>-</span>
-       <span>${word.wordTranslate}</span>
-      </div>`;
+      btnKnow?.classList.toggle('hidden');
+      btnNext?.classList.toggle('hidden');
+      gameCard?.classList.toggle('hidden');
+      audioBlock?.classList.toggle('hidden');
+      correctButton?.setAttribute('style', 'background: green');
+      answerSectionButton?.forEach((btn) => btn.setAttribute('disabled', ''));
+      if (modelContentNotKnow) {
+        modelContentNotKnow.innerHTML += `<div class="result-answer-line">
+        <div class="result-answer-line-image" data-sound="${word.audio}">${volume}</div>
+         <span>${word.word}</span>
+         <span>-</span>
+         <span>${word.wordTranslate}</span>
+        </div>`;
+      }
       window.removeEventListener('keydown', eventKeyboard);
     }
   }

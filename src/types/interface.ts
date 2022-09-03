@@ -1,4 +1,5 @@
 export interface IWord {
+  '_id'?: string;
   'id': string,
   'group': number,
   'page': number,
