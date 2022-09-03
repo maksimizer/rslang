@@ -6,6 +6,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
   let wordCorrect: number;
   let wordWrong: number;
   let wordCount: number;
+  const wordID = word._id ? word._id : word.id;
 
   const userStatistics: IStatistic = await JSON.parse(localStorage.getItem('statistic') as string);
   const date = await new Date();
@@ -13,7 +14,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
   const user = await JSON.parse(userString);
 
   if (user) {
-    const userWord = await serverRequests.getUserWord(user.userId, word.id, user.token)
+    const userWord = await serverRequests.getUserWord(user.userId, wordID, user.token)
       .catch(() => 'error');
     console.log('WORDS', await serverRequests.getUserWords(user.userId, user.token));
     await console.log('Update', userWord);
@@ -37,7 +38,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         wordCorrect = resultWord.optional.correct;
 
         if (resultWord.difficulty === 'easy') {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'normal',
             optional: {
               count: wordCount,
@@ -46,7 +47,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
             },
           });
         } else if (resultWord.difficulty === 'hard') {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'hard',
             optional: {
               count: wordCount,
@@ -55,7 +56,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
             },
           });
         } else {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'normal',
             optional: {
               count: wordCount,
@@ -80,7 +81,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       && (resultWord.optional.correct + 1) >= 3
       && (resultWord.difficulty === 'normal'
       || resultWord.difficulty === 'easy')) {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
               count: wordCount,
@@ -91,7 +92,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         } else if (percentBetweenCorrectAndWrong > 80
       && (resultWord.optional.correct + 1) >= 5
       && (resultWord.difficulty === 'hard')) {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
               count: wordCount,
@@ -100,7 +101,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
             },
           });
         } else {
-          await serverRequests.updateUserWord(user.userId, word.id, user.token, {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'normal',
             optional: {
               count: wordCount,
@@ -111,7 +112,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         }
       }
 
-      const consolWordUpdate = await serverRequests.getUserWord(user.userId, word.id, user.token);
+      const consolWordUpdate = await serverRequests.getUserWord(user.userId, wordID, user.token);
       await console.log('Update', consolWordUpdate);
     } else {
       userStatistics.learnedWords += 1;
@@ -132,7 +133,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
           userStatistics.optional[day].audioGame.wrong += 1;
         }
         localStorage.setItem('statistic', JSON.stringify(userStatistics));
-        await serverRequests.createUserWord(user.userId, user.token, word.id, {
+        await serverRequests.createUserWord(user.userId, user.token, wordID, {
           difficulty: 'normal',
           optional: {
             count: 1,
@@ -148,7 +149,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
           userStatistics.optional[day].audioGame.correct += 1;
         }
         localStorage.setItem('statistic', JSON.stringify(userStatistics));
-        await serverRequests.createUserWord(user.userId, user.token, word.id, {
+        await serverRequests.createUserWord(user.userId, user.token, wordID, {
           difficulty: 'normal',
           optional: {
             count: 1,
