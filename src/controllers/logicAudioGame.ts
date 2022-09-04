@@ -80,10 +80,22 @@ const logicAudioGame = async (): Promise<void> => {
       window.addEventListener('keydown', eventKeyboard);
     }, true);
 
-    btnKnow?.addEventListener('click', () => {
+    btnKnow?.addEventListener('click', async () => {
+      const date = await new Date();
+      const day = await date.getDate();
+      const correct = localStorage.getItem('lengthCorrectAnswer');
+      const stat = localStorage.getItem('statistic');
+      if (correct && stat) {
+        const statUser = JSON.parse(stat);
+        const cor: number = +(correct);
+        if (statUser.optional[day].audioGame.winLength < cor) {
+          statUser.optional[day].audioGame.winLength = cor;
+          localStorage.setItem('statistic', JSON.stringify(statUser));
+        }
+        localStorage.setItem('lengthCorrectAnswer', '0');
+      }
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
-      console.log(word);
       if (userString) {
         saveUserWord(userString, word, true, 'audio');
       }
@@ -108,6 +120,20 @@ const logicAudioGame = async (): Promise<void> => {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
       if (button.dataset.answer === 'wrong') {
+        const date = await new Date();
+        const day = await date.getDate();
+        const correct = localStorage.getItem('lengthCorrectAnswer');
+        const stat = localStorage.getItem('statistic');
+        if (correct && stat) {
+          const statUser = JSON.parse(stat);
+          const cor: number = +(correct);
+          if (statUser.optional[day].audioGame.winLength < cor) {
+            statUser.optional[day].audioGame.winLength = cor;
+            localStorage.setItem('statistic', JSON.stringify(statUser));
+          }
+          localStorage.setItem('lengthCorrectAnswer', '0');
+        }
+
         if (userString) {
           saveUserWord(userString, word, true, 'audio');
         }
@@ -128,6 +154,11 @@ const logicAudioGame = async (): Promise<void> => {
         window.removeEventListener('keydown', eventKeyboard);
       }
       if (button.dataset.answer === 'correct') {
+        const obj = localStorage.getItem('lengthCorrectAnswer');
+        if (obj) {
+          const cor: number = +(obj);
+          localStorage.setItem('lengthCorrectAnswer', `${+cor + 1}`);
+        }
         if (userString) {
           saveUserWord(userString, word, false, 'audio');
         }

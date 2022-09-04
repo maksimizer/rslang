@@ -137,7 +137,15 @@ export function userPageStatisticsView(
                                   <div> ${check} longest series of correct</div>
                                   <div class="series"> answers: ${arr[4].winLength}</div>
                                 </div>
-                            </div>`;
+                            </div>
+                            <h1 class="header-statistics">Statistics for month</h1>
+                            <div class="myChart">
+                            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                            </div>
+                            <div class="myChartLearn">
+                            <canvas id="myChartLearn" style="width:100%;max-width:600px"></canvas>
+                            </div>
+                            `;
 
   return dayStatisticsView;
 }

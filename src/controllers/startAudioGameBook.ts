@@ -5,6 +5,7 @@ import logicAudioGame from './logicAudioGame';
 import saveWordLocal from './saveWordsLocal';
 
 const startAudioGameBook = () => {
+  localStorage.setItem('lengthCorrectAnswer', '0');
   const startButton = document.querySelector('#textbook-game-audio') as HTMLElement;
   startButton.addEventListener('click', async () => {
     await saveWordLocal();
