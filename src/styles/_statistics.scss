@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 90vh;
+  min-height: 90vh;
 }
 
 .header-statistics {
@@ -78,4 +78,10 @@
 .statistic-game:hover {
   transform: scale(1.1);
   transition: 0.3s;
+}
+
+.myChart,
+.myChartLearn{
+  width: 550px;
+  height:300px;
 }
