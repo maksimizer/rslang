@@ -16,7 +16,19 @@ const saveWordLocal = async (): Promise<void> => {
     const userString = localStorage.getItem('user');
     if (bookPageGroup) {
       const groupAndPage = await JSON.parse(bookPageGroup);
-      if (auth && userString) {
+      if (groupAndPage[0].value === 6 && userString) {
+        const user = JSON.parse(userString);
+        const page = randomPage();
+        const words = await serverRequests.getWords([
+          { key: 'page', value: `${page}` },
+          { key: 'group', value: '5' }]);
+        const wordsDif = await serverRequests.getUsersAggregatedWordsByDifficulty(
+          user.userId,
+          user.token,
+          'hard',
+        );
+        localStorage.setItem('audio-game-words', JSON.stringify([...wordsDif, ...words]));
+      } else if (auth && userString) {
         const user = JSON.parse(userString);
         const words = await serverRequests.getUsersAggregatedWords(
           user.userId,

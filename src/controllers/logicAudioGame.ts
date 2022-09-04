@@ -96,7 +96,6 @@ const logicAudioGame = async (): Promise<void> => {
       }
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
-      console.log(word);
       if (userString) {
         saveUserWord(userString, word, true, 'audio');
       }
