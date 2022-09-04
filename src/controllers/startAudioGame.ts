@@ -22,6 +22,7 @@ export const eventStartGame = async (event: KeyboardEvent): Promise<void> => {
 };
 
 const startAudioGame = () => {
+  localStorage.setItem('lengthCorrectAnswer', '0');
   const serverPath = serverRequests.baseUrl;
   const startButton = document.querySelector('.audio-game-start-button') as HTMLElement;
   const gameWrapper = document.querySelector('.audio-game-wrapper') as HTMLElement;

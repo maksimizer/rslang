@@ -23,6 +23,19 @@ async function wrongOrCorrectAnswer(
     const words = await JSON.parse(wordsString);
     const word = words[count];
     if (buttonOne.dataset.answer === 'wrong') {
+      const date = await new Date();
+      const day = await date.getDate();
+      const correct = localStorage.getItem('lengthCorrectAnswer');
+      const stat = localStorage.getItem('statistic');
+      if (correct && stat) {
+        const statUser = JSON.parse(stat);
+        const cor: number = +(correct);
+        if (statUser.optional[day].audioGame.winLength < cor) {
+          statUser.optional[day].audioGame.winLength = cor;
+          localStorage.setItem('statistic', JSON.stringify(statUser));
+        }
+        localStorage.setItem('lengthCorrectAnswer', '0');
+      }
       if (userString) {
         saveUserWord(userString, word, true, 'audio');
       }
@@ -42,6 +55,11 @@ async function wrongOrCorrectAnswer(
   </div>`;
     }
     if (buttonOne.dataset.answer === 'correct') {
+      const obj = localStorage.getItem('lengthCorrectAnswer');
+      if (obj) {
+        const cor: number = +(obj);
+        localStorage.setItem('lengthCorrectAnswer', `${+cor + 1}`);
+      }
       if (userString) {
         saveUserWord(userString, word, false, 'audio');
       }
@@ -115,7 +133,7 @@ export const eventKeyboard = (event: KeyboardEvent) => {
   }
 };
 
-function checkNextButton() {
+async function checkNextButton() {
   const btnNext = document.querySelector('.audio-game-button-next') as HTMLElement;
   const wordsString = localStorage.getItem('audio-game-words');
   let count = Number(localStorage.getItem('count-word-audio-game'));
@@ -171,6 +189,19 @@ function checkNextButton() {
     } else {
       count = Number(localStorage.getItem('count-word-audio-game'));
       const word = words[count];
+      const date = await new Date();
+      const day = await date.getDate();
+      const correct = localStorage.getItem('lengthCorrectAnswer');
+      const stat = localStorage.getItem('statistic');
+      if (correct && stat) {
+        const statUser = JSON.parse(stat);
+        const cor: number = +(correct);
+        if (statUser.optional[day].audioGame.winLength < cor) {
+          statUser.optional[day].audioGame.winLength = cor;
+          localStorage.setItem('statistic', JSON.stringify(statUser));
+        }
+        localStorage.setItem('lengthCorrectAnswer', '0');
+      }
       if (userString) {
         saveUserWord(userString, word, true, 'audio');
       }

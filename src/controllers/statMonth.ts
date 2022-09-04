@@ -21,7 +21,6 @@ const statMount = async (): Promise<void> => {
         arrayLearnedWords.push(0);
       }
     });
-    // console.log(userStat, arrayNewWords, arrayLearnedWords);
     const c = document.getElementById('myChart') as HTMLCanvasElement;
     const cLearn = document.getElementById('myChartLearn') as HTMLCanvasElement;
     const ctx = c.getContext('2d');
