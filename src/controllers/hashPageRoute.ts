@@ -13,11 +13,13 @@ import serverRequests from '../model/appModel';
 import { IAuth } from '../types/interface';
 import startAudioGameBook from './startAudioGameBook';
 import renderPage404 from '../views/render404Page';
+import { arrForSelectedWords, resetCount } from '../model/gameSprintModel';
 
 const hashPageRoute = () => {
   window.addEventListener('hashchange', async () => {
     const hash = window.location.hash.slice(1);
     const namePage = document.querySelector('.name-page') as HTMLDivElement;
+
     switch (hash) {
       case 'game-audio':
         drawAudioGame();
@@ -26,6 +28,9 @@ const hashPageRoute = () => {
         document.querySelector('.footer')?.classList.add('hidden');
         break;
       case 'game-audio/start':
+        document.querySelector('.footer')?.classList.add('hidden');
+        break;
+      case 'game-sprint/start':
         document.querySelector('.footer')?.classList.add('hidden');
         break;
       case 'games':
@@ -49,18 +54,30 @@ const hashPageRoute = () => {
           const mainContainer = document.querySelector('.main') as HTMLElement;
           mainContainer.innerHTML = renderMainContent();
           document.querySelector('.footer')?.classList.remove('hidden');
+          resetCount(57);
+          arrForSelectedWords.length = 0;
         }
         break;
       case 'book':
-        namePage.innerHTML = getNamePage();
-        textbookController.renderTextbookPage();
-        textbookController.renderWords();
-        textbookController.addEventListeners();
-        startAudioGameBook();
-        document.querySelector('.footer')?.classList.remove('hidden');
+        {
+          const groupAndPage = localStorage.getItem('groupAndPage');
+          if (!groupAndPage) {
+            localStorage.setItem('groupAndPage', JSON.stringify([{ key: 'group', value: 0 }, { key: 'page', value: 0 }]));
+          }
+          namePage.innerHTML = getNamePage();
+          textbookController.renderTextbookPage();
+          textbookController.renderWords();
+          textbookController.addEventListeners();
+          startAudioGameBook();
+          document.querySelector('.footer')?.classList.remove('hidden');
+          resetCount(57);
+          arrForSelectedWords.length = 0;
+        }
         break;
       case 'statistics':
         namePage.innerHTML = getNamePage();
+        resetCount(57);
+        arrForSelectedWords.length = 0;
 
         if (localStorage.getItem('auth') === 'true') {
           const user: IAuth = await JSON.parse(localStorage.getItem('user') as string);

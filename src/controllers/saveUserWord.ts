@@ -6,6 +6,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
   let wordCorrect: number;
   let wordWrong: number;
   let wordCount: number;
+
   const wordID = word._id ? word._id : word.id;
 
   const userStatistics: IStatistic = await JSON.parse(localStorage.getItem('statistic') as string);

@@ -1,12 +1,14 @@
-import { gameParameters, rightAnswers, wrongAnswers } from '../constants/constants';
+import { gameParameters } from '../constants/constants';
 import saveUserWord from '../controllers/saveUserWord';
-import { IStatistic, IWord } from '../types/interface';
+import { IWord } from '../types/interface';
 import { volume } from '../utils/icons';
 
-export function timer(): void {
+export function timer(): number {
   const countDownElement = document.querySelector('.timer-game') as HTMLDivElement;
   const modalResultWindow = document.querySelector('.game-sprint-modal-window') as HTMLDivElement;
   const html = document.querySelector('html') as HTMLHtmlElement;
+  const arrWordsLength = JSON.parse(localStorage.getItem('allWords') as string).length;
+  console.log(gameParameters.count, arrWordsLength);
 
   let secondsForGame = 59;
   const SECOND_STOP_TIMER = 0;
@@ -14,7 +16,7 @@ export function timer(): void {
   const interval = setInterval(() => {
     countDownElement.innerHTML = secondsForGame.toString();
 
-    if (SECOND_STOP_TIMER === secondsForGame) {
+    if ((SECOND_STOP_TIMER === secondsForGame)) {
       clearInterval(interval);
       modalResultWindow.classList.toggle('hidden');
       html.style.overflowY = 'hidden';
@@ -22,6 +24,8 @@ export function timer(): void {
 
     secondsForGame -= 1;
   }, 1000);
+
+  return +interval;
 }
 
 function addColorStyle(color: string): void {
@@ -32,32 +36,36 @@ function addColorStyle(color: string): void {
   timerBox.style.border = ` 2px solid ${color}`;
 }
 
-export function changeColorStylesByLevels(): void {
-  const groupAndPage = JSON.parse(localStorage.getItem('sprintGroupAndPage') as string);
+export function changeColorStylesByLevels(name: string): void {
+  const groupAndPage = JSON.parse(localStorage.getItem(name) as string);
 
   switch ((groupAndPage[0].value).toString()) {
-    case '1':
+    case '0':
       addColorStyle('rgb(43, 255, 107)');
       break;
 
-    case '2':
+    case '1':
       addColorStyle('rgb(128, 255, 43)');
       break;
 
-    case '3':
+    case '2':
       addColorStyle('rgb(223, 255, 43)');
       break;
 
-    case '4':
+    case '3':
       addColorStyle('rgb(255, 234, 43)');
       break;
 
-    case '5':
+    case '4':
       addColorStyle('rgb(255, 163, 43)');
       break;
 
-    case '6':
+    case '5':
       addColorStyle('rgb(255, 128, 43)');
+      break;
+
+    case '6':
+      addColorStyle('rgb(255, 68, 43)');
       break;
 
     default:
@@ -77,19 +85,29 @@ export function getGroupAndPAge(name:string): Record< string, string > {
 }
 
 export const arrForSelectedWords: Array<string> = [];
-// let countForSelect = 57;
 
-export function getRandomWrongWordTranslate(arr: IWord[], el: string): string {
-  const wrongTranslateWords = arr.filter((element) => element.wordTranslate !== el
-  && !arrForSelectedWords.includes(element.wordTranslate));
-  console.log(gameParameters.countForSelect);
-  const number = getRandomNumber(gameParameters.countForSelect, 0);
-  console.log(number);
-  const wrongTranslateWord = wrongTranslateWords[number].wordTranslate;
-  arrForSelectedWords.push(wrongTranslateWord);
-  gameParameters.countForSelect -= 1;
-  console.log(gameParameters.countForSelect);
-  return wrongTranslateWord;
+export async function getWordsForGame() {
+  const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
+
+  const wordsForGameSprint: [string, string, string, string][] = allWords.map(
+    (wordGame: IWord) => [wordGame.word, wordGame.audio, wordGame.id, wordGame.wordTranslate],
+  );
+
+  const translateWords = allWords.map((wordGame: IWord) => wordGame.wordTranslate);
+
+  for (let i = 0; i < wordsForGameSprint.length;) {
+    const { length } = translateWords;
+    const number = getRandomNumber(length - 1, 0);
+    const randomTranslateWord = translateWords[number];
+
+    if (wordsForGameSprint[i][3] !== randomTranslateWord) {
+      wordsForGameSprint[i].push(randomTranslateWord);
+      translateWords.splice(number, 1);
+      i += 1;
+    }
+  }
+
+  localStorage.setItem('wordsForGame', JSON.stringify(wordsForGameSprint));
 }
 
 export function resetCount(numberWords: number): number {
@@ -248,7 +266,6 @@ export async function checkRightOrWrongAnswer(
   const modelContentCorrect = document.querySelector('.modal-content-correct') as HTMLElement;
 
   if (answer === true) {
-    rightAnswers.push(arr[gameParameters.count - 1][0]);
     playSoundAnswers('./assets/sounds/right-volume.mp3', gameParameters.volume);
     gameParameters.trueAnswers += 1;
     gameParameters.sum += changeScore(gameParameters.trueAnswers);
@@ -256,20 +273,19 @@ export async function checkRightOrWrongAnswer(
       ? gameParameters.bestResult : gameParameters.trueAnswers;
     scoreContainer.innerHTML = gameParameters.sum.toString();
     modelContentCorrect.innerHTML += `<div class="result-answer-line-correct">
-    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][3]}">${volume}</div>
+    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][1]}">${volume}</div>
      <span>${arr[gameParameters.count - 1][0]}</span>
      <span>-</span>
-     <span>${arr[gameParameters.count - 1][1]}</span>
+     <span>${arr[gameParameters.count - 1][3]}</span>
     </div>`;
   } else {
-    wrongAnswers.push(arr[gameParameters.count - 1][0]);
     playSoundAnswers('./assets/sounds/wrong-volume.mp3', gameParameters.volume);
     gameParameters.trueAnswers = 0;
     modelContentWrong.innerHTML += `<div class="result-answer-line-wrong">
-    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][3]}">${volume}</div>
+    <div class="result-answer-line-image" data-sound="${arr[gameParameters.count - 1][1]}">${volume}</div>
      <span>${arr[gameParameters.count - 1][0]}</span>
      <span>-</span>
-     <span>${arr[gameParameters.count - 1][1]}</span>
+     <span>${arr[gameParameters.count - 1][3]}</span>
     </div>`;
   }
 }
@@ -283,82 +299,120 @@ export async function gameSprintKeyboard(event: KeyboardEvent) {
     const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
     const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
     const user = localStorage.getItem('user') as string;
+    const modalResultWindow = document.querySelector('.game-sprint-modal-window') as HTMLDivElement;
+    const html = document.querySelector('html') as HTMLHtmlElement;
 
     gameParameters.count += 1;
+    if (gameParameters.count === allWords.length) {
+      if (answer.right === answer.answer && event.code === 'ArrowRight') {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
+        await checkRightOrWrongAnswer(false, words);
+        await saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
 
-    if (gameParameters.count === 38) {
-      gameParameters.count = 1;
+      if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      changeStylesForRightAnswers(gameParameters.trueAnswers);
+      modalResultWindow.classList.toggle('hidden');
+      html.style.overflowY = 'hidden';
+      clearInterval(gameParameters.interval);
     }
 
-    wordContainer.innerHTML = words[gameParameters.count][0] as string;
-    translateWord.innerHTML = words[gameParameters.count][getRandomNumber(2, 1)];
+    if (gameParameters.count !== allWords.length) {
+      wordContainer.innerHTML = words[gameParameters.count][0] as string;
+      translateWord.innerHTML = words[gameParameters.count][getRandomNumber(4, 3)];
 
-    localStorage.setItem('answer', JSON.stringify(
-      { right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` },
-    ));
+      localStorage.setItem('answer', JSON.stringify(
+        { right: `${words[gameParameters.count][3]}`, answer: `${translateWord.innerHTML}` },
+      ));
 
-    if (answer.right === answer.answer && event.code === 'ArrowRight') {
-      await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
-    } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
-      await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
+      if (answer.right === answer.answer && event.code === 'ArrowRight') {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right !== answer.answer && event.code === 'ArrowRight') {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      changeStylesForRightAnswers(gameParameters.trueAnswers);
     }
-
-    if (answer.right !== answer.answer && event.code === 'ArrowLeft') {
-      await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
-    } else if (answer.right === answer.answer && event.code === 'ArrowLeft') {
-      await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
-    }
-    changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }
 
 export async function gameSprintMouse(event: MouseEvent) {
   if ((event.target as HTMLButtonElement).classList.contains('answer')) {
-    const answer = JSON.parse(localStorage.getItem('answer') as string);
+    const answer = await JSON.parse(localStorage.getItem('answer') as string);
     const wordContainer = document.querySelector('.word-game') as HTMLDivElement;
     const translateWord = document.querySelector('.word-translate') as HTMLDivElement;
     const words:[string, string, string, string, string] [] = JSON.parse(localStorage.getItem('wordsForGame') as string);
     const allWords: IWord[] = await JSON.parse(localStorage.getItem('allWords') as string);
     const user = localStorage.getItem('user') as string;
-    const userStatistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
-    // const date = new Date();
-    // const day = date.getDate();
+    const modalResultWindow = document.querySelector('.game-sprint-modal-window') as HTMLDivElement;
+    const html = document.querySelector('html') as HTMLHtmlElement;
+
     gameParameters.count += 1;
+    if (gameParameters.count === allWords.length) {
+      if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+        await checkRightOrWrongAnswer(false, words);
+        await saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
 
-    if (gameParameters.count === 38) {
-      gameParameters.count = 1;
+      if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      changeStylesForRightAnswers(gameParameters.trueAnswers);
+      modalResultWindow.classList.toggle('hidden');
+      html.style.overflowY = 'hidden';
+      clearInterval(gameParameters.interval);
     }
 
-    wordContainer.innerHTML = words[gameParameters.count][0] as string;
-    translateWord.innerHTML = words[gameParameters.count][getRandomNumber(2, 1)];
+    if (gameParameters.count !== allWords.length) {
+      wordContainer.innerHTML = words[gameParameters.count][0] as string;
+      translateWord.innerHTML = words[gameParameters.count][getRandomNumber(4, 3)];
 
-    localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count][1]}`, answer: `${translateWord.innerHTML}` }));
+      localStorage.setItem('answer', JSON.stringify({ right: `${words[gameParameters.count][3]}`, answer: `${translateWord.innerHTML}` }));
 
-    if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
-      // userStatistics.optional[day].sprintGame.correct += 1;
-    } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
-      await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
-      // userStatistics.optional[day].sprintGame.wrong += 1;
+      if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('right-answer')) {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+        await checkRightOrWrongAnswer(true, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], false, 'sprint');
+      } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
+        await checkRightOrWrongAnswer(false, words);
+        saveUserWord(user, allWords[gameParameters.count - 1], true, 'sprint');
+      }
+
+      changeStylesForRightAnswers(gameParameters.trueAnswers);
     }
-
-    if (answer.right !== answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      await checkRightOrWrongAnswer(true, words);
-      saveUserWord(user, allWords[gameParameters.count], false, 'sprint');
-      // userStatistics.optional[day].sprintGame.correct += 1;
-    } else if (answer.right === answer.answer && (event.target as HTMLButtonElement).classList.contains('wrong-answer')) {
-      await checkRightOrWrongAnswer(false, words);
-      saveUserWord(user, allWords[gameParameters.count], true, 'sprint');
-      // userStatistics.optional[day].sprintGame.wrong += 1;
-    }
-
-    localStorage.setItem('statistic', JSON.stringify(userStatistics));
-    changeStylesForRightAnswers(gameParameters.trueAnswers);
   }
 }
