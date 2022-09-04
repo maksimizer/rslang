@@ -195,10 +195,12 @@ class TextbookController {
 
   renderWords = async () => {
     const queryParams = this.getGroupAndPage();
-
+    const cardsContainer = document.querySelector('.cards-container');
+    const textbookGames = document.querySelector('.textbook-games');
     if (localStorage.getItem('auth') === 'true') {
       const user = this.getUser();
       let words;
+      let hardAndLearnedWordsCount = 0;
       if (queryParams[0].value !== 6) {
         words = await this.serverRequests.getUsersAggregatedWords(
           user.userId,
@@ -213,7 +215,6 @@ class TextbookController {
         );
       }
 
-      const cardsContainer = document.querySelector('.cards-container');
       if (cardsContainer) cardsContainer.innerHTML = '';
 
       words.forEach((word) => {
@@ -224,18 +225,32 @@ class TextbookController {
           if (difficultBtn) {
             difficultBtn.classList.add('difficult-btn-active');
           }
+          hardAndLearnedWordsCount += 1;
         } else if (word.userWord && word.userWord.difficulty === 'easy') {
           const learnedBtn = card.querySelector('.learned-btn');
           if (learnedBtn) {
             learnedBtn.classList.add('learned-btn-active');
           }
+          hardAndLearnedWordsCount += 1;
         }
       });
+      if (hardAndLearnedWordsCount === 20 && queryParams[0].value !== 6) {
+        document.querySelectorAll('.current-page').forEach((el) => {
+          el.classList.add('current-page-learned');
+        });
+        if (cardsContainer) cardsContainer.classList.add('current-page-learned');
+        if (textbookGames) textbookGames.classList.add('hidden');
+      } else if (hardAndLearnedWordsCount !== 20) {
+        document.querySelectorAll('.current-page').forEach((el) => {
+          el.classList.remove('current-page-learned');
+        });
+        if (cardsContainer) cardsContainer.classList.remove('current-page-learned');
+        if (textbookGames) textbookGames.classList.remove('hidden');
+      }
       this.checkForAuth();
     } else {
       const words = await this.serverRequests.getWords(queryParams);
 
-      const cardsContainer = document.querySelector('.cards-container');
       if (cardsContainer) cardsContainer.innerHTML = '';
 
       words.forEach((word) => {
