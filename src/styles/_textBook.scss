@@ -155,3 +155,10 @@
 .hidden {
   display: none;
 }
+
+@media (max-width: 999px) {
+  .groups-btns {
+    flex-wrap: wrap;
+    max-width: 640px;
+  }
+}
