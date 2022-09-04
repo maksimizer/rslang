@@ -80,9 +80,9 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         wordCorrect = resultWord.optional.correct + 1;
 
         if (percentBetweenCorrectAndWrong > 80
-      && (resultWord.optional.correct + 1) >= 3
-      && (resultWord.difficulty === 'normal'
-      || resultWord.difficulty === 'easy')) {
+        && (resultWord.optional.correct + 1) >= 3
+        && (resultWord.difficulty === 'normal')) {
+          userStatistics.optional[day].learnedWordsDay.learned += 1;
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
@@ -92,8 +92,20 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
             },
           });
         } else if (percentBetweenCorrectAndWrong > 80
-      && (resultWord.optional.correct + 1) >= 5
-      && (resultWord.difficulty === 'hard')) {
+        && (resultWord.optional.correct + 1) >= 3
+        && (resultWord.difficulty === 'easy')) {
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
+            difficulty: 'easy',
+            optional: {
+              count: wordCount,
+              wrong: wordWrong,
+              correct: wordCorrect,
+            },
+          });
+        } else if (percentBetweenCorrectAndWrong > 80
+        && (resultWord.optional.correct + 1) >= 5
+        && (resultWord.difficulty === 'hard')) {
+          userStatistics.optional[day].learnedWordsDay.learned += 1;
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
@@ -118,7 +130,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       await console.log('Update', consolWordUpdate);
     } else {
       userStatistics.learnedWords += 1;
-      userStatistics.optional[day].learnedWordsDay.learned += 1;
+      // userStatistics.optional[day].learnedWordsDay.learned += 1;
 
       if (typeGame === 'sprint') {
         userStatistics.optional[day].sprintGame.newWord += 1;

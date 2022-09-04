@@ -40,7 +40,10 @@ export function renderPageStatistics(): void {
   content.innerHTML = pageStatisticsView();
 }
 
-export function getStatisticsForRender(): [ number, number, IGameStat, IGameStat] {
+export function getStatisticsForRender():
+[
+  number, number, number, IGameStat, IGameStat, number, number,
+] {
   const date = new Date();
   const day = date.getDate();
   const statistics: IStatistic = JSON.parse(localStorage.getItem('statistic') as string);
@@ -50,50 +53,89 @@ export function getStatisticsForRender(): [ number, number, IGameStat, IGameStat
 
   const sumCorrectAnswers = (statistics.optional[day].sprintGame.correct as number)
   + (statistics.optional[day].audioGame.correct as number);
+  const newWordsPerDay = (statistics.optional[day].audioGame.newWord as number)
+  + (statistics.optional[day].sprintGame.newWord as number);
 
   const commonPercent = getPercent(sumWrongAnswers, sumCorrectAnswers) === 0
   || getPercent(sumWrongAnswers, sumCorrectAnswers) === 100
     ? getPercent(sumWrongAnswers, sumCorrectAnswers)
     : Math.round(100 - ((sumWrongAnswers / sumCorrectAnswers) * 100));
 
-  const dataStatistics: [number, number, IGameStat, IGameStat] = [
-    statistics.optional[day].learnedWordsDay.learned, commonPercent,
+  const audioPercent = getPercent(
+    (statistics.optional?.[day].audioGame.wrong as number),
+    (statistics.optional[day].audioGame.correct as number),
+  ) === 0
+    || getPercent(
+      (statistics.optional?.[day].audioGame.wrong as number),
+      (statistics.optional[day].audioGame.correct as number),
+    ) === 100
+    ? getPercent(
+      (statistics.optional?.[day].audioGame.wrong as number),
+      (statistics.optional[day].audioGame.correct as number),
+    )
+    : Math.round(100 - ((
+      (statistics.optional?.[day].audioGame.wrong as number)
+      / (statistics.optional[day].audioGame.correct as number)) * 100));
+
+  const sprintPercent = getPercent(
+    (statistics.optional?.[day].sprintGame.wrong as number),
+    (statistics.optional[day].sprintGame.correct as number),
+  ) === 0
+        || getPercent(
+          (statistics.optional?.[day].sprintGame.wrong as number),
+          (statistics.optional[day].sprintGame.correct as number),
+        ) === 100
+    ? getPercent(
+      (statistics.optional?.[day].sprintGame.wrong as number),
+      (statistics.optional[day].sprintGame.correct as number),
+    )
+    : Math.round(100 - ((
+      (statistics.optional?.[day].sprintGame.wrong as number)
+          / (statistics.optional[day].sprintGame.correct as number)) * 100));
+
+  const dataStatistics: [number, number, number, IGameStat, IGameStat, number, number] = [
+    +statistics.optional[day].learnedWordsDay.learned, newWordsPerDay, commonPercent,
     statistics.optional[day].sprintGame as IGameStat,
     statistics.optional[day].audioGame as IGameStat,
+    sprintPercent, audioPercent,
   ];
 
   return dataStatistics;
 }
 
 export function userPageStatisticsView(
-  arr: [number, number, IGameStat, IGameStat],
+  arr: [number, number, number, IGameStat, IGameStat, number, number],
 ): string {
   const dayStatisticsView = `<h1 class="header-statistics">Statistics for today</h1>
                             <div class="total-statistics-wrapper">
                               <div class="total-results-wrapper">
+                              <div class="total-leranedWords">
+                              <h2>${arr[0]}</h2>
+                              <p>learned words</p>
+                              </div>
                                 <div class="total-words">
-                                  <h2>${arr[0]}</h2>
-                                  <p>learned words</p>
+                                  <h2>${arr[1]}</h2>
+                                  <p>new words</p>
                                 </div>
                                 <div class="total-percent">
-                                  <h2>${arr[1]}%</h2>
+                                  <h2>${arr[2]}%</h2>
                                   <p>correct answers</p>
                                 </div>
                               </div>
                               <div class="statistic-game-wrapper">
                                 <div class="statistic-game sprint">
                                   <h3>Sprint</h3>
-                                  <div>${check} learned ${arr[2].newWord} word</div>
-                                  <div>${check} correct answers: ${arr[2].correct}</div>
+                                  <div>${check} new words: ${arr[3].newWord}</div>
+                                  <div>${check} correct answers: ${arr[5]}%</div>
                                   <div> ${check} longest series of correct</div>
-                                  <div class="series"> answers: ${arr[2].winLength}</div>
+                                  <div class="series"> answers: ${arr[3].winLength}</div>
                                 </div>
                                 <div class="statistic-game audio">
                                   <h3>Audio game</h3>
-                                  <div> ${check} learned ${arr[3].newWord} word</div>
-                                  <div> ${check} correct answers: ${arr[3].correct}</div>
+                                  <div> ${check} new words: ${arr[4].newWord}</div>
+                                  <div> ${check} correct answers: ${arr[6]}%</div>
                                   <div> ${check} longest series of correct</div>
-                                  <div class="series"> answers: ${arr[3].winLength}</div>
+                                  <div class="series"> answers: ${arr[4].winLength}</div>
                                 </div>
                             </div>`;
 
