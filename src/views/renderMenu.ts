@@ -82,7 +82,7 @@ export function renderMainContent(): string {
                       <img class="advantage-img" src="./assets/img/game-advantage.webp">
                       <div>
                         <h3>Games</h3>
-                        <p class="advantage-text">3 exciting word learning games</p>
+                        <p class="advantage-text">2 exciting word learning games</p>
                       </div>
                     </div>
                     <div class="advantage">
