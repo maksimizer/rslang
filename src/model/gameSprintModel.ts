@@ -7,8 +7,6 @@ export function timer(): number {
   const countDownElement = document.querySelector('.timer-game') as HTMLDivElement;
   const modalResultWindow = document.querySelector('.game-sprint-modal-window') as HTMLDivElement;
   const html = document.querySelector('html') as HTMLHtmlElement;
-  const arrWordsLength = JSON.parse(localStorage.getItem('allWords') as string).length;
-  console.log(gameParameters.count, arrWordsLength);
 
   let secondsForGame = 59;
   const SECOND_STOP_TIMER = 0;

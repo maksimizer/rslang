@@ -248,6 +248,5 @@ document.addEventListener('click', async (event: MouseEvent) => {
     btnGameOut.style.visibility = 'visible';
     btnGameOut.style.opacity = '1';
     gameParameters.interval = timer();
-    console.log(gameParameters.count);
   }
 });
