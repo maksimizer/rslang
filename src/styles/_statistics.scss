@@ -18,7 +18,7 @@
   width: 700px;
 
   h2 {
-    font-size: 8rem;
+    font-size: 6rem;
     margin-bottom: 0;
   }
 
@@ -31,7 +31,8 @@
 }
 
 .total-words,
-.total-percent {
+.total-percent, 
+.total-leranedWords {
   text-align: center;
   width: 300px;
 }
