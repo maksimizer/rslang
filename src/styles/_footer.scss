@@ -9,6 +9,10 @@
     justify-content: space-between;
     align-items: center;
     font-family: $headerFont;
+
+    p {
+      margin: 10px;
+    }
   }
 
   .footer-year {
@@ -43,6 +47,13 @@
   .github-link:hover {
     transform: scale(1.1);
     transition: 0.3s;
+  }
+
+  @media (max-width: 840px) {
+    .footer-container {
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
   }
 
 }

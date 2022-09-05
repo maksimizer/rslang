@@ -25,9 +25,13 @@
   .team-member {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 30px;
-    padding-left: 20px;
+  }
+
+  .about-member-text {
+    max-width: 700px;
+    flex-grow: 1;
   }
 
   h3 {
@@ -47,4 +51,26 @@
     font-size: 20px;
   }
 
+  @media (max-width: 840px) {
+    .about-team-wrapper {
+      gap: 40px;
+    }
+
+    .team-member {
+      flex-direction: column;
+      text-align: center;
+      gap: 0px;
+    }
+    
+    h3 {
+      margin: 10px 0 0 0;
+    }
+
+    h4 {
+      font-family: $headerFont;
+      font-size: 20px;
+      margin: 10px 0 0 0;
+    }
+  }
 }
+

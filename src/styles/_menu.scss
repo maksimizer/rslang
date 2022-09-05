@@ -18,6 +18,7 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    margin-top: 10px;
   }
 
   .nav-book,
@@ -104,8 +105,7 @@
 
 @media (max-width: 800px) {
   .menu-burger {
-    opacity: 0;
-    visibility: hidden;
+    display: none;
   }
   
 }
