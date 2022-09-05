@@ -101,7 +101,6 @@ async function hashFunction() {
             window.location.reload();
           }
         } else if (checkDay.includes(day.toString())) {
-          console.log(user);
           delete userStat.id;
           await serverRequests.updateUserStatistic(user.userId, user.token, userStat);
           const statistic = await serverRequests.getUsersStatistic(user.userId, user.token);
