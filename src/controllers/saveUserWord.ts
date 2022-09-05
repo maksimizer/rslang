@@ -27,6 +27,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         ? Math.round(
           100 - ((resultWord.optional.wrong / (resultWord.optional.correct + 1)) * 100),
         ) : 100;
+      console.log(percentBetweenCorrectAndWrong);
       if (wrong) {
         if (typeGame === 'sprint') {
           userStatistics.optional[day].sprintGame.wrong += 1;
@@ -49,6 +50,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
             },
           });
         } else if (resultWord.difficulty === 'hard') {
+          console.log(userWord);
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'hard',
             optional: {
@@ -107,6 +109,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         && (resultWord.optional.correct + 1) >= 5
         && (resultWord.difficulty === 'hard')) {
           userStatistics.optional[day].learnedWordsDay.learned += 1;
+          console.log(userWord);
           localStorage.setItem('statistic', JSON.stringify(userStatistics));
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
@@ -116,7 +119,23 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
               correct: wordCorrect,
             },
           });
-        } else {
+        } else if ((percentBetweenCorrectAndWrong > 80 || resultWord.optional.wrong === 0)
+          && (resultWord.optional.correct + 1) < 5
+          && (resultWord.difficulty === 'hard')) {
+          console.log(userStatistics);
+          console.log(userWord);
+          await serverRequests.updateUserWord(user.userId, wordID, user.token, {
+            difficulty: 'hard',
+            optional: {
+              count: wordCount,
+              wrong: wordWrong,
+              correct: wordCorrect,
+            },
+          });
+        } else if ((percentBetweenCorrectAndWrong < 80 || resultWord.optional.wrong === 0)
+          && (resultWord.optional.correct + 1) < 3
+          && (resultWord.difficulty === 'normal')) {
+          console.log(userWord);
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'normal',
             optional: {

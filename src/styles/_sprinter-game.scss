@@ -392,3 +392,11 @@ $colorLevelSix: rgb(255, 128, 43);
   transition: 0.3ms;
   color: #6B53FF;
 }
+
+@media (max-width: 800px) {
+  .timer-game {
+    top: 10%;
+    left: 75%;
+  }
+
+}

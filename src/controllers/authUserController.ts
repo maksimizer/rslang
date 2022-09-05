@@ -15,10 +15,12 @@ document.addEventListener('click', async (event: Event) => {
 
   const date = new Date();
   const day = date.getDate();
+  const time = date.getHours() + 4;
 
   if ((event.target as HTMLButtonElement).classList.contains('authorization')) {
     if (localStorage.getItem('auth') === 'true') {
       localStorage.removeItem('auth');
+      localStorage.removeItem('hours');
       auth.changeStylesAuthWindow('0', 'hidden');
       html.style.overflowY = '';
       userAuthName.innerHTML = '';
@@ -45,6 +47,7 @@ document.addEventListener('click', async (event: Event) => {
         messageError.innerHTML = 'Wrong email or password';
       } else {
         localStorage.setItem('auth', 'true');
+        localStorage.setItem('hours', time.toString());
         localStorage.setItem('user', JSON.stringify(authUser));
         await auth.changeImageAuth();
         userAuthName.innerHTML = auth.getAuthNameUser();
@@ -82,10 +85,10 @@ document.addEventListener('click', async (event: Event) => {
             authUser.token,
             userStatistics,
           );
-        }
-        userStatistics = await serverRequests.getUsersStatistic(id, token);
+          userStatistics = await serverRequests.getUsersStatistic(id, token);
 
-        localStorage.setItem('statistic', JSON.stringify(userStatistics));
+          localStorage.setItem('statistic', JSON.stringify(userStatistics));
+        }
       }
     }
 
@@ -110,6 +113,7 @@ document.addEventListener('click', async (event: Event) => {
           },
         );
         localStorage.setItem('auth', 'true');
+        localStorage.setItem('hours', time.toString());
         localStorage.setItem('user', JSON.stringify(dataUser.authUser));
         await auth.changeImageAuth();
         auth.changeStylesAuthWindow('0', 'hidden');

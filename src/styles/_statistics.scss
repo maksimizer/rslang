@@ -86,3 +86,62 @@
   width: 550px;
   height:300px;
 }
+
+@media (max-width: 800px) {
+
+  .total-results-wrapper {
+    width: 400px;
+  
+    h2 {
+      font-size: 4rem;
+    }
+  
+    p {
+      font-size: 1.2rem;
+    }
+  }
+
+  .statistic-game-wrapper {
+    width: 400px;
+  }
+
+.total-words,
+.total-percent, 
+.total-leranedWords {
+  width: 100px;
+}
+.total-percent {
+  p {
+    padding: 0;
+  }
+}
+.statistic-game {
+  width: 150px;
+  border-radius: 20px;
+  padding: 10px;
+
+  .series {
+    margin-left: 10px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  div {
+    font-size: 0.5rem;
+    margin-bottom: 5px;
+  }
+}
+}
+
+@media (max-width: 540px) {
+  h1 {
+    font-size: 25px;
+  }
+
+.myChart,
+.myChartLearn{
+  width: 420px;
+}
+}

@@ -75,3 +75,22 @@
     font-family: $headerFont;
   }
 }
+
+@media (max-width: 800px) {
+
+
+  .game-img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .game-wrapper {
+    .wrapper-games {
+      width: 500px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+}
