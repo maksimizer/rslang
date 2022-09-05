@@ -102,6 +102,10 @@ export async function getWordsForGame() {
       wordsForGameSprint[i].push(randomTranslateWord);
       translateWords.splice(number, 1);
       i += 1;
+    } else if (length === 1 && wordsForGameSprint[i][3] === randomTranslateWord) {
+      wordsForGameSprint[i].push('неопределенный');
+      translateWords.splice(number, 1);
+      i += 1;
     }
   }
 

@@ -6,9 +6,13 @@ function pageStatisticsView() {
   const statistics = `<h1 class="header-statistics">Statistics for today</h1>
                       <div class="total-statistics-wrapper">
                         <div class="total-results-wrapper">
+                        <div class="total-leranedWords">
+                        <h2>0</h2>
+                        <p>learned words</p>
+                        </div>
                           <div class="total-words">
                             <h2>0</h2>
-                            <p>learned words</p>
+                            <p>new words</p>
                           </div>
                           <div class="total-percent">
                             <h2>0%</h2>
@@ -73,9 +77,10 @@ export function getStatisticsForRender():
       (statistics.optional?.[day].audioGame.wrong as number),
       (statistics.optional[day].audioGame.correct as number),
     )
-    : Math.round(100 - ((
-      (statistics.optional?.[day].audioGame.wrong as number)
-      / (statistics.optional[day].audioGame.correct as number)) * 100));
+    : Math.round((
+      (statistics.optional[day].audioGame.correct as number)
+      / ((statistics.optional[day].audioGame.correct as number)
+      + (statistics.optional?.[day].audioGame.wrong as number))) * 100);
 
   const sprintPercent = getPercent(
     (statistics.optional?.[day].sprintGame.wrong as number),
@@ -89,9 +94,10 @@ export function getStatisticsForRender():
       (statistics.optional?.[day].sprintGame.wrong as number),
       (statistics.optional[day].sprintGame.correct as number),
     )
-    : Math.round(100 - ((
-      (statistics.optional?.[day].sprintGame.wrong as number)
-          / (statistics.optional[day].sprintGame.correct as number)) * 100));
+    : Math.round((
+      (statistics.optional[day].sprintGame.correct as number)
+      / ((statistics.optional[day].sprintGame.correct as number)
+      + (statistics.optional?.[day].sprintGame.wrong as number))) * 100);
 
   const dataStatistics: [number, number, number, IGameStat, IGameStat, number, number] = [
     +statistics.optional[day].learnedWordsDay.learned, newWordsPerDay, commonPercent,

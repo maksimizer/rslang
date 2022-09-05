@@ -102,4 +102,10 @@
   transform: translateX(0px);
 }
 
-
+@media (max-width: 800px) {
+  .menu-burger {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+}
