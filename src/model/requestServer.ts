@@ -22,7 +22,7 @@ export default class ServerRequests {
   };
 
   constructor() {
-    this.baseUrl = 'http://localhost:3000';
+    this.baseUrl = 'https://application-learnwords.herokuapp.com';
     this.path = {
       users: '/users',
       signin: '/signin',
