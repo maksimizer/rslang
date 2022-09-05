@@ -51,7 +51,7 @@ async function hashFunction() {
       {
         const groupAndPage = localStorage.getItem('groupAndPage');
         if (!groupAndPage) {
-            localStorage.setItem('groupAndPage', JSON.stringify([{ key: 'group', value: 0 }, { key: 'page', value: 0 }]));
+          localStorage.setItem('groupAndPage', JSON.stringify([{ key: 'group', value: 0 }, { key: 'page', value: 0 }]));
         }
         namePage.innerHTML = getNamePage();
         const mainContainer = document.querySelector('.main') as HTMLElement;
@@ -91,6 +91,9 @@ async function hashFunction() {
       }
       document.querySelector('.footer')?.classList.remove('hidden');
       window.removeEventListener('hashchange', () => hashFunction());
+      break;
+    case 'game-sprint/start':
+      document.querySelector('.footer')?.classList.add('hidden');
       break;
     default:
       renderPage404();

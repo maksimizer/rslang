@@ -83,6 +83,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         && (resultWord.optional.correct + 1) >= 3
         && (resultWord.difficulty === 'normal')) {
           userStatistics.optional[day].learnedWordsDay.learned += 1;
+          localStorage.setItem('statistic', JSON.stringify(userStatistics));
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
@@ -106,6 +107,7 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
         && (resultWord.optional.correct + 1) >= 5
         && (resultWord.difficulty === 'hard')) {
           userStatistics.optional[day].learnedWordsDay.learned += 1;
+          localStorage.setItem('statistic', JSON.stringify(userStatistics));
           await serverRequests.updateUserWord(user.userId, wordID, user.token, {
             difficulty: 'easy',
             optional: {
@@ -130,7 +132,6 @@ const saveUserWord = async (userString: string, word: IWord, wrong: boolean, typ
       await console.log('Update', consolWordUpdate);
     } else {
       userStatistics.learnedWords += 1;
-      // userStatistics.optional[day].learnedWordsDay.learned += 1;
 
       if (typeGame === 'sprint') {
         userStatistics.optional[day].sprintGame.newWord += 1;
