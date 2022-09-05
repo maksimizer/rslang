@@ -220,6 +220,10 @@ class TextbookController {
       words.forEach((word) => {
         const card = this.wordCardView.render(word);
         if (cardsContainer) cardsContainer.appendChild(card);
+        if (word.userWord && word.userWord.difficulty !== 'easy') {
+          const progressDiv = card.querySelector('.progress');
+          if (progressDiv) progressDiv.classList.remove('hidden');
+        }
         if (word.userWord && word.userWord.difficulty === 'hard') {
           const difficultBtn = card.querySelector('.difficult-btn');
           if (difficultBtn) {

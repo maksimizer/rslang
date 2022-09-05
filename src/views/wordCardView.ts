@@ -49,6 +49,11 @@ export class WordCardView {
                   <div class="word-example-translate">${word.textExampleTranslate}</div>
               </div>
           </div>
+          <div class="progress hidden">
+          <span>Correct:<span class="progress-correct">${word.userWord?.optional.correct}</span></span>
+          <span>Wrong:<span class="progress-wrong">${word.userWord?.optional.wrong}</span></span>
+          <span>Attempts:<span class="progress-attempts">${word.userWord?.optional.count}</span></span>
+          </div>
           <div class="auth-users-btns auth-needed">
             <button class="difficult-btn" data-word-id=${word.id || word._id}>difficult</button>
             <button class="learned-btn" data-word-id=${word.id || word._id}>learned</button>
