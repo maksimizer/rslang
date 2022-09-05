@@ -116,8 +116,7 @@ export function renderMainContent(): string {
                       <div class="about-member-text">
                         <h4>Team lead, front-end developer </h4>
                         <p>Contribution: Designed the application architecture and
-                        led the team. </br>Developed an electronic textbook and word cards,
-                        developed NEW Game game.
+                        led the team. </br>Developed an electronic textbook and word cards.
                         </p>
                       </div>
                     </div>
@@ -126,8 +125,9 @@ export function renderMainContent(): string {
                       <h3>Katherina</h3>
                       <div class="about-member-text">
                         <h4>Front-end developer </h4>
-                        <p>Сontribution: designed the application, 
-                        set up authentication, developed the sprint game
+                        <p>Сontribution: designed the application view, 
+                        set up authentication, </br>developed the sprint game, 
+                        saving new words and statistics.
                         </p>
                       </div>
                     </div>
@@ -137,7 +137,7 @@ export function renderMainContent(): string {
                       <div class="about-member-text">
                         <h4>Front-end developer </h4>
                         <p>Contribution: wrote all requests to the server, 
-                        developed the audio game, statistics?
+                        developed the audio game, <br>saving new words and statistics.
                         </p>
                       </div>
                     </div>
