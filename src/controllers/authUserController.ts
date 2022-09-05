@@ -21,6 +21,7 @@ document.addEventListener('click', async (event: Event) => {
     if (localStorage.getItem('auth') === 'true') {
       localStorage.removeItem('auth');
       localStorage.removeItem('hours');
+      localStorage.removeItem('groupAndPage');
       auth.changeStylesAuthWindow('0', 'hidden');
       html.style.overflowY = '';
       userAuthName.innerHTML = '';
