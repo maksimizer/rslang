@@ -13,6 +13,7 @@ import serverRequests from '../model/appModel';
 import { IAuth } from '../types/interface';
 import startAudioGameBook from './startAudioGameBook';
 import renderPage404 from '../views/render404Page';
+import statMount from './statMonth';
 
 async function hashFunction() {
   const hash = window.location.hash.slice(1);
@@ -75,6 +76,7 @@ async function hashFunction() {
         delete statistic.id;
         const data = getStatisticsForRender();
         renderUserPageStatistics(userPageStatisticsView(data));
+        statMount();
       } else {
         renderPageStatistics();
       }
